@@ -111,6 +111,10 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 | Nama Akun | Nama Lengkap | NRP    |
 | :--- | :--- | :--- |
 | Ailachayra | Lailatul Fitaliqoh | 5026231229 |
+| arsyanueva | Arsya Nueva Delavera | 5026231099 |
+| AbdulGhoni109 | Abdul Ghoni | 5026231109 | 
+| cyriotosaka | Okky Priscila Putri | 5026231168 |
+| FikuriKuri | M. Fikri Khalilullah | 5026231198 | 
 
 
 
