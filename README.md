@@ -107,7 +107,9 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 | FR23 | Shopping History Page | Sistem harus menyimpan dan menampilkan riwayat belanja pengguna untuk memudahkan pelacakan transaksi. |
 | FR24 | Rating Page | Sistem harus menyediakan fitur penilaian dan ulasan agar pengguna dapat memberikan feedback terhadap produk. |
 
-
+### Nick Name Akun Github
+| Nama Akun | Nama Lengkap | NRP    |
+| Ailachayra | Lailatul Fitaliqoh | 5026231229 |
 
 
 
