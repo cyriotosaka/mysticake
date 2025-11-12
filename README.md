@@ -109,6 +109,7 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 
 ### Nick Name Akun Github
 | Nama Akun | Nama Lengkap | NRP    |
+| :--- | :--- | :--- |
 | Ailachayra | Lailatul Fitaliqoh | 5026231229 |
 
 
