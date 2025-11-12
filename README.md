@@ -83,7 +83,7 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 | Code | Fitur | Deskripsi |
 | :--- | :--- | :--- |
 | FR01 |  | Sistem harus memungkinkan pengguna untuk membuat akun dan melakukan autentikasi (registrasi, login, logout). |
-| FR02 | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
+| FR02 |  | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
 | FR03 |  | Sistem harus memfasilitasi pengelolaan profil pengguna, termasuk riwayat pembelian dan pencapaian gamifikasi. |
 | FR04 |  | Sistem harus memungkinkan pengguna untuk mengelola keranjang belanja sebelum melakukan checkout. |
 | FR05 |  | Sistem harus menyediakan fitur gamifikasi gacha yang memberikan dessert spesial, diskon, atau hadiah virtual sebagai bentuk reward. |
