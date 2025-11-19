@@ -1,0 +1,242 @@
+/* public/css/search.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFFDF5; /* Cream Background */
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* --- HEADER SEARCH --- */
+.search-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background-color: #FFFDF5;
+    z-index: 100;
+}
+
+.btn-back {
+    font-size: 24px;
+    color: #333;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.search-bar-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.search-input-field {
+    width: 100%;
+    border: 1.5px solid #333;
+    border-radius: 50px;
+    padding: 12px 45px; /* Space untuk icon */
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    background: transparent;
+    outline: none;
+}
+
+.search-icon-input {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #333;
+}
+
+/* --- SECTION: HIGHEST RATING (HORIZONTAL SCROLL) --- */
+.section-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+    margin: 0 0 5px 20px;
+}
+
+.section-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 15px 20px;
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 20px 20px 20px;
+    gap: 15px;
+    /* Sembunyikan Scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.horizontal-scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome */
+}
+
+.card-rating {
+    min-width: 200px;
+    width: 200px;
+    background-color: #FFFDF5;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-rating img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.rating-info {
+    margin-top: auto;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.rating-star {
+    color: #FFC107;
+    margin-right: 5px;
+}
+
+.card-title-h {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    color: #333;
+}
+
+.card-meta {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* --- SECTION: RECENTLY SEARCH --- */
+.recent-container {
+    padding: 20px;
+}
+
+.recent-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 30px; /* Jarak antar teks */
+}
+
+.tag-item {
+    color: #F06292; /* Pink Teks */
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tag-item:hover {
+    text-decoration: underline;
+}
+
+/* --- RESULT PAGE: FILTERS --- */
+.filter-bar {
+    display: flex;
+    padding: 0 20px 20px 20px;
+    gap: 20px;
+    border-bottom: 1px solid #eee; /* Garis tipis pemisah */
+    margin-bottom: 20px;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+}
+
+.filter-item i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/* --- RESULT PAGE: LIST PRODUCT --- */
+.result-list {
+    padding: 0 20px;
+}
+
+.card-result {
+    display: flex;
+    background: #FFFDF5;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    /* Sedikit shadow biar pop */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 10px;
+}
+
+.result-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-right: 15px;
+}
+
+.result-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+.result-meta {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.result-price {
+    font-weight: 700;
+    font-size: 15px;
+    color: #000;
+    margin-top: auto; /* Dorong harga ke bawah */
+}
+
+.rating-pill {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+/* Wrapper untuk gambar agar bisa taruh rating di atasnya */
+.result-img-wrapper {
+    position: relative;
+}
