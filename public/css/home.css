@@ -1,0 +1,355 @@
+/* ========================================= */
+/* MYSTICAKE HOME PAGE STYLES              */
+/* ========================================= */
+
+/* 1. Import Font dari Google */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* 2. Setup Dasar Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFFDF5; /* Warna Cream sesuai gambar */
+    margin: 0;
+    padding-bottom: 120px; /* Memberi ruang agar konten terbawah tidak tertutup Navbar */
+    min-height: 100vh;
+}
+
+/* Hapus underline dari semua link */
+a {
+    text-decoration: none !important;
+}
+
+/* ========================================= */
+/* HEADER SECTION                          */
+/* ========================================= */
+
+.header-section {
+    padding: 10px 20px;
+    background-color: #FFFDF5;
+}
+
+/* Logo Brand di Tengah Atas */
+.brand-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-top: 15px;
+}
+
+.brand-header h1 {
+    font-family: 'Fredoka One', cursive;
+    color: #F06292; /* Pink Logo */
+    font-size: 28px;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Baris User Profile & Cart */
+.user-info-row {
+    display: flex;       /* Wajib Flex agar sejajar kiri-kanan */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-left {
+    display: flex;       /* Avatar dan Teks sejajar */
+    align-items: center;
+}
+
+/* Avatar Bulat */
+.avatar-circle {
+    width: 55px;
+    height: 55px;
+    background-color: #F06292;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    overflow: hidden; /* Agar gambar tidak keluar lingkaran */
+    color: white;
+    font-size: 28px;
+    flex-shrink: 0; /* Agar tidak gepeng */
+}
+
+.user-details .username {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.user-details .username i {
+    font-size: 12px;
+    color: #888;
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+.user-details .balance {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.coin-icon {
+    color: #FFC107; /* Kuning Emas */
+    margin-right: 5px;
+}
+
+.plus-icon {
+    font-size: 14px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Ikon Keranjang */
+.cart-right {
+    position: relative;
+    margin-right: 5px;
+}
+
+.cart-icon {
+    font-size: 28px;
+    color: #F06292;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: #DC3545;
+    color: white;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #FFFDF5; /* Border agar misah dari ikon */
+    padding: 2px;
+}
+
+/* ========================================= */
+/* SEARCH BAR                              */
+/* ========================================= */
+.search-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.search-input {
+    width: 100%;
+    border: 1px solid #333; /* Border Hitam Tipis */
+    border-radius: 50px;
+    padding: 12px 45px; /* Padding kiri-kanan untuk ikon */
+    background-color: #FFFDF5;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    font-size: 15px;
+    color: #333;
+}
+
+.search-input:focus {
+    border-color: #F06292; /* Berubah pink saat diklik */
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 18px;
+}
+
+.close-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ========================================= */
+/* BANNER SECTION                          */
+/* ========================================= */
+.banner-section {
+    margin-bottom: 25px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.banner-img {
+    width: 100%;
+    display: block; /* Menghilangkan gap bawah gambar */
+    height: auto;
+}
+
+/* ========================================= */
+/* RECOMMENDATION & CARDS                  */
+/* ========================================= */
+.section-title {
+    font-weight: 800;
+    color: #5D4037; /* Coklat Tua */
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+/* Kartu Produk Horizontal */
+.card-custom {
+    background-color: #fff; /* Putih bersih */
+    border-radius: 15px;
+    padding: 15px;
+    display: flex; /* Flexbox agar gambar & teks sebelahan */
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Bayangan halus */
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s;
+}
+
+.card-custom:active {
+    transform: scale(0.98); /* Efek tekan */
+}
+
+.card-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%; /* Gambar Bulat */
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-info {
+    flex: 1; /* Mengisi sisa ruang */
+}
+
+.card-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px 0;
+}
+
+.rating {
+    font-size: 13px;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #FFC107;
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+/* Kartu Fitur Baru */
+.feature-card {
+    background-color: #FFFDF5;
+    border: 1px solid #E0E0E0;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.feature-title {
+    color: #C25E75; /* Merah Hati Pudar */
+    font-weight: 800;
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feature-subtitle {
+    color: #777;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ========================================= */
+/* BOTTOM NAVIGATION (FIXED)               */
+/* ========================================= */
+.bottom-nav-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #FFC0CB; /* Pink Solid */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px; /* Jarak icon kiri-kanan */
+    box-sizing: border-box;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.nav-icon:active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.nav-icon img, .nav-icon i {
+    /* Ukuran Icon */
+    font-size: 32px;
+    color: #D65A77; /* Warna Icon Pink Tua */
+}
+
+/* Mystery Box Melayang */
+.mystery-box-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px; /* Menyembul ke atas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1002;
+    cursor: pointer;
+}
+
+.mystery-box-img {
+    width: 110px; /* Ukuran Kado */
+    height: auto;
+    transition: transform 0.3s;
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.2));
+}
+
+.mystery-box-wrapper:active .mystery-box-img {
+    transform: scale(0.95) rotate(-5deg);
+}
+
+.mystery-text {
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    margin-top: -10px; /* Teks nempel ke kado */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}

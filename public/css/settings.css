@@ -1,0 +1,235 @@
+/* public/css/settings.css */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFFDF5; /* Cream Background */
+    margin: 0;
+    min-height: 100vh;
+    color: #333;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* --- HEADER --- */
+.header-nav {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header-title {
+    flex: 1;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-right: 24px; /* Compensate for back button width to center title */
+}
+
+/* --- FORMS (Underline Style) --- */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+.form-label {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+.form-control-underlined {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #8D6E63; /* Coklat Tua */
+    background: transparent;
+    padding: 8px 30px 8px 0; /* Padding kanan untuk icon */
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    outline: none;
+    border-radius: 0;
+}
+.form-control-underlined:focus {
+    border-bottom-color: #F06292;
+}
+.edit-icon-input {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    color: #333;
+    font-size: 18px;
+}
+
+/* --- BUTTONS --- */
+.btn-pink {
+    background-color: #F06292;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+}
+.btn-pink:hover { background-color: #D81B60; color: white; }
+
+.btn-pink-light {
+    background-color: #FFC1E3; /* Pink pudar untuk tombol sekunder */
+    color: #C2185B;
+    border: none;
+    border-radius: 25px;
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* --- MENU LIST (More Settings) --- */
+.menu-card {
+    background-color: #FFFDF5;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.menu-icon {
+    font-size: 24px;
+    color: #F06292;
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}
+.menu-content h5 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    color: #4E342E;
+}
+.menu-content p {
+    font-size: 12px;
+    color: #777;
+    margin: 0;
+}
+
+/* --- ADDRESS CARD --- */
+.address-card {
+    background-color: #F06292;
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+.address-title { font-weight: 700; font-size: 16px; margin-bottom: 5px; }
+.address-details { font-size: 14px; opacity: 0.9; }
+.address-edit-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 18px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+/* --- ROLE SWITCHER --- */
+.role-container {
+    background-color: #F06292; /* Pink background untuk header */
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    color: white;
+}
+.role-header {
+    padding: 15px 20px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.role-options {
+    background-color: #F48FB1; /* Pink lebih muda untuk body */
+    padding: 10px 20px;
+}
+.form-check-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.form-check-custom:last-child { border-bottom: none; }
+.form-check-label { font-weight: 500; color: white; }
+
+/* --- AVATAR EDIT --- */
+.profile-pic-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #F06292;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+.change-photo-text {
+    color: #F06292;
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* --- BOTTOM SHEET / MODAL --- */
+.bottom-sheet-custom {
+    background-color: #F06292;
+    color: white;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: 20px;
+}
+.sheet-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-weight: 600;
+    margin-bottom: 5px;
+    border-radius: 0;
+}
+.sheet-btn:first-child { border-top-left-radius: 15px; border-top-right-radius: 15px; background: rgba(0,0,0,0.1); }
+.sheet-btn:last-child { border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; margin-bottom: 0;}
+.cancel-btn {
+    width: 100%;
+    padding: 15px;
+    background: #F06292;
+    border: 1px solid white;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Modal Custom Styling */
+.modal-content-custom {
+    background-color: #F06292;
+    color: white;
+    border-radius: 20px;
+}
+.modal-option {
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}

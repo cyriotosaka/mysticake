@@ -3,8 +3,8 @@
  Semester Ganjil, 2024/2025
  Group Capstone Project
  Group #8
- 1 - 
- 2 - 
+ 1 -
+ 2 -
  3 - 5026231198 - Muhammad Fikri Khalilullah
  4 -
  5 -
@@ -59,11 +59,13 @@
 <body>
 
     {{-- Top Navbar --}}
-    <nav class="navbar bg-white border-bottom sticky-top">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h5">@yield('header', 'App')</span>
-        </div>
-    </nav>
+    @if(!isset($hide_nav) || !$hide_nav)
+        <nav class="navbar bg-white border-bottom sticky-top">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h5">@yield('header', 'App')</span>
+            </div>
+        </nav>
+    @endif
 
     {{-- Page Content --}}
     <main class="container py-3 mb-5">
@@ -71,22 +73,26 @@
     </main>
 
     {{-- Bottom Navigation --}}
-    <nav class="bottom-nav d-flex">
-        <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
-            <div><i class="bi bi-house"></i></div>
-            Home
-        </a>
+    @if(!isset($hide_nav) || !$hide_nav)
+        <nav class="bottom-nav d-flex">
+            <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
+                <div><i class="bi bi-house"></i></div>
+                Home
+            </a>
 
-        <a href="/messages" class="{{ request()->is('messages') ? 'active' : '' }}">
-            <div><i class="bi bi-chat"></i></div>
-            Messages
-        </a>
+            <a href="/messages" class="{{ request()->is('messages') ? 'active' : '' }}">
+                <div><i class="bi bi-chat"></i></div>
+                Messages
+            </a>
 
-        <a href="/profile" class="{{ request()->is('profile') ? 'active' : '' }}">
-            <div><i class="bi bi-person"></i></div>
-            Profile
-        </a>
-    </nav>
+            <a href="/profile" class="{{ request()->is('profile') ? 'active' : '' }}">
+                <div><i class="bi bi-person"></i></div>
+                Profile
+            </a>
+        </nav>
+    @endif
+
+    {{-- Bootstrap JS Bundle with Popper --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {{-- Bootstrap Icons --}}
