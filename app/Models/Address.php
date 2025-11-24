@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $table = 'address';
-    protected $primaryKey = 'id_address';
+    protected $primaryKey = 'IDAddress';
+
+    public $incrementing = false;
+    protected $keyType = int;
+
     public $timestamps = false;
 
     protected $fillable = [
-        'id_user', 'full_address', 'map_point', 'address_contact'
+        'FullAddress',
+        'MapPoint',
+        'AddressContactNumber'
     ];
 }
