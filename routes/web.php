@@ -6,8 +6,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AddressController;
 
+// 1. Halaman Landing Page (Untuk Semua User)
 Route::get('/', [AuthController::class, 'landing'])->name('landing');
 
+// 2. Khusus Guest (Belum Login)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
@@ -18,12 +20,11 @@ Route::middleware('guest')->group(function () {
 
 // 3. Khusus User (Sudah Login)
 Route::middleware('auth')->group(function () {
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
+    Route::get('/home', [ProductController::class, 'showHomepage'])->name('home');
+    Route::get('/search', [ProductController::class, 'searchProduct'])->name('product.search');
 
     // Route Logout
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    //Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth')->group(function () {
