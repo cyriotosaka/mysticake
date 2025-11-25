@@ -1,70 +1,101 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - MystiCake</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <title>Register - MYstiCake</title>
+    <link rel="stylesheet" href="{{ asset('css/Register.css') }}">
 </head>
 <body>
-
-    <div class="header-nav">
-        <a href="{{ route('landing') }}" class="back-btn">
-            <i class="bi bi-arrow-left"></i>
+    <div class="container">
+        <!-- Back Button -->
+        <a href="{{ route('landing') }}" class="back-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </a>
-        <span class="brand-title" style="font-size: 1.5rem; margin: 0 auto; padding-right: 24px;">MYstiCake</span>
-    </div>
 
-    <div class="container px-4">
-        <h1 class="page-title">Create Account</h1>
+        <!-- Logo -->
+        <div class="logo">MYstiCake</div>
 
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0 list-unstyled">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <!-- Title -->
+        <h1 class="title">Create Account</h1>
 
-        <form action="{{ route('register.process') }}" method="POST">
+        <!-- Form -->
+        <form action="{{ route('register.process') }}" method="POST" class="register-form">
             @csrf
 
-            <div class="custom-input-group">
-                <label class="custom-label">Email</label>
-                <input type="email" name="email" class="form-control custom-field" placeholder="Type here" required>
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Type here" 
+                    value="{{ old('email') }}"
+                    required
+                >
+                @error('email')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
-            <div class="custom-input-group">
-                <label class="custom-label">Username</label>
-                <input type="text" name="username" class="form-control custom-field" placeholder="Type here" required>
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Type here" 
+                    value="{{ old('username') }}"
+                    required
+                >
+                @error('username')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
-            <div class="custom-input-group">
-                <label class="custom-label">Password</label>
-                <input type="password" name="password" class="form-control custom-field" placeholder="Type here" required>
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Type here"
+                    required
+                >
+                @error('password')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
-            <div class="custom-input-group">
-                <label class="custom-label">Phone Number</label>
-                <input type="tel" name="phone_number" class="form-control custom-field" placeholder="Type here">
+            <!-- Phone Number Field -->
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input 
+                    type="tel" 
+                    id="phone_number" 
+                    name="phone_number" 
+                    placeholder="Type here" 
+                    value="{{ old('phone_number') }}"
+                >
+                @error('phone_number')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-custom">Register</button>
-            </div>
+            <!-- Register Button -->
+            <button type="submit" class="register-button">Register</button>
         </form>
 
-        <div class="footer-text mb-4">
-            Already have an account? <br>
-            <a href="{{ route('login') }}" class="register-link">Login</a>
+        <!-- Login Link -->
+        <div class="login-link">
+            <p>Already have an account?</p>
+            <a href="{{ route('login') }}">Login</a>
         </div>
     </div>
-
 </body>
 </html>

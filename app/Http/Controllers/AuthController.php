@@ -9,75 +9,155 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Landing Page
-    public function landing()
+    /**
+     * Menampilkan halaman landing page
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showLandingPage()
     {
         return view('landing');
     }
 
-    // Halaman Login
-    public function loginPage()
+    /**
+     * Menampilkan halaman login
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showLoginPage()
     {
         return view('login');
     }
 
-    // Proses Login
-    public function loginProcess(Request $request)
+    /**
+     * Proses login user
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function login(Request $request)
     {
+        // Validasi input
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required'
         ]);
 
-        // Coba login
-        if (Auth::attempt($request->only('email', 'password'))) {
+        // Coba login dengan kredensial yang diberikan
+        $credentials = $request->only('email', 'password');
+        
+        if (Auth::attempt($credentials)) {
+            // Regenerate session untuk keamanan
             $request->session()->regenerate();
+            
+            // Redirect ke home page
             return redirect()->route('home');
         }
 
+        // Jika login gagal, kembali ke halaman login dengan error
         return back()->withErrors([
             'email' => 'Email atau password salah.',
-        ]);
+        ])->withInput($request->only('email'));
     }
 
-    // Halaman Register
-    public function registerPage()
+    /**
+     * Menampilkan halaman register
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showRegisterPage()
     {
         return view('register');
     }
 
-    // Proses Register (DISESUAIKAN DENGAN DATABASE KAMU)
-    public function registerProcess(Request $request)
+    /**
+     * Proses register user baru
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function register(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'username'     => 'required|unique:user,username', // Cek unik di tabel 'user'
-            'email'        => 'required|email|unique:user,email',
-            'password'     => 'required|min:6',
-            'phone_number' => 'nullable|numeric'
+            'username'     => 'required|string|max:255|unique:user,username',
+            'email'        => 'required|email|max:255|unique:user,email',
+            'password'     => 'required|string|min:6',
+            'phone_number' => 'nullable|numeric|digits_between:10,15'
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
+            'phone_number.digits_between' => 'Nomor telepon harus 10-15 digit.'
         ]);
 
-        // Simpan ke Database sesuai nama kolom di SQL kamu
+        // Simpan user baru ke database
         $user = User::create([
             'username'     => $request->username,
             'email'        => $request->email,
-            'password'     => Hash::make($request->password), // Enkripsi password
+            'password'     => Hash::make($request->password),
             'phone_number' => $request->phone_number,
-            'profile_pic'  => null, // Default kosong dulu
-            'id_address'   => null  // Default kosong dulu
+            'role'         => 'buyer', // Default role sebagai buyer
+            'profile_pic'  => null,
+            'id_address'   => null
         ]);
 
-        // Langsung login setelah register
+        // Auto login setelah register berhasil
         Auth::login($user);
 
-        return redirect()->route('home');
+        // Redirect ke home page dengan pesan sukses
+        return redirect()->route('home')->with('success', 'Akun berhasil dibuat! Selamat datang di MYstiCake.');
     }
 
-    // Logout
+    /**
+     * Proses logout user
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
+        // Logout user
         Auth::logout();
+
+        // Invalidate session
         $request->session()->invalidate();
+
+        // Regenerate CSRF token
         $request->session()->regenerateToken();
-        return redirect()->route('landing');
+
+        // Redirect ke landing page
+        return redirect()->route('landing')->with('success', 'Anda telah berhasil logout.');
+    }
+
+    // Alias methods untuk backward compatibility
+    public function landing()
+    {
+        return $this->showLandingPage();
+    }
+
+    public function loginPage()
+    {
+        return $this->showLoginPage();
+    }
+
+    public function loginProcess(Request $request)
+    {
+        return $this->login($request);
+    }
+
+    public function registerPage()
+    {
+        return $this->showRegisterPage();
+    }
+
+    public function registerProcess(Request $request)
+    {
+        return $this->register($request);
     }
 }
