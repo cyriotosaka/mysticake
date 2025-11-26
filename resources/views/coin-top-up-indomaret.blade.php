@@ -134,7 +134,7 @@
 
       <div class="d-flex align-items-start mt-3 info-text">
         <i class="bi bi-info-circle-fill me-2"></i>
-        <small class="flex-grow-1">
+        <small class="">
           Inform the Indomaret cashier that you're making payment coin top up MYSTiCake and show the barcode payment and make your payment.
         </small>
       </div>

@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Product;
 
 class ReviewProduct extends Model
 {
     /**
      * Nama tabel
      */
+    use HasFactory;
+
     protected $table = 'review_product';
 
     /**
@@ -35,6 +39,7 @@ class ReviewProduct extends Model
     /**
      * Relasi ke Product (Many to One)
      */
+    // Relasi ke Product
     public function product()
     {
         return $this->belongsTo(Product::class, 'id_product', 'id_product');
@@ -43,6 +48,7 @@ class ReviewProduct extends Model
     /**
      * Relasi ke User (Many to One)
      */
+    // Relasi ke User yang memberi review
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');

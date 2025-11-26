@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ReviewProduct; // pastikan ini ada ya
 
 class Product extends Model
 {
@@ -121,5 +122,46 @@ class Product extends Model
     {
         $this->stock += $qty;
         $this->save();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tambahan: Query Scope untuk Use Case Pencarian Dessert
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * scopeSearch
+     *
+     * Memfilter produk berdasarkan keyword yang diketik user.
+     * Digunakan di ProductController::searchProduct().
+     *
+     * Pemanggilan:
+     * Product::search($keyword)->get();
+     */
+    public function scopeSearch($query, ?string $keyword)
+    {
+        if (empty($keyword)) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('name_product', 'LIKE', "%{$keyword}%")
+              ->orWhere('description', 'LIKE', "%{$keyword}%");
+        });
+    }
+
+    /**
+     * scopeHighestRated
+     *
+     * Mengambil produk dengan rating tertinggi, dibatasi $limit.
+     * Digunakan di ProductController::showSearchPage().
+     */
+    public function scopeHighestRated($query, int $limit = 6)
+    {
+        return $query->withAvg('reviews', 'rating')
+                     ->withCount('reviews')
+                     ->orderByDesc('reviews_avg_rating')
+                     ->take($limit);
     }
 }
