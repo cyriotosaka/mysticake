@@ -22,12 +22,27 @@ class Product extends Model
     // Menghitung rata-rata rating secara otomatis
     public function getAverageRatingAttribute()
     {
-        return round($this->reviews()->avg('rating'), 1) ?? 0;
+        // Jika query menggunakan withAvg('reviews', 'rating'), Eloquent
+        // menaruh nilai rata-rata di atribut `reviews_avg_rating`.
+        $avg = $this->getAttribute('reviews_avg_rating');
+        if ($avg !== null) {
+            return round($avg, 1);
+        }
+
+        $avg = $this->reviews()->avg('rating');
+        return $avg !== null ? round($avg, 1) : 0;
     }
 
     // Menghitung jumlah yang merating
     public function getReviewCountAttribute()
     {
+        // Jika query menggunakan withCount('reviews'), Eloquent
+        // menaruh jumlah di atribut `reviews_count`.
+        $count = $this->getAttribute('reviews_count');
+        if ($count !== null) {
+            return (int) $count;
+        }
+
         return $this->reviews()->count();
     }
 }

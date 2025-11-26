@@ -1,0 +1,425 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    
+    --color-mysticake-pink: #FFE8E8;
+    --color-mysticake-cream: #FFF8F0;
+    --color-mysticake-red: #E85D75;
+    --color-mysticake-purple: #9B8FC4;
+    --color-mysticake-brown: #4A2C2A;
+}
+
+/* Base Styles */
+.mysticake-body {
+    font-family: var(--font-sans);
+    background: linear-gradient(180deg, #FFF8F0 0%, #FFE8E8 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.mysticake-container {
+    width: 100%;
+    max-width: 402px;
+    min-height: 874px;
+    background: linear-gradient(180deg, #FFF8F0 0%, #FFE8E8 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Styles */
+.mysticake-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.mysterybox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.mysticake-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-mysticake-red);
+    font-family: 'Instrument Sans', serif;
+    letter-spacing: 0.5px;
+}
+
+.back-button,
+.info-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-mysticake-brown);
+}
+
+.back-button:hover,
+.info-button:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+}
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-mysticake-red);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+}
+
+.coin-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coin-icon {
+    font-size: 20px;
+}
+
+.coin-amount {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-mysticake-brown);
+}
+
+.coin-info {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-mysticake-brown);
+}
+
+/* Congratulations Page */
+.congratulations-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.congratulations-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-mysticake-brown);
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+.reward-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.reward-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 16px;
+}
+
+.reward-name {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-mysticake-brown);
+}
+
+.gift-box-container {
+    margin-bottom: 60px;
+}
+
+.gift-box-image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+
+.bottom-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.gift-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.gift-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.gift-count {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-mysticake-brown);
+}
+
+.gift-increment {
+    position: absolute;
+    top: -8px;
+    right: -20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-mysticake-red);
+}
+
+.next-button {
+    background: var(--color-mysticake-red);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(232, 93, 117, 0.3);
+    transition: transform 0.2s;
+}
+
+.next-button:hover {
+    transform: scale(1.05);
+}
+
+/* Mystery Box Page */
+.mysterybox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.mysterybox-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-mysticake-brown);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.mysterybox-title-simple {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-mysticake-brown);
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    line-height: 1.2;
+}
+
+.gacha-history-button {
+    background: white;
+    border: 2px solid var(--color-mysticake-brown);
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-mysticake-brown);
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.mysterybox-display {
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.zoom-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-mysticake-brown);
+    z-index: 10;
+}
+
+.mysterybox-image {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.gift-counter-small {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.gift-icon-small {
+    width: 30px;
+    height: 30px;
+}
+
+.gift-count-small {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-mysticake-brown);
+}
+
+.undo-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-mysticake-red);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 12px rgba(232, 93, 117, 0.3);
+}
+
+.purchase-button {
+    background: var(--color-mysticake-brown);
+    color: white;
+    border: none;
+    padding: 16px 60px;
+    border-radius: 50px;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(74, 44, 42, 0.3);
+    transition: transform 0.2s;
+}
+
+.purchase-button:hover {
+    transform: scale(1.05);
+}
+
+.coin-icon-button {
+    font-size: 24px;
+}
+
+/* Tap Mystery Box Page */
+.tap-mysterybox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.mysterybox-interactive {
+    margin: 60px 0;
+}
+
+.mysterybox-tap-area {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.mysterybox-tap-area:active,
+.mysterybox-tap-area.tap-animation {
+    transform: scale(0.95);
+}
+
+.mysterybox-image-large {
+    width: 320px;
+    height: 320px;
+    object-fit: contain;
+}
+
+.tap-instruction {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-mysticake-brown);
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+    .mysticake-container {
+        max-width: 100%;
+    }
+    
+    .congratulations-title {
+        font-size: 28px;
+    }
+    
+    .reward-image {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .gift-box-image {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .mysterybox-image {
+        width: 260px;
+        height: 260px;
+    }
+    
+    .mysterybox-image-large {
+        width: 280px;
+        height: 280px;
+    }
+}
