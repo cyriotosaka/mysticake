@@ -6,27 +6,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AddressController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/', [AuthController::class, 'landing'])->name('landing');
 
-// ============================================
-// PUBLIC ROUTES (Guest Only)
-// ============================================
-
-// Landing Page - Halaman pertama aplikasi
-Route::get('/', [AuthController::class, 'showLandingPage'])->name('landing');
-
-// Group untuk route yang hanya bisa diakses jika belum login
 Route::middleware('guest')->group(function () {
-    
+
     // Login Routes
     Route::get('/login', [AuthController::class, 'showLoginPage'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.process');
@@ -36,12 +19,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 });
 
-// ============================================
-// AUTHENTICATED ROUTES (Require Login)
-// ============================================
+// 3. Khusus User (Sudah Login)
+Route::middleware('auth')->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+
+    // Route Logout
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
 Route::middleware('auth')->group(function () {
-    
+
     // --- HOME & SEARCH ROUTES ---
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
@@ -62,15 +51,15 @@ Route::middleware('auth')->group(function () {
     // --- ADDRESS MANAGEMENT ROUTES (CRUD) ---
     // List all addresses
     Route::get('/settings/address', [AddressController::class, 'index'])->name('address.index');
-    
+
     // Create new address
     Route::get('/settings/address/create', [AddressController::class, 'create'])->name('address.create');
     Route::post('/settings/address', [AddressController::class, 'store'])->name('address.store');
-    
+
     // Edit existing address
     Route::get('/settings/address/{id}/edit', [AddressController::class, 'edit'])->name('address.edit');
     Route::put('/settings/address/{id}', [AddressController::class, 'update'])->name('address.update');
-    
+
     // Delete address
     Route::delete('/settings/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
 });
