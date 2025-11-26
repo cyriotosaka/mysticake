@@ -3,11 +3,7 @@
  Semester Ganjil, 2024/2025
  Group Capstone Project
  Group #8
- 1 -
- 2 -
- 3 - 5026231198 - Muhammad Fikri Khalilullah
- 4 -
- 5 -
+ 5026231198 - Muhammad Fikri Khalilullah
 -->
 
 <!DOCTYPE html>

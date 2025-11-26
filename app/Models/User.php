@@ -11,52 +11,41 @@ class User extends Authenticatable
 
     /**
      * Nama tabel di database
-     *
-     * @var string
      */
     protected $table = 'user';
 
     /**
-     * Primary key dari tabel
-     *
-     * @var string
+     * Primary key
      */
     protected $primaryKey = 'id_user';
 
     /**
-     * Menandakan bahwa tabel tidak menggunakan timestamps
-     *
-     * @var bool
+     * Tidak memakai timestamps
      */
     public $timestamps = false;
 
     /**
-     * Atribut yang dapat diisi secara mass assignment
-     *
-     * @var array
+     * Kolom yang dapat diisi mass-assignment
      */
     protected $fillable = [
-        'username',
         'email',
         'password',
+        'username',
         'phone_number',
         'role',
         'id_address',
-        'profile_pic'
+        'profile_picture'
     ];
 
     /**
-     * Atribut yang harus disembunyikan untuk serialization
-     *
-     * @var array
+     * Kolom yang harus disembunyikan
      */
     protected $hidden = [
-        'password',
+        'password'
     ];
 
     /**
-     * Relasi ke model Address (One to One)
-     * User memiliki satu alamat utama
+     * Relasi: User memiliki alamat utama (One to One)
      */
     public function address()
     {
@@ -64,8 +53,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi ke model Address (One to Many)
-     * User dapat memiliki banyak alamat
+     * Relasi: User dapat memiliki banyak alamat
      */
     public function addresses()
     {
@@ -73,8 +61,31 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi ke model Cart
-     * User memiliki banyak item di keranjang
+     * Relasi: User memiliki 1 dompet (wallet)
+     */
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, 'id_user', 'id_user');
+    }
+
+    /**
+     * Relasi: User memiliki banyak review produk
+     */
+    public function reviewProducts()
+    {
+        return $this->hasMany(ReviewProduct::class, 'id_user', 'id_user');
+    }
+
+    /**
+     * Relasi: User memiliki banyak pesanan
+     */
+    public function orders()
+    {
+        return $this->hasMany(Orders::class, 'id_user', 'id_user');
+    }
+
+    /**
+     * Relasi: User memiliki banyak item di keranjang
      */
     public function carts()
     {
@@ -82,18 +93,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi ke model ReviewProduct
-     * User dapat membuat banyak review produk
+     * Relasi: Jika user adalah seller, dia memiliki store
      */
-    public function reviews()
+    public function store()
     {
-        return $this->hasMany(ReviewProduct::class, 'id_user', 'id_user');
+        return $this->hasOne(Store::class, 'id_user', 'id_user');
     }
 
     /**
      * Check apakah user adalah seller
-     *
-     * @return bool
      */
     public function isSeller()
     {
@@ -101,9 +109,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check apakah user adalah buyer
-     *
-     * @return bool
+     * Check apakah user adalah customer
      */
     public function isBuyer()
     {
@@ -111,17 +117,19 @@ class User extends Authenticatable
     }
 
     /**
-     * Get URL foto profil user
-     *
-     * @return string
+     * Akses URL foto profil
      */
-    public function getProfilePicUrlAttribute()
+    public function getProfilePictureUrlAttribute()
     {
-        if ($this->profile_pic) {
-            return asset($this->profile_pic);
+        if ($this->profile_picture) {
+            return asset($this->profile_picture);
         }
-        
-        // Default avatar jika belum upload foto
         return asset('images/default-avatar.png');
     }
+
+    public function topUps()
+    {
+    return $this->hasMany(TopUp::class, 'id_user', 'id_user');
+    }
+
 }
