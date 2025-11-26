@@ -2,49 +2,126 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ReviewProduct; // pastikan ini ada ya
 
 class Product extends Model
 {
-    use HasFactory;
-
+    /**
+     * Tabel yang digunakan
+     */
     protected $table = 'product';
+
+    /**
+     * Primary key
+     */
     protected $primaryKey = 'id_product';
+
+    /**
+     * Tidak memakai timestamps
+     */
     public $timestamps = false;
 
-    // Relasi ke Review untuk hitung rating
+    /**
+     * Kolom yang bisa di-mass assign
+     */
+    protected $fillable = [
+        'id_store',
+        'name_product',
+        'description',
+        'price',
+        'stock',
+        'product_picture'
+    ];
+
+    /**
+     * Relasi ke Store (Many to One)
+     */
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'id_store', 'id_store');
+    }
+
+    /**
+     * Relasi ke CartItem
+     */
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class, 'id_product', 'id_product');
+    }
+
+    /**
+     * Relasi ke OrderItem
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'id_product', 'id_product');
+    }
+
+    /**
+     * Relasi ke ReviewProduct
+     */
     public function reviews()
     {
         return $this->hasMany(ReviewProduct::class, 'id_product', 'id_product');
     }
 
-    // Menghitung rata-rata rating secara otomatis
-    public function getAverageRatingAttribute()
+    /**
+     * Relasi Many-to-Many ke Mystery Box (via pivot table mystery_box_product)
+     */
+    public function mysteryBoxes()
     {
-        // Jika query menggunakan withAvg('reviews', 'rating'), Eloquent
-        // menaruh nilai rata-rata di atribut `reviews_avg_rating`.
-        $avg = $this->getAttribute('reviews_avg_rating');
-        if ($avg !== null) {
-            return round($avg, 1);
-        }
-
-        $avg = $this->reviews()->avg('rating');
-        return $avg !== null ? round($avg, 1) : 0;
+        return $this->belongsToMany(
+            MysteryBox::class,
+            'mystery_box_product',
+            'id_product',
+            'id_mystery_box'
+        )->withPivot([
+            'price',
+            'point_gacha',
+            'history_gacha',
+            'type_gacha',
+            'drop_rate',
+            'cashback'
+        ]);
     }
 
-    // Menghitung jumlah yang merating
-    public function getReviewCountAttribute()
+    /**
+     * URL gambar produk
+     */
+    public function getProductPictureUrlAttribute()
     {
-        // Jika query menggunakan withCount('reviews'), Eloquent
-        // menaruh jumlah di atribut `reviews_count`.
-        $count = $this->getAttribute('reviews_count');
-        if ($count !== null) {
-            return (int) $count;
-        }
+        return $this->product_picture
+            ? asset($this->product_picture)
+            : asset('images/default-product.png');
+    }
 
-        return $this->reviews()->count();
+    /**
+     * Cek stok habis
+     */
+    public function isOutOfStock()
+    {
+        return $this->stock <= 0;
+    }
+
+    /**
+     * Kurangi stok (dipanggil setelah checkout)
+     */
+    public function reduceStock($qty)
+    {
+        if ($this->stock >= $qty) {
+            $this->stock -= $qty;
+            $this->save();
+        }
+    }
+
+    /**
+     * Tambah stok (opsional)
+     */
+    public function addStock($qty)
+    {
+        $this->stock += $qty;
+        $this->save();
     }
 
     /*
