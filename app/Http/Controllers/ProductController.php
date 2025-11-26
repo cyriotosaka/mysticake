@@ -1,13 +1,5 @@
 <?php
-<<<<<<< HEAD
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
-use App\Models\Cart;
-=======
+<<<<<<<<< Temporary merge branch 1
 /**
      * Nama : Abdul Ghoni
      * NRP : 5026231109
@@ -16,37 +8,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
->>>>>>> f44b41630eee142132d21b130e83e9600f344d03
+=========
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
+use App\Models\Cart;
+>>>>>>>>> Temporary merge branch 2
 
 class ProductController extends Controller
 {
     /**
-<<<<<<< HEAD
-     * Menampilkan Halaman Utama (Homepage)
-     * Sesuai UML: showHomepage()
-     */
-    public function showHomepage()
-    {
-        // 1. Ambil User yang sedang login
-        $user = Auth::user();
-
-        // 2. Hitung jumlah barang di keranjang user ini
-        // (Logic Cart disisipkan di sini untuk kebutuhan View header)
-        $cartCount = 0;
-        if ($user) {
-            $cartCount = Cart::where('id_user', $user->id_user)->count();
-        }
-
-        // 3. Ambil 2 Produk untuk bagian "Recommendation"
-        // Sesuai logika: ambil acak atau terbaru
-        $recommendations = Product::with('reviews')->inRandomOrder()->take(2)->get();
-
-        // 4. Kirim data ke View 'home'
-        return view('home', [
-            'user'            => $user,
-            'cartCount'       => $cartCount,
-            'recommendations' => $recommendations
-=======
+<<<<<<<<< Temporary merge branch 1
      * GET /search
      * Menampilkan Search Page (tanpa hasil),
      * menampilkan Highest Rating + Recently Search.
@@ -71,12 +46,107 @@ class ProductController extends Controller
             'results'        => collect(),    // kosong
             'highestRated'   => $highestRated,
             'recentSearches' => $recentSearches,
->>>>>>> f44b41630eee142132d21b130e83e9600f344d03
+=========
+     * Menampilkan Halaman Utama (Homepage)
+     * Sesuai UML: showHomepage()
+     */
+    public function showHomepage()
+    {
+        // 1. Ambil User yang sedang login
+        $user = Auth::user();
+
+        // 2. Hitung jumlah barang di keranjang user ini
+        // (Logic Cart disisipkan di sini untuk kebutuhan View header)
+        $cartCount = 0;
+        if ($user) {
+            $cartCount = Cart::where('id_user', $user->id_user)->count();
+        }
+
+        // 3. Ambil 2 Produk untuk bagian "Recommendation"
+        // Sesuai logika: ambil acak atau terbaru
+        $recommendations = Product::with('reviews')->inRandomOrder()->take(2)->get();
+
+        // 4. Kirim data ke View 'home'
+        return view('home', [
+            'user'            => $user,
+            'cartCount'       => $cartCount,
+            'recommendations' => $recommendations
+>>>>>>>>> Temporary merge branch 2
         ]);
     }
 
     /**
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
+     * POST /search
+     * Melakukan pencarian dessert berdasarkan keyword.
+     *
+     * Sesuai sequence diagram:
+     * - submitSearch("Cake") -> POST /search
+     * - call searchProduct("Cake")
+     * - call showResults(productList)
+     */
+    public function searchProduct(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        // 1. Ambil list produk berdasarkan keyword
+        $productList = Product::search($keyword)
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->get();
+
+        // 2. Lengkapi data detail produk (kalau diperlukan)
+        $fullProductList = $this->getDetails($productList);
+
+        // 3. Tampilkan hasil ke view (Result Page)
+        return $this->showResults($fullProductList, $keyword);
+    }
+
+    /**
+     * getDetails(productList)
+     *
+     * Pada sequence diagram, langkah ini mengambil detail tambahan
+     * dari setiap produk. Di sini kamu bisa tambahkan:
+     * - hitung average rating (sudah dibantu accessor di model)
+     * - mapping data lain kalau perlu
+     */
+    protected function getDetails($products)
+    {
+        // Untuk sekarang, kita hanya return apa adanya,
+        // karena accessor `average_rating` dan `review_count`
+        // sudah tersedia di model Product.
+        // Tempat ini bisa dipakai kalau suatu saat kamu butuh
+        // enrich data (misal: jarak toko, estimasi waktu kirim, dsb).
+
+        return $products;
+    }
+
+    /**
+     * showResults(productList)
+     *
+     * Mengembalikan view Result Page Cake (Search Result Page)
+     * lengkap dengan data produk dan kata kunci.
+     */
+    protected function showResults($productList, ?string $keyword = null)
+    {
+        $recentSearches = [
+            'Cake', 'Cheeseroll', 'IceCream',
+            'Dessert', 'Coklat', 'Puding',
+            'caramel', 'donat', 'Martabak', 'bolu',
+        ];
+
+        // Highest rating products (dipakai di Search Page)
+        $highestRated = Product::highestRated(6)->get();
+
+        return view('search', [
+            'query'          => null,
+            'results'        => collect(),    // kosong
+            'highestRated'   => $highestRated,
+            'recentSearches' => $recentSearches,
+>>>>>>> f44b41630eee142132d21b130e83e9600f344d03
+        ]);
+    }
+=========
      * Menampilkan Detail Produk
      * Sesuai UML: showProductDetail(id)
      */
@@ -142,71 +212,5 @@ class ProductController extends Controller
     }
 
     // ... method showProductRating() dll ...
-=======
-     * POST /search
-     * Melakukan pencarian dessert berdasarkan keyword.
-     *
-     * Sesuai sequence diagram:
-     * - submitSearch("Cake") -> POST /search
-     * - call searchProduct("Cake")
-     * - call showResults(productList)
-     */
-    public function searchProduct(Request $request)
-    {
-        $keyword = $request->input('q');
-
-        // 1. Ambil list produk berdasarkan keyword
-        $productList = Product::search($keyword)
-            ->withAvg('reviews', 'rating')
-            ->withCount('reviews')
-            ->get();
-
-        // 2. Lengkapi data detail produk (kalau diperlukan)
-        $fullProductList = $this->getDetails($productList);
-
-        // 3. Tampilkan hasil ke view (Result Page)
-        return $this->showResults($fullProductList, $keyword);
-    }
-
-    /**
-     * getDetails(productList)
-     *
-     * Pada sequence diagram, langkah ini mengambil detail tambahan
-     * dari setiap produk. Di sini kamu bisa tambahkan:
-     * - hitung average rating (sudah dibantu accessor di model)
-     * - mapping data lain kalau perlu
-     */
-    protected function getDetails($products)
-    {
-        // Untuk sekarang, kita hanya return apa adanya,
-        // karena accessor `average_rating` dan `review_count`
-        // sudah tersedia di model Product.
-        // Tempat ini bisa dipakai kalau suatu saat kamu butuh
-        // enrich data (misal: jarak toko, estimasi waktu kirim, dsb).
-
-        return $products;
-    }
-
-    /**
-     * showResults(productList)
-     *
-     * Mengembalikan view Result Page Cake (Search Result Page)
-     * lengkap dengan data produk dan kata kunci.
-     */
-    protected function showResults($productList, ?string $keyword = null)
-    {
-        $recentSearches = [
-            'Cake', 'Cheeseroll', 'IceCream',
-            'Dessert', 'Coklat', 'Puding',
-            'caramel', 'donat', 'Martabak', 'bolu',
-        ];
-
-        return view('search', [
-            'query'          => $keyword,
-            'results'        => $productList,
-            'highestRated'   => collect(),    // tidak dipakai di result page
-            'recentSearches' => $recentSearches,
-        ]);
-    }
->>>>>>> f44b41630eee142132d21b130e83e9600f344d03
+>>>>>>>>> Temporary merge branch 2
 }
