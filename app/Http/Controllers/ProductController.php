@@ -6,21 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Cart;
-/**
-     * Nama : Abdul Ghoni
-     * NRP : 5026231109
-     */
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Product;
 
 class ProductController extends Controller
 {
     /**
      * Menampilkan Halaman Utama (Homepage)
-     * Sesuai UML: showHomepage()
-     * Arsya Nueva Delavera 5026231099
      */
     public function showHomepage()
     {
@@ -28,14 +18,13 @@ class ProductController extends Controller
         $user = Auth::user();
 
         // 2. Hitung jumlah barang di keranjang user ini
-        // (Logic Cart disisipkan di sini untuk kebutuhan View header)
         $cartCount = 0;
         if ($user) {
-            $cartCount = Cart::where('id_user', $user->id_user)->count();
+            // Pastikan menggunakan 'id_user' atau 'id' sesuai database kamu
+            $cartCount = Cart::where('id_user', $user->id_user ?? $user->id)->count();
         }
 
         // 3. Ambil 2 Produk untuk bagian "Recommendation"
-        // Sesuai logika: ambil acak atau terbaru
         $recommendations = Product::with('reviews')->inRandomOrder()->take(2)->get();
 
         // 4. Kirim data ke View 'home'
@@ -47,49 +36,35 @@ class ProductController extends Controller
     }
 
     /**
-     * Menampilkan Detail Produk
-     * Sesuai UML: showProductDetail(id)
-     */
-    public function showProductDetail($id)
-    {
-        // Ambil data produk berdasarkan ID
-        $product = Product::with('reviews')->findOrFail($id);
-
-        // Tampilkan view detail
-        return view('products.detail', compact('product'));
-    }
-
-    /**
-     * Melakukan Pencarian Produk
-     * Sesuai UML: searchProduct(keyword)
+     * Menampilkan Halaman Search & Hasil Pencarian
+     * Menangani: GET /search (awal) dan GET /search?q=keyword
      */
     public function searchProduct(Request $request)
     {
         // Mengambil input 'q' dari URL (?q=keyword)
         $query = $request->input('q');
 
-        // Data Default (Inisialisasi)
+        // Data Default
         $highestRated = [];
-        $results = [];
-        // Hardcode recent searches (atau bisa ambil dari history user di DB jika ada)
+        $results = collect(); // Collection kosong agar view aman
+
+        // Dummy Recent Searches
         $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
 
         if ($query) {
-            // --- LOGIKA PENCARIAN ---
-            // Mencari produk yang namanya mirip dengan query
+            // --- KONDISI 1: ADA PENCARIAN ---
             $results = Product::where('name_product', 'LIKE', "%{$query}%")
-                            ->with('reviews') // Eager load relasi reviews
+                            ->with('reviews')
                             ->get();
         } else {
-            // --- LOGIKA TAMPILAN AWAL (SEARCH PAGE) ---
-            // Jika tidak ada query, tampilkan produk dengan rating tertinggi
-            // Catatan: sortByDesc dilakukan di level Collection (PHP), bukan Query SQL
+            // --- KONDISI 2: HALAMAN SEARCH AWAL ---
+            // Ambil produk rating tertinggi
             $highestRated = Product::with('reviews')
                                 ->get()
                                 ->sortByDesc(function($product) {
-                                    return $product->reviews->avg('rating'); // Asumsi ada relasi reviews
+                                    return $product->reviews->avg('rating');
                                 })
-                                ->take(5);
+                                ->take(6);
         }
 
         return view('search', [
@@ -101,108 +76,34 @@ class ProductController extends Controller
     }
 
     /**
-     * Menampilkan Rekomendasi (Opsional, jika ada halaman khusus rekomendasi)
-     * Sesuai UML: showRecommendation()
+     * Menampilkan Detail Produk
+     */
+    public function showProductDetail($id)
+    {
+        // 1. Cari produk berdasarkan ID, atau error 404 jika tidak ada
+        $product = Product::with('reviews')->findOrFail($id);
+
+        // 2. Hitung rata-rata rating
+        $avgRating = $product->reviews()->avg('rating') ?? 0;
+
+        // 3. Hitung jumlah review (misal: "3.2k")
+        $totalReviews = $product->reviews()->count();
+
+        // 4. Format angka review (opsional, biar jadi 1k, 3.2k, dll)
+        if ($totalReviews > 1000) {
+            $totalReviews = round($totalReviews / 1000, 1) . 'k';
+        }
+
+        // Tampilkan view (Pastikan folder view-nya benar)
+        return view('products.detail', compact('product', 'avgRating', 'totalReviews'));
+    }
+
+    /**
+     * Menampilkan Rekomendasi
      */
     public function showRecommendation()
     {
-        // Logika rekomendasi yang lebih kompleks bisa ditaruh sini
         $recommendations = Product::inRandomOrder()->take(10)->get();
         return view('products.recommendation', compact('recommendations'));
-    }
-
-    // ... method showProductRating() dll ...
-     * GET /search
-     * Menampilkan Search Page (tanpa hasil),
-     * menampilkan Highest Rating + Recently Search.
-     *
-     * Ini sesuai step 1.1 pada sequence diagram:
-     * Halaman Home Page -> GET /search -> return SearchPage view.
-     */
-    public function showSearchPage(Request $request)
-    {
-        // dummy recently search, sesuai desain UI
-        $recentSearches = [
-            'Cake', 'Cheeseroll', 'IceCream',
-            'Dessert', 'Coklat', 'Puding',
-            'caramel', 'donat', 'Martabak', 'bolu',
-        ];
-
-        // Highest rating products (dipakai di Search Page)
-        $highestRated = Product::highestRated(6)->get();
-
-        return view('search', [
-            'query'          => null,
-            'results'        => collect(),    // kosong
-            'highestRated'   => $highestRated,
-            'recentSearches' => $recentSearches,
-        ]);
-    }
-
-    /**
-     * POST /search
-     * Melakukan pencarian dessert berdasarkan keyword.
-     *
-     * Sesuai sequence diagram:
-     * - submitSearch("Cake") -> POST /search
-     * - call searchProduct("Cake")
-     * - call showResults(productList)
-     */
-    public function searchProduct(Request $request)
-    {
-        $keyword = $request->input('q');
-
-        // 1. Ambil list produk berdasarkan keyword
-        $productList = Product::search($keyword)
-            ->withAvg('reviews', 'rating')
-            ->withCount('reviews')
-            ->get();
-
-        // 2. Lengkapi data detail produk (kalau diperlukan)
-        $fullProductList = $this->getDetails($productList);
-
-        // 3. Tampilkan hasil ke view (Result Page)
-        return $this->showResults($fullProductList, $keyword);
-    }
-
-    /**
-     * getDetails(productList)
-     *
-     * Pada sequence diagram, langkah ini mengambil detail tambahan
-     * dari setiap produk. Di sini kamu bisa tambahkan:
-     * - hitung average rating (sudah dibantu accessor di model)
-     * - mapping data lain kalau perlu
-     */
-    protected function getDetails($products)
-    {
-        // Untuk sekarang, kita hanya return apa adanya,
-        // karena accessor `average_rating` dan `review_count`
-        // sudah tersedia di model Product.
-        // Tempat ini bisa dipakai kalau suatu saat kamu butuh
-        // enrich data (misal: jarak toko, estimasi waktu kirim, dsb).
-
-        return $products;
-    }
-
-    /**
-     * showResults(productList)
-     *
-     * Mengembalikan view Result Page Cake (Search Result Page)
-     * lengkap dengan data produk dan kata kunci.
-     */
-    protected function showResults($productList, ?string $keyword = null)
-    {
-        $recentSearches = [
-            'Cake', 'Cheeseroll', 'IceCream',
-            'Dessert', 'Coklat', 'Puding',
-            'caramel', 'donat', 'Martabak', 'bolu',
-        ];
-
-        return view('search', [
-            'query'          => $keyword,
-            'results'        => $productList,
-            'highestRated'   => collect(),    // tidak dipakai di result page
-            'recentSearches' => $recentSearches,
-        ]);
     }
 }

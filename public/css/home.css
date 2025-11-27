@@ -1,124 +1,71 @@
-/* ========================================= */
-/* MYSTICAKE HOME PAGE STYLES              */
-/* ========================================= */
+/* File: public/css/home.css */
 
-/* 1. Import Font dari Google */
+/* Import Font */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
 
-/* 2. Setup Dasar Body */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #FFFDF5; /* Warna Cream sesuai gambar */
+    background-color: #FFFDF5; /* Cream Background */
     margin: 0;
-    padding-bottom: 120px; /* Memberi ruang agar konten terbawah tidak tertutup Navbar */
+    padding-bottom: 100px;
     min-height: 100vh;
 }
 
-/* Hapus underline dari semua link */
-a {
-    text-decoration: none !important;
-}
+a { text-decoration: none !important; color: inherit; }
 
-/* ========================================= */
-/* HEADER SECTION                          */
-/* ========================================= */
-
-.header-section {
-    padding: 10px 20px;
-    background-color: #FFFDF5;
-}
-
-/* Logo Brand di Tengah Atas */
-.brand-header {
-    text-align: center;
-    margin-bottom: 15px;
-    padding-top: 15px;
-}
-
+/* --- HEADER --- */
 .brand-header h1 {
     font-family: 'Fredoka One', cursive;
-    color: #F06292; /* Pink Logo */
-    font-size: 28px;
+    color: #F06A7D;
+    font-size: 32px;
     margin: 0;
+    text-align: center;
     letter-spacing: 1px;
 }
 
-/* Baris User Profile & Cart */
+/* --- USER INFO --- */
 .user-info-row {
-    display: flex;       /* Wajib Flex agar sejajar kiri-kanan */
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
-.profile-left {
-    display: flex;       /* Avatar dan Teks sejajar */
-    align-items: center;
-}
+.profile-left { display: flex; align-items: center; }
 
-/* Avatar Bulat */
 .avatar-circle {
     width: 55px;
     height: 55px;
-    background-color: #F06292;
     border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    background-color: #F06A7D;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
-    overflow: hidden; /* Agar gambar tidak keluar lingkaran */
-    color: white;
-    font-size: 28px;
-    flex-shrink: 0; /* Agar tidak gepeng */
 }
+
+.avatar-circle i { font-size: 30px; color: white; }
 
 .user-details .username {
     font-weight: 700;
     font-size: 16px;
     color: #333;
-    display: flex;
-    align-items: center;
-    margin-bottom: 2px;
-}
-
-.user-details .username i {
-    font-size: 12px;
-    color: #888;
-    margin-left: 6px;
-    cursor: pointer;
 }
 
 .user-details .balance {
-    display: flex;
-    align-items: center;
     font-size: 14px;
     color: #333;
     font-weight: 500;
+    margin-top: 2px;
 }
 
-.coin-icon {
-    color: #FFC107; /* Kuning Emas */
-    margin-right: 5px;
-}
+.coin-icon { color: #FFC107; margin-right: 4px; }
+.plus-icon { color: #333; margin-left: 5px; cursor: pointer; font-size: 14px; }
 
-.plus-icon {
-    font-size: 14px;
-    margin-left: 5px;
-    cursor: pointer;
-    color: #333;
-}
-
-/* Ikon Keranjang */
-.cart-right {
-    position: relative;
-    margin-right: 5px;
-}
-
-.cart-icon {
-    font-size: 28px;
-    color: #F06292;
-}
-
+.cart-right { position: relative; cursor: pointer; margin-right: 5px; }
+.cart-icon { font-size: 28px; color: #F06A7D; }
 .cart-badge {
     position: absolute;
     top: -5px;
@@ -126,20 +73,17 @@ a {
     background-color: #DC3545;
     color: white;
     border-radius: 50%;
-    min-width: 18px;
+    width: 18px;
     height: 18px;
     font-size: 10px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #FFFDF5; /* Border agar misah dari ikon */
-    padding: 2px;
+    border: 2px solid #FFFDF5;
 }
 
-/* ========================================= */
-/* SEARCH BAR                              */
-/* ========================================= */
+/* --- SEARCH BAR (KAPSUL) --- */
 .search-container {
     position: relative;
     margin-bottom: 25px;
@@ -147,95 +91,109 @@ a {
 
 .search-input {
     width: 100%;
-    border: 1px solid #333; /* Border Hitam Tipis */
-    border-radius: 50px;
-    padding: 12px 45px; /* Padding kiri-kanan untuk ikon */
-    background-color: #FFFDF5;
-    font-family: 'Poppins', sans-serif;
+    border: 1px solid #333;
+    border-radius: 50px !important; /* Paksa jadi bulat kapsul */
+    padding: 12px 45px 12px 50px; /* Space kiri kanan */
+    background-color: transparent;
+    box-shadow: none;
     outline: none;
-    font-size: 15px;
     color: #333;
 }
 
 .search-input:focus {
-    border-color: #F06292; /* Berubah pink saat diklik */
+    border-color: #F06A7D;
+    box-shadow: 0 0 5px rgba(240, 106, 125, 0.3);
 }
 
-.search-icon {
+.search-icon-left {
     position: absolute;
-    left: 18px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
     color: #333;
     font-size: 18px;
 }
 
-.close-icon {
+.search-icon-close {
     position: absolute;
-    right: 18px;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
     color: #333;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
 }
 
-/* ========================================= */
-/* BANNER SECTION                          */
-/* ========================================= */
+/* --- BANNER --- */
 .banner-section {
+    position: relative;
     margin-bottom: 25px;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    height: 160px; /* Tinggi fix agar rapi */
 }
 
 .banner-img {
     width: 100%;
-    display: block; /* Menghilangkan gap bawah gambar */
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85); /* Sedikit gelap biar teks terbaca */
 }
 
-/* ========================================= */
-/* RECOMMENDATION & CARDS                  */
-/* ========================================= */
+.banner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: white;
+    z-index: 2;
+}
+
+.banner-overlay h2 { font-size: 16px; margin: 0; font-weight: 600; letter-spacing: 1px; }
+.banner-overlay h1 { font-size: 36px; margin: 0; font-weight: 800; line-height: 1; }
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255, 0.8);
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 3;
+}
+.slider-arrow.left { left: 5px; }
+.slider-arrow.right { right: 5px; }
+
+/* --- RECOMMENDATION CARD --- */
 .section-title {
-    font-weight: 800;
-    color: #5D4037; /* Coklat Tua */
+    font-weight: 700;
+    color: #4E342E;
     font-size: 16px;
     margin-bottom: 15px;
-    padding-left: 5px;
 }
 
-/* Kartu Produk Horizontal */
 .card-custom {
-    background-color: #fff; /* Putih bersih */
+    background-color: #fff;
     border-radius: 15px;
-    padding: 15px;
-    display: flex; /* Flexbox agar gambar & teks sebelahan */
+    padding: 12px;
+    display: flex;
     align-items: center;
     margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Bayangan halus */
-    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #F2EBE0;
     transition: transform 0.2s;
 }
 
-.card-custom:active {
-    transform: scale(0.98); /* Efek tekan */
-}
+.card-custom:active { transform: scale(0.98); }
 
 .card-img {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%; /* Gambar Bulat */
     object-fit: cover;
     margin-right: 15px;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.card-info {
-    flex: 1; /* Mengisi sisa ruang */
+    border: 1px solid #eee;
 }
 
 .card-info h3 {
@@ -247,46 +205,14 @@ a {
 
 .rating {
     font-size: 13px;
-    color: #555;
+    color: #333;
     display: flex;
     align-items: center;
+    font-weight: 500;
 }
+.star { color: #FFC107; margin-right: 5px; font-size: 13px; }
 
-.star {
-    color: #FFC107;
-    margin-right: 4px;
-    font-size: 14px;
-}
-
-/* Kartu Fitur Baru */
-.feature-card {
-    background-color: #FFFDF5;
-    border: 1px solid #E0E0E0;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.feature-title {
-    color: #C25E75; /* Merah Hati Pudar */
-    font-weight: 800;
-    font-size: 15px;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.feature-subtitle {
-    color: #777;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-/* ========================================= */
-/* BOTTOM NAVIGATION (FIXED)               */
-/* ========================================= */
+/* --- BOTTOM NAV --- */
 .bottom-nav-container {
     position: fixed;
     bottom: 0;
@@ -297,59 +223,54 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 50px; /* Jarak icon kiri-kanan */
-    box-sizing: border-box;
-    z-index: 1000;
+    padding: 0 50px;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
 }
 
 .nav-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.8;
-    transition: opacity 0.2s;
+    font-size: 30px;
+    color: #E66A7F;
+    transition: 0.2s;
 }
+.nav-icon:hover { transform: scale(1.1); }
 
-.nav-icon:active {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.nav-icon img, .nav-icon i {
-    /* Ukuran Icon */
-    font-size: 32px;
-    color: #D65A77; /* Warna Icon Pink Tua */
-}
-
-/* Mystery Box Melayang */
+/* Mystery Box Float */
 .mystery-box-wrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20px; /* Menyembul ke atas */
+    bottom: 25px; /* Naik ke atas */
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1002;
     cursor: pointer;
 }
 
 .mystery-box-img {
-    width: 110px; /* Ukuran Kado */
-    height: auto;
-    transition: transform 0.3s;
+    width: 90px;
     filter: drop-shadow(0 5px 8px rgba(0,0,0,0.2));
+    transition: transform 0.3s;
 }
 
-.mystery-box-wrapper:active .mystery-box-img {
-    transform: scale(0.95) rotate(-5deg);
-}
+.mystery-box-wrapper:active .mystery-box-img { transform: scale(0.95); }
 
 .mystery-text {
     color: white;
     font-weight: 700;
     font-size: 14px;
-    margin-top: -10px; /* Teks nempel ke kado */
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-top: -8px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
+
+/* Feature Card */
+.feature-card {
+    background-color: #FFFDF5;
+    border: 1px solid #E0D8C0;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    margin: 20px 0;
+}
+.feature-title { font-weight: 700; color: #5D4037; font-size: 14px; text-transform: uppercase; }
+.feature-subtitle { font-weight: 600; color: #5D4037; font-size: 14px; margin-top: 5px; }

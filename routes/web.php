@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
 
     // Delete address
     Route::delete('/settings/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
+
+    //Lihat Product
+    Route::get('/product/{id}', [ProductController::class, 'showProductDetail'])->name('product.detail');
 });
 
 // ============================================

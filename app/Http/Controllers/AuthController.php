@@ -11,27 +11,27 @@ class AuthController extends Controller
 {
     /**
      * Menampilkan halaman landing page
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function showLandingPage()
     {
-        return view('landing');
+        return view('login.landing');
     }
 
     /**
      * Menampilkan halaman login
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function showLoginPage()
     {
-        return view('login');
+        return view('login.login');
     }
 
     /**
      * Proses login user
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -45,11 +45,11 @@ class AuthController extends Controller
 
         // Coba login dengan kredensial yang diberikan
         $credentials = $request->only('email', 'password');
-        
+
         if (Auth::attempt($credentials)) {
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
-            
+
             // Redirect ke home page
             return redirect()->route('home');
         }
@@ -62,17 +62,17 @@ class AuthController extends Controller
 
     /**
      * Menampilkan halaman register
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function showRegisterPage()
     {
-        return view('register');
+        return view('login.register');
     }
 
     /**
      * Proses register user baru
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -116,7 +116,7 @@ class AuthController extends Controller
 
     /**
      * Proses logout user
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
