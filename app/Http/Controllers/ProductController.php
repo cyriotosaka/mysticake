@@ -80,8 +80,22 @@ class ProductController extends Controller
      */
     public function showProductDetail($id)
     {
+        // 1. Cari produk berdasarkan ID, atau error 404 jika tidak ada
         $product = Product::with('reviews')->findOrFail($id);
-        return view('products.detail', compact('product'));
+
+        // 2. Hitung rata-rata rating
+        $avgRating = $product->reviews()->avg('rating') ?? 0;
+
+        // 3. Hitung jumlah review (misal: "3.2k")
+        $totalReviews = $product->reviews()->count();
+
+        // 4. Format angka review (opsional, biar jadi 1k, 3.2k, dll)
+        if ($totalReviews > 1000) {
+            $totalReviews = round($totalReviews / 1000, 1) . 'k';
+        }
+
+        // Tampilkan view (Pastikan folder view-nya benar)
+        return view('products.detail', compact('product', 'avgRating', 'totalReviews'));
     }
 
     /**

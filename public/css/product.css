@@ -1,0 +1,190 @@
+/* File: public/css/product-detail.css */
+
+/* --- Base Styles --- */
+body {
+    background-color: #FFFDF5; /* Warna background krem lembut */
+    font-family: 'Poppins', sans-serif;
+    color: #2D2D2D;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container agar tampilan fokus di tengah seperti Mobile App */
+.mobile-container {
+    max-width: 480px;
+    margin: 0 auto; /* Tengah layar */
+    min-height: 100vh;
+    padding: 20px 24px;
+    background-color: #FFFDF5;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Bayangan halus di pinggir */
+}
+
+/* --- Header Navigation --- */
+.header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-top: 10px;
+}
+
+.header-nav .back-btn {
+    color: #2D2D2D;
+    font-size: 22px;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.header-nav .back-btn:hover {
+    transform: translateX(-3px);
+}
+
+.brand-text {
+    color: #F06A7D; /* Warna Pink Utama */
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+}
+
+/* --- Product Image --- */
+.product-image-wrapper {
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    aspect-ratio: 1 / 1; /* Membuat gambar jadi persegi presisi */
+}
+
+.product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Rating & Stats --- */
+.rating-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.rating-score {
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+    margin-right: 6px;
+}
+
+.star-icon {
+    color: #FFC107; /* Kuning Emas */
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.review-count {
+    color: #666;
+    font-size: 14px;
+    font-weight: 400;
+    flex-grow: 1; /* Mendorong cart icon ke kanan */
+}
+
+.cart-btn {
+    color: #F06A7D;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+.cart-btn:hover {
+    transform: scale(1.1);
+}
+
+/* --- Typography --- */
+.product-title {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 12px;
+    line-height: 1.2;
+    color: #1A1A1A;
+}
+
+.product-desc {
+    color: #4A4A4A;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: justify; /* Kiri-Kanan Rata */
+}
+
+/* --- Price & Actions --- */
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.price-tag {
+    font-size: 26px;
+    font-weight: 700;
+    color: #000;
+}
+
+.reviews-link {
+    color: #F06A7D;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.action-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.btn-order {
+    background-color: #F06A7D;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0px 8px 20px rgba(240, 106, 125, 0.3);
+    transition: background-color 0.2s, transform 0.2s;
+    text-transform: capitalize;
+}
+
+.btn-order:hover {
+    background-color: #d65a6e;
+    transform: translateY(-2px);
+}
+
+.btn-chat {
+    background-color: #F06A7D;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    min-width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0px 8px 20px rgba(240, 106, 125, 0.3);
+    transition: transform 0.2s;
+}
+
+.btn-chat:hover {
+    transform: scale(1.05);
+}

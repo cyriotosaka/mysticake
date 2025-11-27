@@ -26,7 +26,7 @@
                     @endphp
 
                     @if($photo)
-                        <img src="{{ asset($photo) }}?v={{ time() }}" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        <img src="{{ asset($photo) }}?v={{ time() }}" alt="Profile">
                     @else
                         <i class="bi bi-person-fill"></i>
                     @endif
@@ -34,15 +34,17 @@
                 <div class="user-details">
                     <div class="username">
                         {{ Auth::user()->username }}
-                        <a href="{{ route('settings.profile') }}" class="text-dark ms-2">
-                            <i class="bi bi-pencil-square"></i>
+                        <a href="{{ route('settings.profile') }}" class="text-dark ms-1">
+                            <i class="bi bi-pencil-square" style="font-size: 12px; color: #888;"></i>
                         </a>
                     </div>
                     <div class="balance">
-                        <i class="bi bi-coin coin-icon"></i> 120.000 <i class="bi bi-plus-circle plus-icon"></i>
+                        <i class="bi bi-coin coin-icon"></i> 120.000
+                        <i class="bi bi-plus-circle plus-icon"></i>
                     </div>
                 </div>
             </div>
+
             <div class="cart-right">
                 <i class="bi bi-cart-fill cart-icon"></i>
                 @if($cartCount > 0)
@@ -51,32 +53,50 @@
             </div>
         </div>
 
-        <form action="{{ route('search') }}" method="GET" class="search-container position-relative">
+        <form action="{{ route('search') }}" method="GET" class="search-container">
             <i class="bi bi-search search-icon-left"></i>
-            <input type="text" name="q" class="form-control search-input" placeholder="Search" onclick="window.location.href='{{ route('search') }}'">
+
+            <input type="text" name="q" class="form-control search-input" placeholder="Search" autocomplete="off">
+
+            <i class="bi bi-x-lg search-icon-close"></i>
         </form>
 
         <div class="banner-section">
-            <img src="{{ asset('images/banner_sale.png') }}" alt="Sale Banner" class="banner-img">
+            <div class="banner-overlay">
+                <h2>ALL DESSERT</h2>
+                <h1>SALE</h1>
+            </div>
+
+            <i class="bi bi-chevron-left slider-arrow left"></i>
+            <i class="bi bi-chevron-right slider-arrow right"></i>
+
+            <img src="{{ asset('images/banner_sale.png') }}" alt="Sale Banner" class="banner-img"
+                 onerror="this.src='https://placehold.co/600x250/F06292/FFF?text=Banner'">
         </div>
 
         <div class="section-title">Recommendation</div>
 
         @foreach($recommendations as $product)
-        <div class="card-custom">
-            <img src="{{ asset(ltrim($product->product_pic, '/')) }}" class="card-img" alt="{{ $product->name_product }}"
-                 onerror="this.src='https://via.placeholder.com/60'">
+        <a href="{{ route('product.detail', $product->id_product) }}">
+            <div class="card-custom">
+                <img src="{{ asset(ltrim($product->product_pic, '/')) }}" class="card-img" alt="{{ $product->name_product }}"
+                     onerror="this.src='https://placehold.co/100?text=Cake'">
 
-            <div class="card-info">
-                <h3>{{ $product->name_product }}</h3>
-                <div class="rating">
-                    <i class="bi bi-star-fill star"></i> {{ $product->average_rating }}
-                    (dirating oleh {{ $product->review_count }})
+                <div class="card-info">
+                    <h3>{{ $product->name_product }}</h3>
+
+                    <div class="rating">
+                        <i class="bi bi-star-fill star"></i>
+                        {{ number_format($product->average_rating, 1) }}
+                        <span class="ms-1" style="color: #666; font-weight: normal;">(dirating oleh {{ $product->review_count }})</span>
+                    </div>
+
+                    <div style="font-size: 14px; font-weight: 700; color: #F06A7D; margin-top: 4px;">
+                        Rp {{ number_format($product->price * 15000, 0, ',', '.') }}
+                    </div>
                 </div>
-                <div style="font-size: 14px; font-weight: bold; color: #e91e63; margin-top: 2px;">
-                    Rp {{ number_format($product->price * 15000, 0, ',', '.') }} </div>
             </div>
-        </div>
+        </a>
         @endforeach
 
         <div class="feature-card">
@@ -87,8 +107,8 @@
     </div>
 
     <div class="bottom-nav-container">
-        <a href="#" class="nav-icon">
-            <i class="bi bi-door-open-fill" style="font-size: 28px; color: #C25E75;"></i>
+        <a href="{{ route('home') }}" class="nav-icon">
+            <i class="bi bi-door-open-fill" style="color: #E66A7F;"></i>
         </a>
 
         <div class="mystery-box-wrapper">
@@ -97,7 +117,7 @@
         </div>
 
         <a href="#" class="nav-icon">
-             <i class="bi bi-chat-text-fill" style="font-size: 28px; color: #C25E75;"></i>
+             <i class="bi bi-chat-text-fill" style="color: #E66A7F;"></i>
         </a>
     </div>
 
