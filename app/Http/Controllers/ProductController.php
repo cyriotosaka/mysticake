@@ -9,9 +9,6 @@ use App\Models\Cart;
 
 class ProductController extends Controller
 {
-    /**
-     * Menampilkan Halaman Utama (Homepage)
-     */
     public function showHomepage()
     {
         // 1. Ambil User yang sedang login
@@ -46,7 +43,7 @@ class ProductController extends Controller
 
         // Data Default
         $highestRated = [];
-        $results = collect(); // Collection kosong agar view aman
+        $results = collect();
 
         // Dummy Recent Searches
         $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
@@ -95,7 +92,11 @@ class ProductController extends Controller
         }
 
         // Tampilkan view (Pastikan folder view-nya benar)
-        return view('products.detail', compact('product', 'avgRating', 'totalReviews'));
+        return view('product.detail', [
+            'product' => $product,
+            'avgRating' => $avgRating,
+            'totalReviews' => $totalReviews
+        ]);
     }
 
     /**
@@ -104,6 +105,6 @@ class ProductController extends Controller
     public function showRecommendation()
     {
         $recommendations = Product::inRandomOrder()->take(10)->get();
-        return view('products.recommendation', compact('recommendations'));
+        return view('product.recommendation', compact('recommendations'));
     }
 }

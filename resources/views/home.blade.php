@@ -56,7 +56,7 @@
         <form action="{{ route('search') }}" method="GET" class="search-container">
             <i class="bi bi-search search-icon-left"></i>
 
-            <input type="text" name="q" class="form-control search-input" placeholder="Search" autocomplete="off">
+            <input type="text" name="q" class="search-input" placeholder="Search" autocomplete="off">
 
             <i class="bi bi-x-lg search-icon-close"></i>
         </form>
@@ -79,7 +79,7 @@
         @foreach($recommendations as $product)
         <a href="{{ route('product.detail', $product->id_product) }}">
             <div class="card-custom">
-                <img src="{{ asset(ltrim($product->product_pic, '/')) }}" class="card-img" alt="{{ $product->name_product }}"
+                <img src="{{ asset(ltrim('images/products/'.$product->product_picture, '/')) }}" class="card-img" alt="{{ $product->name_product }}"
                      onerror="this.src='https://placehold.co/100?text=Cake'">
 
                 <div class="card-info">
@@ -87,12 +87,15 @@
 
                     <div class="rating">
                         <i class="bi bi-star-fill star"></i>
-                        {{ number_format($product->average_rating, 1) }}
-                        <span class="ms-1" style="color: #666; font-weight: normal;">(dirating oleh {{ $product->review_count }})</span>
+                        {{ number_format($product->reviews_avg_rating ?? 0, 1) }}
+
+                        <span class="ms-1" style="color: #666; font-weight: normal;">
+                            (dirating oleh {{ $product->reviews_count ?? 0 }})
+                        </span>
                     </div>
 
                     <div style="font-size: 14px; font-weight: 700; color: #F06A7D; margin-top: 4px;">
-                        Rp {{ number_format($product->price * 15000, 0, ',', '.') }}
+                        Rp {{ number_format($product->price, 0, ',', '.') }}
                     </div>
                 </div>
             </div>
@@ -111,10 +114,10 @@
             <i class="bi bi-door-open-fill" style="color: #E66A7F;"></i>
         </a>
 
-        <div class="mystery-box-wrapper">
+        <a href="{{ route('gacha.index') }}" class="mystery-box-wrapper text-decoration-none">
             <img src="{{ asset('images/mystery_box.png') }}" class="mystery-box-img" alt="Mystery Box">
             <div class="mystery-text">Mystery Box</div>
-        </div>
+        </a>
 
         <a href="#" class="nav-icon">
              <i class="bi bi-chat-text-fill" style="color: #E66A7F;"></i>
