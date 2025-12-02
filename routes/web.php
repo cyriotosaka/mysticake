@@ -35,7 +35,13 @@ Route::middleware('auth')->group(function () {
 
     // --- HOME & SEARCH ROUTES ---
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/search', [HomeController::class, 'search'])->name('search');
+    
+    // Search Routes (sesuai sequence diagram)
+    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search');
+    Route::post('/search', [ProductController::class, 'searchProduct'])->name('search.submit');
+
+    // Rating & Feedback
+    Route::get('/product/{id}/ratings', [ProductController::class, 'showRatings'])->name('product.ratings');
 
     // --- LOGOUT ROUTE ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

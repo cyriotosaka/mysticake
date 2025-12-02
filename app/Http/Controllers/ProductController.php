@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\ReviewProduct;
 
 class ProductController extends Controller
 {
@@ -33,42 +34,68 @@ class ProductController extends Controller
     }
 
     /**
-     * Menampilkan Halaman Search & Hasil Pencarian
-     * Menangani: GET /search (awal) dan GET /search?q=keyword
+     * Menampilkan Halaman Search Awal (GET /search)
+     * Sesuai sequence diagram: menampilkan SearchPage view
+     */
+    public function showSearchPage()
+    {
+        // Data untuk halaman search awal
+        $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
+        
+        // Ambil produk rating tertinggi menggunakan scope
+        $highestRated = Product::highestRated(6)->get();
+
+        return view('search.search', [
+            'query'          => null,
+            'results'        => collect(),
+            'highestRated'   => $highestRated,
+            'recentSearches' => $recentSearches
+        ]);
+    }
+
+    /**
+     * Melakukan Pencarian Produk (POST /search)
+     * Sesuai sequence diagram:
+     * 1. Route call searchProduct(keyword)
+     * 2. ProductController call find(keyword) -> Product Model
+     * 3. Product Model return productList
+     * 4. ProductController call getDetails(productList)
+     * 5. Return view dengan fullProductList
      */
     public function searchProduct(Request $request)
     {
-        // Mengambil input 'q' dari URL (?q=keyword)
-        $query = $request->input('q');
+        // Validasi input
+        $request->validate([
+            'q' => 'required|string|min:1'
+        ]);
 
-        // Data Default
-        $highestRated = [];
-        $results = collect();
+        $keyword = $request->input('q');
 
-        // Dummy Recent Searches
-        $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
+        // Step 1: find(keyword) - Menggunakan scope search() dari Model
+        $productList = Product::search($keyword)->get();
 
-        if ($query) {
-            // --- KONDISI 1: ADA PENCARIAN ---
-            $results = Product::where('name_product', 'LIKE', "%{$query}%")
-                            ->with('reviews')
-                            ->get();
-        } else {
-            // --- KONDISI 2: HALAMAN SEARCH AWAL ---
-            // Ambil produk rating tertinggi
-            $highestRated = Product::with('reviews')
-                                ->get()
-                                ->sortByDesc(function($product) {
-                                    return $product->reviews->avg('rating');
-                                })
-                                ->take(6);
-        }
+        // Step 2: getDetails(productList) - Ambil detail lengkap dengan reviews
+        $fullProductList = $this->getDetails($productList);
 
-        return view('search', [
-            'query'          => $query,
-            'results'        => $results,
-            'highestRated'   => $highestRated,
-            'recentSearches' => $recentSearches
+        return view('search.search-results', [
+            'query'          => $keyword,
+            'results'        => $fullProductList,
+            'highestRated'   => collect(),
+            'recentSearches' => []
+        ]);
+    }
+
+    /**
+     * Helper: Mendapatkan detail lengkap produk
+     * Sesuai sequence diagram: getDetails(productList)
+     * Load relasi reviews untuk setiap produk
+     */
+    private function getDetails($productList)
+    {
+        return $productList->load([
+            'reviews' => function($query) {
+                $query->orderByDesc('created_at')->take(5);
+            }
         ]);
     }
 
@@ -106,5 +133,32 @@ class ProductController extends Controller
     {
         $recommendations = Product::inRandomOrder()->take(10)->get();
         return view('product.recommendation', compact('recommendations'));
+    }
+
+
+    /**
+     * Menampilkan Halaman Rating & Feedback (GET /product/{id}/ratings)
+     * Sesuai sequence diagram:
+     * 1. call getProductDetails(id) -> Product Model
+     * 2. call showRatings(productData) -> ReviewProduct Model
+     * 3. return RatingPage view
+     */
+    public function showRatings($id)
+    {
+        // 1.1.1.1: find(id)
+        $product = Product::with('store')->find($id);
+
+        if (!$product) {
+            abort(404, 'Product not found');
+        }
+
+        // 1.1.2.1: findByProduct(productData.id)
+        $reviews = ReviewProduct::findByProduct($id);
+
+        // 1.1.3: return RatingPage view
+        return view('rating.rating', [
+            'product' => $product,
+            'reviews' => $reviews
+        ]);
     }
 }

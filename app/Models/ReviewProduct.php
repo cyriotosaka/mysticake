@@ -70,4 +70,16 @@ class ReviewProduct extends Model
     {
         return $this->rating >= 4;
     }
+
+    /**
+     * Scope: Ambil review berdasarkan product ID
+     * Sesuai sequence diagram: findByProduct(productData.id)
+     */
+    public static function findByProduct($productId)
+    {
+        return self::where('id_product', $productId)
+                   ->with('user') // Eager load user data
+                   ->orderByDesc('id_review_product') // Terbaru dulu
+                   ->get();
+    }
 }

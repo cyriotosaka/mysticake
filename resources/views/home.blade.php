@@ -53,8 +53,11 @@
             </div>
         </div>
 
-        <form action="{{ route('search') }}" method="GET" class="search-container">
-            <i class="bi bi-search search-icon-left"></i>
+        <form action="{{ route('search.submit') }}" method="POST" class="search-container">
+            @csrf
+            <a href="{{ route('search') }}" class="text-decoration-none text-dark">
+                <i class="bi bi-search search-icon-left"></i>
+            </a>
 
             <input type="text" name="q" class="search-input" placeholder="Search" autocomplete="off">
 

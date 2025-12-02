@@ -3,7 +3,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #FFFDF5; /* Cream Background */
+    background-color: #FFFDF5;
+    /* Cream Background */
     margin: 0;
     min-height: 100vh;
 }
@@ -35,7 +36,8 @@ body {
     width: 100%;
     border: 1.5px solid #333;
     border-radius: 50px;
-    padding: 12px 45px; /* Space untuk icon */
+    padding: 12px 45px;
+    /* Space untuk icon */
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
     background: transparent;
@@ -71,58 +73,82 @@ body {
     padding: 0 20px 20px 20px;
     gap: 15px;
     /* Sembunyikan Scrollbar */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
+
 .horizontal-scroll-container::-webkit-scrollbar {
-    display: none; /* Chrome */
+    display: none;
+    /* Chrome */
 }
 
 .card-rating {
-    min-width: 200px;
-    width: 200px;
+    min-width: 160px;
+    /* Sesuai Figma mobile card width */
+    width: 160px;
     background-color: #FFFDF5;
-    border-radius: 15px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    padding: 10px;
+    border-radius: 12px;
+    /* border: 1px solid #eee; */
+    /* Remove border to match design */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Softer shadow */
+    padding: 0;
+    /* Remove padding to let image fill top */
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    /* Clip image corners */
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 5px;
+    /* Space for shadow */
 }
 
 .card-rating img {
     width: 100%;
-    height: 140px;
+    height: 120px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.card-content {
+    padding: 10px;
+}
+
+.card-meta {
+    font-size: 10px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.card-title-h {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    height: 34px;
+    /* Limit height for 2 lines */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .rating-info {
-    margin-top: auto;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
+    color: #333;
     display: flex;
     align-items: center;
 }
 
 .rating-star {
     color: #FFC107;
-    margin-right: 5px;
-}
-
-.card-title-h {
-    font-weight: 700;
-    font-size: 16px;
-    margin-bottom: 5px;
-    line-height: 1.2;
-    color: #333;
-}
-
-.card-meta {
+    margin-right: 4px;
     font-size: 12px;
-    color: #888;
-    margin-bottom: 5px;
 }
 
 /* --- SECTION: RECENTLY SEARCH --- */
@@ -133,97 +159,114 @@ body {
 .recent-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px 30px; /* Jarak antar teks */
+    gap: 15px 25px;
+    /* Gap antar text */
 }
 
 .tag-item {
-    color: #F06292; /* Pink Teks */
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
+    color: #FF6B6B;
+    /* Pinkish red color from design */
     font-weight: 500;
-    text-decoration: none;
     cursor: pointer;
+    transition: color 0.2s;
 }
 
 .tag-item:hover {
+    color: #E05555;
     text-decoration: underline;
 }
 
-/* --- RESULT PAGE: FILTERS --- */
+/* --- FILTER BAR (RESULTS PAGE) --- */
 .filter-bar {
     display: flex;
-    padding: 0 20px 20px 20px;
-    gap: 20px;
-    border-bottom: 1px solid #eee; /* Garis tipis pemisah */
-    margin-bottom: 20px;
+    gap: 10px;
+    padding: 0 20px 15px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 .filter-item {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    cursor: pointer;
+    white-space: nowrap;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    color: #555;
+    background-color: #fff;
 }
 
-.filter-item i {
-    margin-right: 5px;
-    font-size: 16px;
-}
-
-/* --- RESULT PAGE: LIST PRODUCT --- */
+/* --- RESULT LIST (RESULTS PAGE) --- */
 .result-list {
-    padding: 0 20px;
+    padding: 0 20px 20px 20px;
 }
 
 .card-result {
     display: flex;
-    background: #FFFDF5;
     margin-bottom: 20px;
-    border-radius: 15px;
-    /* Sedikit shadow biar pop */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    background: #fff;
+    border-radius: 12px;
     padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.result-img-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
 }
 
 .result-img {
-    width: 110px;
-    height: 110px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 12px;
-    margin-right: 15px;
+    border-radius: 10px;
+}
+
+.rating-pill {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .result-info {
-    flex: 1;
+    padding-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .result-title {
-    font-weight: 700;
-    font-size: 16px;
-    color: #000;
+    font-weight: 600;
+    font-size: 15px;
     margin-bottom: 5px;
-    line-height: 1.3;
+    color: #333;
 }
 
 .result-meta {
     font-size: 12px;
-    color: #999;
-    margin-bottom: 10px;
+    color: #888;
+    margin-bottom: 5px;
+    line-height: 1.4;
 }
 
 .result-price {
     font-weight: 700;
-    font-size: 15px;
-    color: #000;
-    margin-top: auto; /* Dorong harga ke bawah */
-}
-
-.rating-pill {
-    position: absolute;
     bottom: 10px;
     left: 10px;
     background: white;
@@ -231,7 +274,7 @@ body {
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
 }

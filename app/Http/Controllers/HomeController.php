@@ -33,38 +33,4 @@ class HomeController extends Controller
             'recommendations' => $recommendations
         ]);
     }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('q');
-
-        // Data Default (Tampilan Awal)
-        $highestRated = [];
-        $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
-        $results = [];
-
-        if ($query) {
-            // LOGIKA PENCARIAN (Jika ada query ?q=...)
-            // Eager-load average and count to avoid running extra queries in the view
-            $results = Product::where('name_product', 'LIKE', "%{$query}%")
-                              ->withAvg('reviews', 'rating')
-                              ->withCount('reviews')
-                              ->get();
-        } else {
-            // LOGIKA TAMPILAN AWAL (Ambil produk rating tertinggi)
-            // Gunakan withAvg dan orderBy agar DB menghitung rata-rata (efisien)
-            $highestRated = Product::withAvg('reviews', 'rating')
-                                  ->withCount('reviews')
-                                  ->orderByDesc('reviews_avg_rating')
-                                  ->take(5)
-                                  ->get();
-        }
-
-        return view('search', [
-            'query' => $query,
-            'results' => $results,
-            'highestRated' => $highestRated,
-            'recentSearches' => $recentSearches
-        ]);
-    }
 }
