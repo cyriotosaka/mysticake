@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ReviewProduct; // pastikan ini ada ya
+use App\Models\ReviewProduct;
+use App\Models\Store; // pastikan ini ada ya
+use App\Models\CartItem;
 
 class Product extends Model
 {
