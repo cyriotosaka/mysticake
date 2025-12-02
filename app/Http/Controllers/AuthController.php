@@ -9,32 +9,19 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    /**
-     * Menampilkan halaman landing page
-     *
-     * @return \Illuminate\View\View
-     */
+    // Menampilkan halaman landing page
     public function showLandingPage()
     {
         return view('login.landing');
     }
 
-    /**
-     * Menampilkan halaman login
-     *
-     * @return \Illuminate\View\View
-     */
+    // Menampilkan halaman login
     public function showLoginPage()
     {
         return view('login.login');
     }
 
-    /**
-     * Proses login user
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //Proses login user
     public function login(Request $request)
     {
         // Validasi input
@@ -60,22 +47,13 @@ class AuthController extends Controller
         ])->withInput($request->only('email'));
     }
 
-    /**
-     * Menampilkan halaman register
-     *
-     * @return \Illuminate\View\View
-     */
+    // Menampilkan halaman register
     public function showRegisterPage()
     {
         return view('login.register');
     }
 
-    /**
-     * Proses register user baru
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    // Proses register user baru
     public function register(Request $request)
     {
         // Validasi input
@@ -114,12 +92,7 @@ class AuthController extends Controller
         return redirect()->route('home')->with('success', 'Akun berhasil dibuat! Selamat datang di MYstiCake.');
     }
 
-    /**
-     * Proses logout user
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    // Proses logout user
     public function logout(Request $request)
     {
         // Logout user
@@ -135,7 +108,7 @@ class AuthController extends Controller
         return redirect()->route('landing')->with('success', 'Anda telah berhasil logout.');
     }
 
-    // Alias methods untuk backward compatibility
+    // Backward compatibility
     public function landing()
     {
         return $this->showLandingPage();

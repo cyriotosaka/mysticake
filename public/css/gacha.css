@@ -1,0 +1,268 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    transition: background 0.5s ease;
+}
+
+/* --- THEMES (Normal vs Premium) --- */
+body.theme-normal {
+    background: linear-gradient(180deg, #FFFDF5 0%, #FFF8E1 100%);
+    color: #4E342E;
+}
+
+body.theme-premium {
+    background: linear-gradient(180deg, #FFF0F5 0%, #F8BBD0 100%);
+    color: #D81B60;
+}
+
+/* --- HEADER --- */
+.gacha-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn { font-size: 24px; color: inherit; cursor: pointer; }
+.info-btn { font-size: 24px; color: inherit; cursor: pointer; }
+
+.brand-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    color: #F06A7D;
+}
+
+/* User Coin */
+.coin-display {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+.coin-icon { color: #FFC107; margin-right: 5px; font-size: 18px; }
+
+/* --- WAVY TABS (SVG Separator) --- */
+.wavy-tabs-container {
+    position: relative;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.wave-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Styling Text "Normal" & "Premium" di atas wave */
+.mode-switcher {
+    position: absolute;
+    top: 50%; /* Atur posisi vertikal sesuai lekukan wave */
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    transform: translateY(-50%);
+}
+
+.mode-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.mode-text.active {
+    font-size: 32px;
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+/* Warna text spesifik */
+.theme-normal .mode-text.normal { color: #4E342E; }
+.theme-normal .mode-text.premium { color: #D81B60; }
+.theme-premium .mode-text.normal { color: #4E342E; }
+.theme-premium .mode-text.premium { color: #D81B60; }
+
+
+.sub-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    margin-top: -10px; /* Tarik ke atas mendekati wave */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* --- MAIN GACHA AREA --- */
+.gacha-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 400px;
+}
+
+/* Floating Buttons */
+.float-btn {
+    position: absolute;
+    top: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.float-btn:hover { transform: scale(1.1); }
+
+.drop-rate-btn { left: 20px; }
+.drop-rate-icon {
+    font-size: 30px;
+    color: #FFF;
+    background: #5D4037;
+    border-radius: 50%;
+    padding: 10px;
+}
+.theme-premium .drop-rate-icon { background: #E91E63; }
+
+.bonus-box-btn { right: 20px; text-align: center; }
+.bonus-icon { width: 50px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+.bonus-count { font-size: 12px; font-weight: 700; margin-top: 5px; }
+
+
+/* History Pill */
+.history-pill {
+    background: #fff;
+    border: 2px solid #333;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+}
+
+/* THE BOX ANIMATION */
+.mystery-box-main {
+    width: 220px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+}
+
+.mystery-box-main.shaking {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* Action Button */
+.play-btn {
+    background-color: #4E342E;
+    color: #FFC107;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 40px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.1s;
+}
+.play-btn:active { transform: scale(0.95); }
+
+.theme-premium .play-btn {
+    background-color: #E91E63;
+    color: #FFC107;
+}
+
+/* --- MODALS (Overlay) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none; /* Hidden default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.info-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 350px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: popUp 0.3s ease-out;
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.info-title { font-weight: 700; font-size: 18px; margin-bottom: 10px; }
+.info-desc { font-size: 14px; color: #555; line-height: 1.6; }
+
+/* Congratulations Screen */
+.congrats-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.95); /* Hampir solid */
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.congrats-title {
+    font-family: 'Fredoka One', cursive;
+    color: #D81B60;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.prize-img { width: 200px; margin-bottom: 10px; }
+.prize-name { font-weight: 600; font-size: 18px; color: #333; margin-bottom: 30px; }
+.open-box-img { width: 150px; margin-bottom: 20px; }
+
+.next-btn {
+    background-color: #4E342E;
+    color: white;
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}

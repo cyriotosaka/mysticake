@@ -25,14 +25,14 @@
             <div style="width: 20px;"></div> </div>
 
         <div class="product-image-wrapper">
-            <img src="{{ $product->image ? asset('images/'.$product->image) : 'https://placehold.co/400x400/F06A7D/white?text=No+Image' }}"
+            <img src="{{ $product->product_picture ? asset('images/products/'.$product->product_picture) : 'https://placehold.co/400x400/F06A7D/white?text=No+Image' }}"
                  alt="{{ $product->name_product }}">
         </div>
 
         <div class="rating-section">
             <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
             <i class="fas fa-star star-icon"></i>
-            <span class="review-count">Product Reviews ({{ $totalReviewsFormat }})</span>
+            <span class="review-count">Product Reviews ({{ $totalReviews }})</span>
 
             <button class="cart-btn" onclick="alert('Fitur Cart akan segera hadir!')">
                 <i class="fas fa-shopping-cart"></i>

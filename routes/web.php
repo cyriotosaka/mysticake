@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MysteryBoxController;
 
 Route::get('/', [AuthController::class, 'landing'])->name('landing');
 
@@ -37,16 +39,16 @@ Route::middleware('auth')->group(function () {
 
     // --- LOGOUT ROUTE ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); // Alternative GET method
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 
     // --- SETTINGS ROUTES ---
     // Profile Settings
-    Route::get('/settings/profile', [SettingsController::class, 'editProfile'])->name('settings.profile');
+    Route::get('/settings/profile', [SettingsController::class, 'editprofile'])->name('settings.profile');
     Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.updateProfile');
 
     // More Settings & Change Password
     Route::get('/settings/more', [SettingsController::class, 'moreSettings'])->name('settings.more');
-    Route::get('/settings/password', [SettingsController::class, 'changePassword'])->name('settings.password');
+    Route::get('/settings/password', [SettingsController::class, 'changepassword'])->name('settings.password');
 
     // --- ADDRESS MANAGEMENT ROUTES (CRUD) ---
     // List all addresses
@@ -65,6 +67,12 @@ Route::middleware('auth')->group(function () {
 
     //Lihat Product
     Route::get('/product/{id}', [ProductController::class, 'showProductDetail'])->name('product.detail');
+
+    //Gacha
+    Route::get('/gacha', [MysteryBoxController::class, 'showGachaPage'])->name('gacha.index');
+    Route::post('/gacha/roll', [MysteryBoxController::class, 'rollGacha'])->name('gacha.roll');
+    Route::get('/gacha/history', [MysteryBoxController::class, 'showGachaHistory'])->name('gacha.history');
+    Route::get('/gacha/droprate', [MysteryBoxController::class, 'getDropRates'])->name('gacha.droprates');
 });
 
 // ============================================

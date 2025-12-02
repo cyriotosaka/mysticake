@@ -10,10 +10,10 @@
         <h3 class="fw-bold">Recommendations</h3>
 
         <form action="{{ route('recommendation.search') }}" method="GET" class="d-flex" style="max-width: 280px;">
-            <input 
-                type="text" 
-                name="query" 
-                class="form-control form-control-sm" 
+            <input
+                type="text"
+                name="query"
+                class="form-control form-control-sm"
                 placeholder="Search products..."
             >
             <button class="btn btn-sm btn-primary ms-2">Search</button>
@@ -27,8 +27,8 @@
             <div class="card h-100 shadow-sm border-0">
 
                 <a href="{{ route('product.detail', $product->id_product) }}">
-                    <img 
-                        src="{{ asset($product->product_picture) }}" 
+                    <img
+                        src="{{ asset($product->product_picture) }}"
                         class="card-img-top"
                         style="height: 180px; object-fit: cover;"
                     >
