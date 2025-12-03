@@ -113,7 +113,13 @@
     </div>
 
     <div class="bottom-nav-container">
-        <a href="{{ route('home') }}" class="nav-icon">
+        {{-- Form Logout menggunakan method POST --}}
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
+            @csrf
+        </form>
+
+        {{-- Tombol/Ikon yang memicu submit form --}}
+        <a href="#" class="nav-icon" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bi bi-door-open-fill" style="color: #E66A7F;"></i>
         </a>
 
