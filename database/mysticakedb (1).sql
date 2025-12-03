@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 26 Nov 2025 pada 16.03
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: 127.0.0.1:3307
+-- Generation Time: Dec 02, 2025 at 10:22 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `address`
+-- Table structure for table `address`
 --
 
 CREATE TABLE `address` (
@@ -35,7 +35,7 @@ CREATE TABLE `address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `address`
+-- Dumping data for table `address`
 --
 
 INSERT INTO `address` (`id_address`, `full_address`, `map_point`, `address_contact_number`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `address` (`id_address`, `full_address`, `map_point`, `address_conta
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `cart`
+-- Table structure for table `cart`
 --
 
 CREATE TABLE `cart` (
@@ -54,7 +54,7 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `cart`
+-- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`id_cart`, `id_user`, `created_at`) VALUES
@@ -64,7 +64,7 @@ INSERT INTO `cart` (`id_cart`, `id_user`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `cart_item`
+-- Table structure for table `cart_item`
 --
 
 CREATE TABLE `cart_item` (
@@ -74,18 +74,10 @@ CREATE TABLE `cart_item` (
   `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `cart_item`
---
-
-INSERT INTO `cart_item` (`id_cart_item`, `id_cart`, `id_product`, `quantity`) VALUES
-(1, 1, 1, 2),
-(2, 1, 1, 2);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `chat`
+-- Table structure for table `chat`
 --
 
 CREATE TABLE `chat` (
@@ -99,17 +91,10 @@ CREATE TABLE `chat` (
   `message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `chat`
---
-
-INSERT INTO `chat` (`id_chat`, `id_user`, `id_store`, `id_order`, `id_product`, `date`, `time`, `message`) VALUES
-(1, 1, 1, 1, 1, '2025-11-25', '23:58:04', 'Halo, pesanan saya sudah diproses?');
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `delivery`
+-- Table structure for table `delivery`
 --
 
 CREATE TABLE `delivery` (
@@ -119,7 +104,7 @@ CREATE TABLE `delivery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `delivery`
+-- Dumping data for table `delivery`
 --
 
 INSERT INTO `delivery` (`id_delivery`, `type`, `delivery_charges`) VALUES
@@ -128,7 +113,7 @@ INSERT INTO `delivery` (`id_delivery`, `type`, `delivery_charges`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history`
+-- Table structure for table `history`
 --
 
 CREATE TABLE `history` (
@@ -139,7 +124,7 @@ CREATE TABLE `history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `history`
+-- Dumping data for table `history`
 --
 
 INSERT INTO `history` (`id_history`, `id_order`, `date`, `time`) VALUES
@@ -148,7 +133,7 @@ INSERT INTO `history` (`id_history`, `id_order`, `date`, `time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mystery_box`
+-- Table structure for table `mystery_box`
 --
 
 CREATE TABLE `mystery_box` (
@@ -158,7 +143,7 @@ CREATE TABLE `mystery_box` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `mystery_box`
+-- Dumping data for table `mystery_box`
 --
 
 INSERT INTO `mystery_box` (`id_mystery_box`, `name_box`, `description`) VALUES
@@ -167,7 +152,7 @@ INSERT INTO `mystery_box` (`id_mystery_box`, `name_box`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mystery_box_product`
+-- Table structure for table `mystery_box_product`
 --
 
 CREATE TABLE `mystery_box_product` (
@@ -182,7 +167,7 @@ CREATE TABLE `mystery_box_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `mystery_box_product`
+-- Dumping data for table `mystery_box_product`
 --
 
 INSERT INTO `mystery_box_product` (`id_mystery_box`, `id_product`, `price`, `point_gacha`, `history_gacha`, `type_gacha`, `drop_rate`, `cashback`) VALUES
@@ -191,7 +176,7 @@ INSERT INTO `mystery_box_product` (`id_mystery_box`, `id_product`, `price`, `poi
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -207,7 +192,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id_order`, `id_user`, `id_delivery`, `id_address`, `id_payment_method`, `order_date`, `extra_charges`, `total_payment`, `status_order`) VALUES
@@ -216,7 +201,7 @@ INSERT INTO `orders` (`id_order`, `id_user`, `id_delivery`, `id_address`, `id_pa
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `order_item`
+-- Table structure for table `order_item`
 --
 
 CREATE TABLE `order_item` (
@@ -230,7 +215,7 @@ CREATE TABLE `order_item` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `payment_method`
+-- Table structure for table `payment_method`
 --
 
 CREATE TABLE `payment_method` (
@@ -240,7 +225,7 @@ CREATE TABLE `payment_method` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `payment_method`
+-- Dumping data for table `payment_method`
 --
 
 INSERT INTO `payment_method` (`id_payment_method`, `name_method`, `payment_barcode`) VALUES
@@ -253,7 +238,7 @@ INSERT INTO `payment_method` (`id_payment_method`, `name_method`, `payment_barco
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `product`
+-- Table structure for table `product`
 --
 
 CREATE TABLE `product` (
@@ -267,16 +252,26 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `product`
+-- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`id_product`, `id_store`, `price`, `stock`, `name_product`, `description`, `product_picture`) VALUES
-(1, 1, 120000, 0, 'Mouse Gaming', 'RGB gaming mouse', 'mouse.png');
+(1, 1, 10000, 40, 'Red Velvet Cupcake', 'Moist red velvet cupcake with cream cheese frosting and fresh strawberry crumbs.', 'cupcake_red.png'),
+(2, 1, 15000, 45, 'Chocolate Nut Donut', 'A fluffy, yeast-raised donut covered in silky chocolate glaze, finished with white chocolate drizzle and crushed pistachios.', 'donut_choco.png'),
+(3, 1, 15000, 50, 'Caramel Donut', 'Soft fluffy donut with melted caramel topping, offering a perfect balance of sweet and savory.', 'donut_caramel.png'),
+(4, 1, 20000, 60, 'Vanilla Eclair', 'Classic long pastry filled with cold vanilla custard and topped with white chocolate.', 'eclair_vanilla.png'),
+(5, 1, 25000, 30, 'Caramel Choco Icecream', 'Creamy vanilla ice cream served on a rich chocolate brownie, topped with caramel sauce and wafer rolls.', 'icecream_caramel.png'),
+(6, 1, 45000, 15, 'Matcha Mille Crepes', 'Delicate layer cake with thousands of authentic Japanese matcha cream layers.', 'crepes_matcha.png'),
+(7, 1, 55000, 30, 'Macaron Set (5 pcs)', 'A set of colorful macarons with various fruity and creamy fillings.', 'macaron_set.png'),
+(8, 1, 65000, 25, 'Strawberry Shortcake', 'Light vanilla sponge cake layered with fresh whipped cream and juicy strawberry slices.', 'cake_strawberry.png'),
+(9, 1, 85000, 20, 'Blueberry Cheesecake', 'Premium cheesecake with authentic blueberry jam and a crunchy biscuit crust.', 'cake_berry.png'),
+(10, 1, 120000, 10, 'Belgium Chocolate Cake', 'Luxurious chocolate cake made with authentic Belgian chocolate. Rich and decadent.', 'cake_choco.png'),
+(11, 1, 200000, 5, 'Gold Leaf Brownie', 'Premium roasted brownie garnished with edible gold leaf for a luxurious touch.', 'brownie_gold.png');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `review_product`
+-- Table structure for table `review_product`
 --
 
 CREATE TABLE `review_product` (
@@ -288,17 +283,10 @@ CREATE TABLE `review_product` (
   `rating` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `review_product`
---
-
-INSERT INTO `review_product` (`id_review_product`, `id_product`, `id_user`, `comment`, `like_review`, `rating`) VALUES
-(1, 1, 1, 'Barang bagus!', 3, 5);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `review_store`
+-- Table structure for table `review_store`
 --
 
 CREATE TABLE `review_store` (
@@ -311,7 +299,7 @@ CREATE TABLE `review_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `review_store`
+-- Dumping data for table `review_store`
 --
 
 INSERT INTO `review_store` (`id_review_store`, `id_store`, `id_user`, `comment`, `like_review`, `rating`) VALUES
@@ -320,7 +308,7 @@ INSERT INTO `review_store` (`id_review_store`, `id_store`, `id_user`, `comment`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `store`
+-- Table structure for table `store`
 --
 
 CREATE TABLE `store` (
@@ -331,7 +319,7 @@ CREATE TABLE `store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `store`
+-- Dumping data for table `store`
 --
 
 INSERT INTO `store` (`id_store`, `name_store`, `rating_store`, `store_picture`) VALUES
@@ -341,7 +329,7 @@ INSERT INTO `store` (`id_store`, `name_store`, `rating_store`, `store_picture`) 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `top_up`
+-- Table structure for table `top_up`
 --
 
 CREATE TABLE `top_up` (
@@ -355,7 +343,7 @@ CREATE TABLE `top_up` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `top_up`
+-- Dumping data for table `top_up`
 --
 
 INSERT INTO `top_up` (`id_top_up`, `id_payment_method`, `id_user`, `total_top_up`, `date`, `time`, `admin_fee`) VALUES
@@ -365,7 +353,7 @@ INSERT INTO `top_up` (`id_top_up`, `id_payment_method`, `id_user`, `total_top_up
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -380,17 +368,18 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `id_address`, `email`, `password`, `username`, `phone_number`, `profile_picture`, `role`) VALUES
 (1, 1, 'test@example.com', 'hashed_pw', 'fikri', '0812000000', 'pp.png', 'customer'),
-(2, 1, 'test@example.com', 'hashed_pw', 'fikri', '0812000000', 'pp.png', 'customer');
+(2, 1, 'test@example.com', 'hashed_pw', 'fikri', '0812000000', 'pp.png', 'customer'),
+(3, NULL, 'coba@coba.com', '$2y$12$9jYpEmfaBo2Yx7a2TmawgeLZxFOrafzQM63/hcrb0mNB8kj6f1n4G', 'coba', '08123456789', NULL, 'buyer');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `wallet`
+-- Table structure for table `wallet`
 --
 
 CREATE TABLE `wallet` (
@@ -399,7 +388,7 @@ CREATE TABLE `wallet` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `wallet`
+-- Dumping data for table `wallet`
 --
 
 INSERT INTO `wallet` (`id_user`, `saldo_coin`) VALUES
@@ -410,20 +399,20 @@ INSERT INTO `wallet` (`id_user`, `saldo_coin`) VALUES
 --
 
 --
--- Indeks untuk tabel `address`
+-- Indexes for table `address`
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`id_address`);
 
 --
--- Indeks untuk tabel `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id_cart`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `cart_item`
+-- Indexes for table `cart_item`
 --
 ALTER TABLE `cart_item`
   ADD PRIMARY KEY (`id_cart_item`),
@@ -431,7 +420,7 @@ ALTER TABLE `cart_item`
   ADD KEY `id_product` (`id_product`);
 
 --
--- Indeks untuk tabel `chat`
+-- Indexes for table `chat`
 --
 ALTER TABLE `chat`
   ADD PRIMARY KEY (`id_chat`),
@@ -441,33 +430,33 @@ ALTER TABLE `chat`
   ADD KEY `id_product` (`id_product`);
 
 --
--- Indeks untuk tabel `delivery`
+-- Indexes for table `delivery`
 --
 ALTER TABLE `delivery`
   ADD PRIMARY KEY (`id_delivery`);
 
 --
--- Indeks untuk tabel `history`
+-- Indexes for table `history`
 --
 ALTER TABLE `history`
   ADD PRIMARY KEY (`id_history`),
   ADD KEY `id_order` (`id_order`);
 
 --
--- Indeks untuk tabel `mystery_box`
+-- Indexes for table `mystery_box`
 --
 ALTER TABLE `mystery_box`
   ADD PRIMARY KEY (`id_mystery_box`);
 
 --
--- Indeks untuk tabel `mystery_box_product`
+-- Indexes for table `mystery_box_product`
 --
 ALTER TABLE `mystery_box_product`
   ADD PRIMARY KEY (`id_mystery_box`,`id_product`),
   ADD KEY `id_product` (`id_product`);
 
 --
--- Indeks untuk tabel `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id_order`),
@@ -477,7 +466,7 @@ ALTER TABLE `orders`
   ADD KEY `fk_orders_payment` (`id_payment_method`);
 
 --
--- Indeks untuk tabel `order_item`
+-- Indexes for table `order_item`
 --
 ALTER TABLE `order_item`
   ADD PRIMARY KEY (`id_order_item`),
@@ -485,20 +474,20 @@ ALTER TABLE `order_item`
   ADD KEY `id_product` (`id_product`);
 
 --
--- Indeks untuk tabel `payment_method`
+-- Indexes for table `payment_method`
 --
 ALTER TABLE `payment_method`
   ADD PRIMARY KEY (`id_payment_method`);
 
 --
--- Indeks untuk tabel `product`
+-- Indexes for table `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id_product`),
   ADD KEY `id_store` (`id_store`);
 
 --
--- Indeks untuk tabel `review_product`
+-- Indexes for table `review_product`
 --
 ALTER TABLE `review_product`
   ADD PRIMARY KEY (`id_review_product`),
@@ -506,7 +495,7 @@ ALTER TABLE `review_product`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `review_store`
+-- Indexes for table `review_store`
 --
 ALTER TABLE `review_store`
   ADD PRIMARY KEY (`id_review_store`),
@@ -514,13 +503,13 @@ ALTER TABLE `review_store`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `store`
+-- Indexes for table `store`
 --
 ALTER TABLE `store`
   ADD PRIMARY KEY (`id_store`);
 
 --
--- Indeks untuk tabel `top_up`
+-- Indexes for table `top_up`
 --
 ALTER TABLE `top_up`
   ADD PRIMARY KEY (`id_top_up`),
@@ -528,137 +517,137 @@ ALTER TABLE `top_up`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `id_address` (`id_address`);
 
 --
--- Indeks untuk tabel `wallet`
+-- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `address`
+-- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
   MODIFY `id_address` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `cart`
+-- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
   MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `cart_item`
+-- AUTO_INCREMENT for table `cart_item`
 --
 ALTER TABLE `cart_item`
-  MODIFY `id_cart_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cart_item` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `chat`
+-- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
   MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `delivery`
+-- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
   MODIFY `id_delivery` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `history`
+-- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
   MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `mystery_box`
+-- AUTO_INCREMENT for table `mystery_box`
 --
 ALTER TABLE `mystery_box`
   MODIFY `id_mystery_box` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `order_item`
+-- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
   MODIFY `id_order_item` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `payment_method`
+-- AUTO_INCREMENT for table `payment_method`
 --
 ALTER TABLE `payment_method`
   MODIFY `id_payment_method` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `product`
+-- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `review_product`
+-- AUTO_INCREMENT for table `review_product`
 --
 ALTER TABLE `review_product`
-  MODIFY `id_review_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_review_product` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `review_store`
+-- AUTO_INCREMENT for table `review_store`
 --
 ALTER TABLE `review_store`
   MODIFY `id_review_store` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `store`
+-- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
   MODIFY `id_store` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `top_up`
+-- AUTO_INCREMENT for table `top_up`
 --
 ALTER TABLE `top_up`
   MODIFY `id_top_up` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `cart`
+-- Constraints for table `cart`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `cart_item`
+-- Constraints for table `cart_item`
 --
 ALTER TABLE `cart_item`
   ADD CONSTRAINT `cart_item_ibfk_1` FOREIGN KEY (`id_cart`) REFERENCES `cart` (`id_cart`),
   ADD CONSTRAINT `cart_item_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
 
 --
--- Ketidakleluasaan untuk tabel `chat`
+-- Constraints for table `chat`
 --
 ALTER TABLE `chat`
   ADD CONSTRAINT `chat_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
@@ -667,20 +656,20 @@ ALTER TABLE `chat`
   ADD CONSTRAINT `chat_ibfk_4` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
 
 --
--- Ketidakleluasaan untuk tabel `history`
+-- Constraints for table `history`
 --
 ALTER TABLE `history`
   ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`);
 
 --
--- Ketidakleluasaan untuk tabel `mystery_box_product`
+-- Constraints for table `mystery_box_product`
 --
 ALTER TABLE `mystery_box_product`
   ADD CONSTRAINT `mystery_box_product_ibfk_1` FOREIGN KEY (`id_mystery_box`) REFERENCES `mystery_box` (`id_mystery_box`),
   ADD CONSTRAINT `mystery_box_product_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
 
 --
--- Ketidakleluasaan untuk tabel `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_orders_address` FOREIGN KEY (`id_address`) REFERENCES `address` (`id_address`),
@@ -689,47 +678,47 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `order_item`
+-- Constraints for table `order_item`
 --
 ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
 
 --
--- Ketidakleluasaan untuk tabel `product`
+-- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_store`) REFERENCES `store` (`id_store`);
 
 --
--- Ketidakleluasaan untuk tabel `review_product`
+-- Constraints for table `review_product`
 --
 ALTER TABLE `review_product`
   ADD CONSTRAINT `review_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
   ADD CONSTRAINT `review_product_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `review_store`
+-- Constraints for table `review_store`
 --
 ALTER TABLE `review_store`
   ADD CONSTRAINT `review_store_ibfk_1` FOREIGN KEY (`id_store`) REFERENCES `store` (`id_store`),
   ADD CONSTRAINT `review_store_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `top_up`
+-- Constraints for table `top_up`
 --
 ALTER TABLE `top_up`
   ADD CONSTRAINT `top_up_ibfk_1` FOREIGN KEY (`id_payment_method`) REFERENCES `payment_method` (`id_payment_method`),
   ADD CONSTRAINT `top_up_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_address`) REFERENCES `address` (`id_address`);
 
 --
--- Ketidakleluasaan untuk tabel `wallet`
+-- Constraints for table `wallet`
 --
 ALTER TABLE `wallet`
   ADD CONSTRAINT `wallet_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);

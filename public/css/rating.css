@@ -1,187 +1,257 @@
-/* public/css/rating.css */
+/* public/css/rating.css - Figma Design Match */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #FFFDF5;
+    background-color: #f5f5f5;
     margin: 0;
     min-height: 100vh;
 }
 
+/* --- MOBILE CONTAINER --- */
+.mobile-view {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: #fff;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
 /* --- HEADER --- */
 .rating-header {
-    padding: 20px;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
-    background-color: #FFFDF5;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
 .btn-back {
-    font-size: 24px;
+    font-size: 22px;
     color: #333;
     margin-right: 15px;
     text-decoration: none;
 }
 
 .header-title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: #333;
+    margin: 0;
+}
+
+/* --- TABS --- */
+.nav-tabs-container {
+    display: flex;
+    background-color: #fff;
+    border-bottom: 2px solid #eee;
+}
+
+.nav-tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.nav-tab-item.active {
+    color: #FF6B6B;
+    border-bottom-color: #FF6B6B;
+}
+
+.nav-tab-item:hover {
+    color: #FF6B6B;
+    background-color: #FFFDF5;
+}
+
+/* --- CONTENT AREA --- */
+.content-area {
+    background-color: #f8f8f8;
+}
+
+/* --- PRODUCT IMAGE --- */
+.product-main-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
 }
 
 /* --- PRODUCT INFO --- */
 .product-info-section {
-    padding: 0 20px 20px 20px;
+    padding: 20px;
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
 }
 
-.product-thumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 15px;
+.product-details {
+    flex: 1;
 }
 
-.product-details h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 5px 0;
+.product-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
     color: #333;
 }
 
 .rating-summary {
     display: flex;
     align-items: center;
-    font-size: 14px;
-    color: #666;
+    font-size: 13px;
+    color: #888;
 }
 
 .rating-summary i {
-    color: #FFC107;
     margin-right: 5px;
+    font-size: 14px;
+}
+
+.product-price-box h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
 }
 
 /* --- FILTERS --- */
 .filter-section {
-    padding: 20px;
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-top: 1px solid #eee;
 }
 
-.filter-btn {
-    padding: 8px 16px;
+.review-filters {
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+}
+
+.review-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.review-filters .nav-link {
+    padding: 8px 18px;
     border-radius: 20px;
     border: 1px solid #ddd;
     background: #fff;
-    font-size: 13px;
+    font-size: 14px;
     color: #555;
     white-space: nowrap;
-    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin: 0;
 }
 
-.filter-btn.active {
-    background: #FFE0E0;
-    /* Light pink */
+.review-filters .nav-link:hover {
+    background: #f8f8f8;
+    color: #555;
+}
+
+.review-filters .nav-link.active {
+    background: #FF6B6B;
     border-color: #FF6B6B;
-    color: #FF6B6B;
+    color: #fff;
     font-weight: 500;
 }
 
 /* --- REVIEW LIST --- */
 .review-list {
-    padding: 0 20px 20px 20px;
+    padding: 15px 20px;
+    background-color: #f8f8f8;
 }
 
 .review-card {
     background: #fff;
-    border-radius: 15px;
-    padding: 15px;
+    border-radius: 12px;
+    padding: 18px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-.review-header {
+.review-header-section {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 10px;
 }
 
-.user-profile {
+.user-info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
-.user-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
+.user-icon {
+    font-size: 42px;
+    color: #888;
+    margin-right: 12px;
 }
 
 .user-name {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #333;
+    margin: 0 0 5px 0;
 }
 
-.review-date {
-    font-size: 12px;
-    color: #999;
+.review-stars {
+    display: flex;
+    gap: 2px;
 }
 
-.review-rating {
-    margin-bottom: 10px;
-    color: #FFC107;
-    font-size: 14px;
+.review-stars i {
+    font-size: 13px;
+}
+
+.like-count {
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .review-text {
     font-size: 14px;
     color: #444;
-    line-height: 1.5;
-    margin-bottom: 10px;
+    line-height: 1.6;
+    margin: 12px 0;
 }
 
 .review-photos {
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 8px;
+    margin-top: 12px;
     overflow-x: auto;
 }
 
-.review-photo {
+.review-photos img {
     width: 80px;
     height: 80px;
     border-radius: 8px;
     object-fit: cover;
 }
 
-.review-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.like-btn {
-    background: none;
-    border: none;
-    color: #888;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.like-btn i {
-    margin-right: 5px;
-    font-size: 16px;
+/* Responsive untuk layar lebih kecil */
+@media (max-width: 480px) {
+    .mobile-view {
+        box-shadow: none;
+    }
 }
