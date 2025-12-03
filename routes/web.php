@@ -79,6 +79,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/gacha/roll', [MysteryBoxController::class, 'rollGacha'])->name('gacha.roll');
     Route::get('/gacha/history', [MysteryBoxController::class, 'showGachaHistory'])->name('gacha.history');
     Route::get('/gacha/droprate', [MysteryBoxController::class, 'getDropRates'])->name('gacha.droprates');
+
+    // CART ROUTES
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::delete('/cart/delete/{id}', [CartController::class, 'removeItem'])->name('cart.delete');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
 });
 
 // ============================================
