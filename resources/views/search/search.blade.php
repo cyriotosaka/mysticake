@@ -27,7 +27,7 @@
 
     <div class="horizontal-scroll-container">
         @foreach($highestRated as $product)
-        <a href="#" class="card-rating">
+        <a href="{{ route('product.detail', $product->id_product) }}" class="card-rating">
             <img src="{{ asset('images/products/' . ($product->product_picture ?? 'default.png')) }}" onerror="this.src='https://via.placeholder.com/200x140'">
             <div class="card-content">
                 <div class="card-title-h">{{ Str::limit($product->name_product, 35) }}</div>

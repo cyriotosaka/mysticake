@@ -94,7 +94,7 @@ class ProductController extends Controller
     {
         return $productList->load([
             'reviews' => function($query) {
-                $query->orderByDesc('created_at')->take(5);
+                $query->orderByDesc('id_review_product')->take(5);
             }
         ]);
     }

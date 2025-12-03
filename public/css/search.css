@@ -1,285 +1,307 @@
-/* public/css/search.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    /**
+     * Nama: Abdul Ghoni
+    * NRP: 5026231109
+     */
+    /* public/css/search.css */
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #FFFDF5;
-    /* Cream Background */
-    margin: 0;
-    min-height: 100vh;
-}
+    /* Link wrapper for clickable cards */
+    .card-result-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition: transform 0.2s;
+    }
 
-/* --- HEADER SEARCH --- */
-.search-header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    background-color: #FFFDF5;
-    z-index: 100;
-}
+    .card-result-link:hover {
+        transform: translateY(-2px);
+    }
 
-.btn-back {
-    font-size: 24px;
-    color: #333;
-    margin-right: 15px;
-    text-decoration: none;
-}
+    .card-result-link:hover .card-result {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-.search-bar-wrapper {
-    flex: 1;
-    position: relative;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-.search-input-field {
-    width: 100%;
-    border: 1.5px solid #333;
-    border-radius: 50px;
-    padding: 12px 45px;
-    /* Space untuk icon */
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    background: transparent;
-    outline: none;
-}
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #FFFDF5;
+        /* Cream Background */
+        margin: 0;
+        min-height: 100vh;
+    }
 
-.search-icon-input {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #333;
-}
+    /* --- HEADER SEARCH --- */
+    .search-header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background-color: #FFFDF5;
+        z-index: 100;
+    }
 
-/* --- SECTION: HIGHEST RATING (HORIZONTAL SCROLL) --- */
-.section-title {
-    font-weight: 700;
-    font-size: 18px;
-    color: #000;
-    margin: 0 0 5px 20px;
-}
+    .btn-back {
+        font-size: 24px;
+        color: #333;
+        margin-right: 15px;
+        text-decoration: none;
+    }
 
-.section-subtitle {
-    font-size: 14px;
-    color: #666;
-    margin: 0 0 15px 20px;
-}
+    .search-bar-wrapper {
+        flex: 1;
+        position: relative;
+    }
 
-.horizontal-scroll-container {
-    display: flex;
-    overflow-x: auto;
-    padding: 0 20px 20px 20px;
-    gap: 15px;
-    /* Sembunyikan Scrollbar */
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-}
+    .search-input-field {
+        width: 100%;
+        border: 1.5px solid #333;
+        border-radius: 50px;
+        padding: 12px 45px;
+        /* Space untuk icon */
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        background: transparent;
+        outline: none;
+    }
 
-.horizontal-scroll-container::-webkit-scrollbar {
-    display: none;
-    /* Chrome */
-}
+    .search-icon-input {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #333;
+    }
 
-.card-rating {
-    min-width: 160px;
-    /* Sesuai Figma mobile card width */
-    width: 160px;
-    background-color: #FFFDF5;
-    border-radius: 12px;
-    /* border: 1px solid #eee; */
-    /* Remove border to match design */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* Softer shadow */
-    padding: 0;
-    /* Remove padding to let image fill top */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    /* Clip image corners */
-    text-decoration: none;
-    color: inherit;
-    margin-bottom: 5px;
-    /* Space for shadow */
-}
+    /* --- SECTION: HIGHEST RATING (HORIZONTAL SCROLL) --- */
+    .section-title {
+        font-weight: 700;
+        font-size: 18px;
+        color: #000;
+        margin: 0 0 5px 20px;
+    }
 
-.card-rating img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-bottom: 1px solid #f0f0f0;
-}
+    .section-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin: 0 0 15px 20px;
+    }
 
-.card-content {
-    padding: 10px;
-}
+    .horizontal-scroll-container {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 20px 20px 20px;
+        gap: 15px;
+        /* Sembunyikan Scrollbar */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
 
-.card-meta {
-    font-size: 10px;
-    color: #888;
-    margin-bottom: 4px;
-}
+    .horizontal-scroll-container::-webkit-scrollbar {
+        display: none;
+        /* Chrome */
+    }
 
-.card-title-h {
-    font-size: 13px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 4px;
-    line-height: 1.3;
-    height: 34px;
-    /* Limit height for 2 lines */
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
+    .card-rating {
+        min-width: 160px;
+        /* Sesuai Figma mobile card width */
+        width: 160px;
+        background-color: #FFFDF5;
+        border-radius: 12px;
+        /* border: 1px solid #eee; */
+        /* Remove border to match design */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* Softer shadow */
+        padding: 0;
+        /* Remove padding to let image fill top */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        /* Clip image corners */
+        text-decoration: none;
+        color: inherit;
+        margin-bottom: 5px;
+        /* Space for shadow */
+    }
 
-.rating-info {
-    font-size: 12px;
-    font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-}
+    .card-rating img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-bottom: 1px solid #f0f0f0;
+    }
 
-.rating-star {
-    color: #FFC107;
-    margin-right: 4px;
-    font-size: 12px;
-}
+    .card-content {
+        padding: 10px;
+    }
 
-/* --- SECTION: RECENTLY SEARCH --- */
-.recent-container {
-    padding: 20px;
-}
+    .card-meta {
+        font-size: 10px;
+        color: #888;
+        margin-bottom: 4px;
+    }
 
-.recent-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px 25px;
-    /* Gap antar text */
-}
+    .card-title-h {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+        line-height: 1.3;
+        height: 34px;
+        /* Limit height for 2 lines */
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 
-.tag-item {
-    background: none;
-    border: none;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #FF6B6B;
-    /* Pinkish red color from design */
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.2s;
-}
+    .rating-info {
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
 
-.tag-item:hover {
-    color: #E05555;
-    text-decoration: underline;
-}
+    .rating-star {
+        color: #FFC107;
+        margin-right: 4px;
+        font-size: 12px;
+    }
 
-/* --- FILTER BAR (RESULTS PAGE) --- */
-.filter-bar {
-    display: flex;
-    gap: 10px;
-    padding: 0 20px 15px 20px;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
+    /* --- SECTION: RECENTLY SEARCH --- */
+    .recent-container {
+        padding: 20px;
+    }
 
-.filter-item {
-    white-space: nowrap;
-    padding: 6px 16px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-size: 13px;
-    color: #555;
-    background-color: #fff;
-}
+    .recent-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px 25px;
+        /* Gap antar text */
+    }
 
-/* --- RESULT LIST (RESULTS PAGE) --- */
-.result-list {
-    padding: 0 20px 20px 20px;
-}
+    .tag-item {
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #FF6B6B;
+        /* Pinkish red color from design */
+        font-weight: 500;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
 
-.card-result {
-    display: flex;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+    .tag-item:hover {
+        color: #E05555;
+        text-decoration: underline;
+    }
 
-.result-img-wrapper {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    flex-shrink: 0;
-}
+    /* --- FILTER BAR (RESULTS PAGE) --- */
+    .filter-bar {
+        display: flex;
+        gap: 10px;
+        padding: 0 20px 15px 20px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
 
-.result-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
+    .filter-item {
+        white-space: nowrap;
+        padding: 6px 16px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+        font-size: 13px;
+        color: #555;
+        background-color: #fff;
+    }
 
-.rating-pill {
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
+    /* --- RESULT LIST (RESULTS PAGE) --- */
+    .result-list {
+        padding: 0 20px 20px 20px;
+    }
 
-.result-info {
-    padding-left: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+    .card-result {
+        display: flex;
+        margin-bottom: 20px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-.result-title {
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 5px;
-    color: #333;
-}
+    .result-img-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+    }
 
-.result-meta {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 5px;
-    line-height: 1.4;
-}
+    .result-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
 
-.result-price {
-    font-weight: 700;
-    bottom: 10px;
-    left: 10px;
-    background: white;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-}
+    .rating-pill {
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
 
-/* Wrapper untuk gambar agar bisa taruh rating di atasnya */
-.result-img-wrapper {
-    position: relative;
-}
+    .result-info {
+        padding-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .result-title {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .result-meta {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 5px;
+        line-height: 1.4;
+    }
+
+    .result-price {
+        font-weight: 700;
+        bottom: 10px;
+        left: 10px;
+        background: white;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+    }
+
+    /* Wrapper untuk gambar agar bisa taruh rating di atasnya */
+    .result-img-wrapper {
+        position: relative;
+    }

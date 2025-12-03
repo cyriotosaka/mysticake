@@ -29,15 +29,15 @@
                  alt="{{ $product->name_product }}">
         </div>
 
-        <div class="rating-section">
+        <a href="{{ route('product.ratings', $product->id_product) }}" class="rating-section" style="text-decoration: none; color: inherit; cursor: pointer;">
             <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
             <i class="fas fa-star star-icon"></i>
             <span class="review-count">Product Reviews ({{ $totalReviews }})</span>
 
-            <button class="cart-btn" onclick="alert('Fitur Cart akan segera hadir!')">
+            <button class="cart-btn" onclick="event.preventDefault(); event.stopPropagation(); alert('Fitur Cart akan segera hadir!')">
                 <i class="fas fa-shopping-cart"></i>
             </button>
-        </div>
+        </a>
 
         <h1 class="product-title">{{ $product->name_product }}</h1>
 
@@ -49,7 +49,7 @@
             <div class="price-tag">
                 RP {{ number_format($product->price, 0, ',', '.') }}
             </div>
-            <a href="#" class="reviews-link">Reviews</a>
+            <a href="{{ route('product.ratings', $product->id_product) }}" class="reviews-link">Reviews</a>
         </div>
 
         <div class="action-bar">
