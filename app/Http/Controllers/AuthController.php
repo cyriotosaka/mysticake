@@ -85,11 +85,8 @@ class AuthController extends Controller
             'id_address'   => null
         ]);
 
-        // Auto login setelah register berhasil
-        Auth::login($user);
-
         // Redirect ke home page dengan pesan sukses
-        return redirect()->route('home')->with('success', 'Akun berhasil dibuat! Selamat datang di MYstiCake.');
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan login untuk melanjutkan.');
     }
 
     // Proses logout user
