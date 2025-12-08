@@ -108,7 +108,10 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`id_delivery`, `type`, `delivery_charges`) VALUES
-(1, 'Motor', 10000);
+(1, 'Motor', 10000),
+(2, 'Mobil', 15000),
+(3, 'Express Motor', 20000),
+(4, 'Express Mobil', 30000);
 
 -- --------------------------------------------------------
 
@@ -233,7 +236,8 @@ INSERT INTO `payment_method` (`id_payment_method`, `name_method`, `payment_barco
 (2, 'Bank Transfer', NULL),
 (3, 'E-Wallet', NULL),
 (4, 'Indomaret', 'INDO-12345'),
-(5, 'Alfamart', 'ALFA-67890');
+(5, 'Alfamart', 'ALFA-67890'),
+(6, 'Cash', NULL);
 
 -- --------------------------------------------------------
 
@@ -561,7 +565,7 @@ ALTER TABLE `chat`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `id_delivery` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_delivery` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -591,7 +595,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `payment_method`
 --
 ALTER TABLE `payment_method`
-  MODIFY `id_payment_method` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_payment_method` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product`

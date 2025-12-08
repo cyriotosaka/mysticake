@@ -36,6 +36,8 @@ class ProductController extends Controller
     /**
      * Menampilkan Halaman Search Awal (GET /search)
      * Sesuai sequence diagram: menampilkan SearchPage view
+     * 
+     * Created by: Abdul Ghoni (5026231109)
      */
     public function showSearchPage()
     {
@@ -61,6 +63,8 @@ class ProductController extends Controller
      * 3. Product Model return productList
      * 4. ProductController call getDetails(productList)
      * 5. Return view dengan fullProductList
+     * 
+     * Created by: Abdul Ghoni (5026231109)
      */
     public function searchProduct(Request $request)
     {
@@ -142,6 +146,8 @@ class ProductController extends Controller
      * 1. call getProductDetails(id) -> Product Model
      * 2. call showRatings(productData) -> ReviewProduct Model
      * 3. return RatingPage view
+     * 
+     * Created by: Abdul Ghoni (5026231109)
      */
     public function showRatings($id)
     {

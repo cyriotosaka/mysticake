@@ -45,12 +45,12 @@
                 </div>
             </div>
 
-            <div class="cart-right">
+            <a href="{{ route('cart.index') }}" class="cart-right text-decoration-none">
                 <i class="bi bi-cart-fill cart-icon"></i>
                 @if($cartCount > 0)
                     <div class="cart-badge">{{ $cartCount }}</div>
                 @endif
-            </div>
+            </a>
         </div>
 
         <form action="{{ route('search.submit') }}" method="POST" class="search-container">

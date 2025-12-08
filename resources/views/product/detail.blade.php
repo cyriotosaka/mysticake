@@ -1,3 +1,5 @@
+<!-- Nama : Abdul Ghoni -->
+<!-- NRP : 5026231109 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,15 +31,21 @@
                  alt="{{ $product->name_product }}">
         </div>
 
-        <a href="{{ route('product.ratings', $product->id_product) }}" class="rating-section" style="text-decoration: none; color: inherit; cursor: pointer;">
-            <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
-            <i class="fas fa-star star-icon"></i>
-            <span class="review-count">Product Reviews ({{ $totalReviews }})</span>
+        <div class="rating-section">
+            <a href="{{ route('product.ratings', $product->id_product) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex-grow: 1;">
+                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                <i class="fas fa-star star-icon"></i>
+                <span class="review-count">Product Reviews ({{ $totalReviews }})</span>
+            </a>
+            
+            <form action="{{ route('cart.add', $product->id_product) }}" method="POST" style="display: inline; margin: 0;">
+                @csrf
+                <button type="submit" class="cart-btn" style="background: none; border: none; cursor: pointer; padding: 5px;">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </form>
+        </div>
 
-            <button class="cart-btn" onclick="event.preventDefault(); event.stopPropagation(); alert('Fitur Cart akan segera hadir!')">
-                <i class="fas fa-shopping-cart"></i>
-            </button>
-        </a>
 
         <h1 class="product-title">{{ $product->name_product }}</h1>
 
@@ -53,9 +61,8 @@
         </div>
 
         <div class="action-bar">
-            <form action="#" method="POST" style="flex-grow: 1;">
+            <form action="{{ route('cart.add', $product->id_product) }}" method="POST" style="flex-grow: 1;">
                 @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id_product }}">
                 <button type="submit" class="btn-order">Order Now</button>
             </form>
 

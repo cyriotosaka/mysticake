@@ -25,4 +25,13 @@ class CartItem extends Model
     {
         return $this->belongsTo(Product::class, 'id_product');
     }
+
+    /**
+     * Get subtotal for this cart item
+     */
+    public function getSubtotal()
+    {
+        return $this->product->price * $this->quantity;
+    }
+
 }
