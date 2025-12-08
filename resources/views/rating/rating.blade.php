@@ -71,7 +71,7 @@
             <!-- Review List -->
             <div class="review-list">
                 @forelse($reviews as $review)
-                <div class="review-card">
+                <div class="review-card" data-rating="{{ $review->rating }}" data-has-photos="{{ $review->rating >= 5 ? 'yes' : 'no' }}">
                     <div class="review-header-section">
                         <div class="user-info">
                             <i class="bi bi-person-circle user-icon"></i>
@@ -97,8 +97,9 @@
                     
                     @if($review->rating >= 5)
                     <div class="review-photos">
-                        <img src="https://images.unsplash.com/photo-1623595118745-64b49c2052c7?w=100" alt="review">
-                        <img src="https://images.unsplash.com/photo-1621996346565-e326e7e248e2?w=100" alt="review">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=100&q=80" alt="Dessert Review Photo 1">
+                        <img src="https://images.unsplash.com/photo-1557925923-cd4648e211a0?w=100&q=80" alt="Dessert Review Photo 2">
+                        <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=100&q=80" alt="Dessert Review Photo 3">
                     </div>
                     @endif
                 </div>
@@ -114,5 +115,60 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.review-filters .nav-link');
+        const reviewCards = document.querySelectorAll('.review-card');
+        
+        filterButtons.forEach((button, index) => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Get filter type based on button index
+                // 0 = All, 1 = With Photos, 2 = 5 stars, 3 = 4 stars, 4 = 3 stars
+                let filterType = index;
+                
+                // Filter reviews
+                reviewCards.forEach(card => {
+                    const rating = parseInt(card.getAttribute('data-rating'));
+                    const hasPhotos = card.getAttribute('data-has-photos');
+                    
+                    let shouldShow = false;
+                    
+                    switch(filterType) {
+                        case 0: // All
+                            shouldShow = true;
+                            break;
+                        case 1: // With Photos
+                            shouldShow = hasPhotos === 'yes';
+                            break;
+                        case 2: // 5 stars
+                            shouldShow = rating === 5;
+                            break;
+                        case 3: // 4 stars
+                            shouldShow = rating === 4;
+                            break;
+                        case 4: // 3 stars
+                            shouldShow = rating === 3;
+                            break;
+                    }
+                    
+                    if (shouldShow) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

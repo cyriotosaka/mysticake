@@ -79,7 +79,83 @@ class Orders extends Model
 
     public function histories()
     {
-    return $this->hasMany(History::class, 'id_order', 'id_order');
+        return $this->hasMany(History::class, 'id_order', 'id_order');
+    }
+
+    /**
+     * Create order from cart items
+     */
+    public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
+    {
+        // Calculate total
+        $subtotal = $cartItems->sum(function ($item) {
+            return $item->product->price * $item->quantity;
+        });
+
+        // Get delivery charges
+        $delivery = Delivery::find($deliveryId);
+        $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
+
+        $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
+
+        // Create order
+        $order = self::create([
+            'id_user' => $userId,
+            'id_address' => $addressId,
+            'id_delivery' => $deliveryId,
+            'id_payment_method' => $paymentMethodId,
+            'order_date' => now(),
+            'extra_charges' => $extraCharges,
+            'total_payment' => $totalPayment,
+            'status_order' => 'Pending'
+        ]);
+
+        // Create order items
+        foreach ($cartItems as $cartItem) {
+            OrderItem::create([
+                'id_order' => $order->id_order,
+                'id_product' => $cartItem->id_product,
+                'quantity' => $cartItem->quantity,
+                'subtotal' => $cartItem->product->price * $cartItem->quantity
+            ]);
+        }
+
+        // Create history record
+        History::create([
+            'id_order' => $order->id_order,
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString()
+        ]);
+
+        return $order;
+    }
+
+    /**
+     * Get all orders for a user
+     */
+    public static function findByUser($userId)
+    {
+        return self::where('id_user', $userId)
+            ->with(['items.product', 'address', 'delivery', 'paymentMethod'])
+            ->orderBy('order_date', 'desc')
+            ->get();
+    }
+
+    /**
+     * Get formatted order date
+     */
+    public function getFormattedDate()
+    {
+        return \Carbon\Carbon::parse($this->order_date)->format('d M Y, H:i');
+    }
+
+    /**
+     * Get formatted total
+     */
+    public function getFormattedTotal()
+    {
+        return 'Rp ' . number_format($this->total_payment, 0, ',', '.');
     }
 
 }
+

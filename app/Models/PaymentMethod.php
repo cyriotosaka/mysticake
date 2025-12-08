@@ -19,4 +19,12 @@ class PaymentMethod extends Model
     {
         return $this->hasMany(Orders::class, 'id_payment_method');
     }
+
+    /**
+     * Get all payment methods
+     */
+    public static function getAllMethods()
+    {
+        return self::all();
+    }
 }
