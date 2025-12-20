@@ -1,0 +1,145 @@
+<?php
+/**
+ * Updated by Abdul Ghoni (5026231109)
+ * - Menambahkan fitur upload foto review
+ * - Menambahkan CRUD (update, destroy) untuk review
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ReviewProduct;
+use App\Models\Product;
+
+class ReviewController extends Controller
+{
+    /**
+     * Menyimpan review baru untuk produk
+     * 
+     * @param Request $request
+     * @param int $productId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request, $productId)
+    {
+        // Validasi input
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // Cek apakah produk ada
+        $product = Product::find($productId);
+        if (!$product) {
+            return back()->with('error', 'Produk tidak ditemukan.');
+        }
+
+        // Ambil user yang login
+        $user = Auth::user();
+
+        // Handle photo upload
+        $photoName = null;
+        if ($request->hasFile('review_photo')) {
+            $photo = $request->file('review_photo');
+            $photoName = time() . '_' . $user->id_user . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('images/reviews'), $photoName);
+        }
+
+        // Buat review baru
+        ReviewProduct::create([
+            'id_product' => $productId,
+            'id_user' => $user->id_user,
+            'rating' => $request->input('rating'),
+            'comment' => $request->input('comment'),
+            'like_review' => 0,
+            'review_photo' => $photoName
+        ]);
+
+        return back()->with('success', 'Terima kasih! Review Anda berhasil ditambahkan.');
+    }
+
+    /**
+     * Update review
+     */
+    public function update(Request $request, $id)
+    {
+        $review = ReviewProduct::find($id);
+        
+        if (!$review) {
+            return back()->with('error', 'Review tidak ditemukan.');
+        }
+
+        // Authorization: hanya pemilik yang bisa edit
+        if ($review->id_user != Auth::user()->id_user) {
+            return back()->with('error', 'Anda tidak memiliki akses untuk mengedit review ini.');
+        }
+
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // Handle photo upload
+        if ($request->hasFile('review_photo')) {
+            // Hapus foto lama jika ada
+            if ($review->review_photo) {
+                $oldPhotoPath = public_path('images/reviews/' . $review->review_photo);
+                if (file_exists($oldPhotoPath)) {
+                    unlink($oldPhotoPath);
+                }
+            }
+            
+            $photo = $request->file('review_photo');
+            $photoName = time() . '_' . Auth::user()->id_user . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path('images/reviews'), $photoName);
+            $review->review_photo = $photoName;
+        }
+
+        // Handle remove photo
+        if ($request->input('remove_photo') == '1' && $review->review_photo) {
+            $oldPhotoPath = public_path('images/reviews/' . $review->review_photo);
+            if (file_exists($oldPhotoPath)) {
+                unlink($oldPhotoPath);
+            }
+            $review->review_photo = null;
+        }
+
+        $review->rating = $request->input('rating');
+        $review->comment = $request->input('comment');
+        $review->save();
+
+        return back()->with('success', 'Review berhasil diperbarui.');
+    }
+
+    /**
+     * Delete review
+     */
+    public function destroy($id)
+    {
+        $review = ReviewProduct::find($id);
+        
+        if (!$review) {
+            return back()->with('error', 'Review tidak ditemukan.');
+        }
+
+        // Authorization: hanya pemilik yang bisa hapus
+        if ($review->id_user != Auth::user()->id_user) {
+            return back()->with('error', 'Anda tidak memiliki akses untuk menghapus review ini.');
+        }
+
+        // Hapus foto jika ada
+        if ($review->review_photo) {
+            $photoPath = public_path('images/reviews/' . $review->review_photo);
+            if (file_exists($photoPath)) {
+                unlink($photoPath);
+            }
+        }
+
+        $review->delete();
+
+        return back()->with('success', 'Review berhasil dihapus.');
+    }
+}

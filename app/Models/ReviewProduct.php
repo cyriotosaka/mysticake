@@ -1,4 +1,8 @@
 <?php
+/**
+ * Updated by Abdul Ghoni (5026231109)
+ * - Menambahkan review_photo ke fillable untuk fitur upload foto review
+ */
 
 namespace App\Models;
 
@@ -34,7 +38,8 @@ class ReviewProduct extends Model
         'id_user',
         'comment',
         'like_review',
-        'rating'
+        'rating',
+        'review_photo'
     ];
 
     /**
