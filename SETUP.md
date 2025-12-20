@@ -1,6 +1,7 @@
 <!--
     Nama: Abdul Ghoni
     NRP: 5026231109
+    Updated by Abdul Ghoni (5026231109) - Menambahkan step migration dan info fitur Review Photo
 -->
 
 # MystiCake - Setup Instructions
@@ -58,7 +59,15 @@ mysql -u root -p mysticakedb < database/mysticakedb\ \(1\).sql
 php artisan key:generate
 ```
 
-### 6. Run the Application
+### 6. Run Migrations (PENTING!)
+Setelah import database, jalankan migration untuk update struktur database terbaru:
+```bash
+php artisan migrate
+```
+
+> ⚠️ **PENTING**: Langkah ini wajib dilakukan setiap kali pull kode terbaru untuk menyinkronkan perubahan database!
+
+### 7. Run the Application
 ```bash
 php artisan serve
 ```
@@ -66,6 +75,15 @@ php artisan serve
 The application will be available at: `http://localhost:8000`
 
 ## Recent Updates
+
+### Review Photo Feature (Terbaru!)
+Fitur baru pada halaman rating/review produk:
+- Upload foto saat memberikan review
+- Lihat foto review dalam lightbox ukuran besar
+- Edit dan hapus review (CRUD lengkap)
+- Filter review berdasarkan rating dan "With Photos"
+
+**Migration terkait:** `2025_12_20_091500_add_photo_to_review_product_table.php`
 
 ### Delivery Options
 The system now includes 4 delivery options:
@@ -91,6 +109,15 @@ If you encounter errors during database import:
 2. Create a fresh database: `CREATE DATABASE mysticakedb;`
 3. Re-import the SQL file
 
+### Migration Issues
+Jika ada error saat menjalankan migration:
+```bash
+# Reset migration jika perlu
+php artisan migrate:fresh
+
+# Atau import ulang SQL dan jalankan migration
+```
+
 ### Permission Issues
 If you encounter permission errors:
 ```bash
@@ -106,7 +133,17 @@ php artisan route:clear
 php artisan view:clear
 ```
 
+## Quick Setup (TLDR)
+Bagi yang sudah familiar, cukup jalankan:
+```bash
+git pull origin main
+composer install
+php artisan migrate
+php artisan serve
+```
+
 ## Notes
 - Make sure your database is properly configured before running the application
-- All SQL data is up-to-date in `database/mysticakedb (1).sql`
+- Selalu jalankan `php artisan migrate` setelah pull kode terbaru
 - The application uses Bootstrap Icons for UI elements
+- Foto review tersimpan di `public/images/reviews/`

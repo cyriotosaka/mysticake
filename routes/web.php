@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Updated by Abdul Ghoni (5026231109)
+ * - Menambahkan route review.update dan review.destroy untuk CRUD review
+ */
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -8,6 +11,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', [AuthController::class, 'landing'])->name('landing');
 
@@ -43,6 +47,9 @@ Route::middleware('auth')->group(function () {
 
     // Rating & Feedback
     Route::get('/product/{id}/ratings', [ProductController::class, 'showRatings'])->name('product.ratings');
+    Route::post('/product/{id}/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::put('/review/{id}', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/review/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
     // --- LOGOUT ROUTE ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

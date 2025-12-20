@@ -1,7 +1,8 @@
 /**
-     * Nama: Abdul Ghoni
-    * NRP: 5026231109
-     */
+ * Nama: Abdul Ghoni
+ * NRP: 5026231109
+ * Updated by Abdul Ghoni (5026231109) - Menambahkan styling untuk photo upload, review actions, edit modal, dan photo viewer
+ */
 /* public/css/rating.css - Figma Design Match */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
@@ -253,9 +254,365 @@ body {
     object-fit: cover;
 }
 
+/* --- ADD REVIEW FORM --- */
+.add-review-section {
+    margin: 15px 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.add-review-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rating-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.star-rating-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.star-selector {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.star-selector input[type="radio"] {
+    display: none;
+}
+
+.star-selector .star-label {
+    cursor: pointer;
+    font-size: 28px;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.star-selector .star-label:hover,
+.star-selector .star-label:hover~.star-label,
+.star-selector input[type="radio"]:checked~.star-label {
+    color: #ffc107;
+}
+
+.comment-input textarea {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    resize: none;
+    transition: border-color 0.2s;
+}
+
+.comment-input textarea:focus {
+    border-color: #FF6B6B;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.btn-submit-review {
+    background: linear-gradient(135deg, #FF6B6B, #ff8e8e);
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.btn-submit-review:hover {
+    background: linear-gradient(135deg, #e55a5a, #ff7a7a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.btn-submit-review:active {
+    transform: translateY(0);
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 12px 15px;
+}
+
 /* Responsive untuk layar lebih kecil */
 @media (max-width: 480px) {
     .mobile-view {
         box-shadow: none;
     }
+}
+
+/* --- PHOTO UPLOAD --- */
+.photo-upload-input {
+    margin-top: 5px;
+}
+
+.photo-upload-area {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.photo-upload-area input[type="file"] {
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.photo-upload-area input[type="file"]:hover {
+    border-color: #FF6B6B;
+}
+
+.photo-preview {
+    margin-top: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.photo-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-remove-photo {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.btn-remove-photo:hover {
+    transform: scale(1.1);
+}
+
+/* --- REVIEW PHOTOS DISPLAY --- */
+.review-photos {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.review-photos img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.review-photos img:hover {
+    transform: scale(1.05);
+}
+
+/* --- REVIEW ACTION BUTTONS --- */
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+}
+
+.btn-edit-review,
+.btn-delete-review {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-edit-review {
+    background: #e8f4fd;
+    color: #1976d2;
+}
+
+.btn-edit-review:hover {
+    background: #1976d2;
+    color: #fff;
+}
+
+.btn-delete-review {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.btn-delete-review:hover {
+    background: #d32f2f;
+    color: #fff;
+}
+
+/* --- EDIT MODAL STAR SELECTOR --- */
+.edit-star-selector {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.edit-star-selector input[type="radio"] {
+    display: none;
+}
+
+.edit-star-selector .edit-star-label {
+    cursor: pointer;
+    font-size: 28px;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.edit-star-selector .edit-star-label:hover,
+.edit-star-selector .edit-star-label:hover~.edit-star-label,
+.edit-star-selector input[type="radio"]:checked~.edit-star-label {
+    color: #ffc107;
+}
+
+/* --- CURRENT PHOTO IN MODAL --- */
+.current-photo-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.current-photo-wrapper img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.remove-photo-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #d32f2f;
+}
+
+.remove-photo-checkbox input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Modal customizations */
+#editReviewModal .modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+#editReviewModal .modal-header {
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+}
+
+#editReviewModal .modal-title {
+    font-weight: 600;
+    color: #333;
+}
+
+#editReviewModal .btn-primary {
+    background: linear-gradient(135deg, #FF6B6B, #ff8e8e);
+    border: none;
+}
+
+#editReviewModal .btn-primary:hover {
+    background: linear-gradient(135deg, #e55a5a, #ff7a7a);
+}
+
+/* --- PHOTO VIEWER MODAL --- */
+#photoViewerModal .modal-dialog {
+    max-width: 90vw;
+}
+
+.photo-viewer-content {
+    background: transparent;
+    border: none;
+    position: relative;
+}
+
+.photo-viewer-img {
+    width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.btn-close-photo {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: none;
+    color: #333;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-close-photo:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
 }
