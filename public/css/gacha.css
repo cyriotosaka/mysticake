@@ -20,22 +20,48 @@ body.theme-premium {
     color: #D81B60;
 }
 
-/* --- HEADER --- */
-.gacha-header {
-    padding: 20px;
+/* --- 1. HEADER --- */
+.top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 20px;
+    margin-bottom: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.icon-btn { font-size: 24px; color: inherit; cursor: pointer; text-decoration: none; }
+.brand-logo-img {
+    height: 30px; /* Tinggi disesuaikan agar setara dengan icon di sebelahnya */
+    width: auto;  /* Lebar mengikuti rasio gambar */
+    display: block;
+    object-fit: contain;
 }
 
-.back-btn { font-size: 24px; color: inherit; cursor: pointer; }
-.info-btn { font-size: 24px; color: inherit; cursor: pointer; }
-
-.brand-text {
-    font-family: 'Fredoka One', cursive;
-    font-size: 24px;
-    color: #F06A7D;
+/* --- 2. USER STATS --- */
+.user-stats-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 20px;
 }
+.profile-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+}
+.profile-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+.coin-pill {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+}
+.coin-icon { color: #FFC107; margin-right: 5px; font-size: 18px; }
+.plus-btn { font-size: 14px; margin-left: 5px; cursor: pointer; }
 
 /* User Coin */
 .coin-display {
@@ -46,45 +72,6 @@ body.theme-premium {
 }
 .coin-icon { color: #FFC107; margin-right: 5px; font-size: 18px; }
 
-/* --- WAVY TABS (SVG Separator) --- */
-.wavy-tabs-container {
-    position: relative;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.wave-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Styling Text "Normal" & "Premium" di atas wave */
-.mode-switcher {
-    position: absolute;
-    top: 50%; /* Atur posisi vertikal sesuai lekukan wave */
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    transform: translateY(-50%);
-}
-
-.mode-text {
-    font-family: 'Fredoka One', cursive;
-    font-size: 28px;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 0.3s;
-}
-
-.mode-text.active {
-    font-size: 32px;
-    opacity: 1;
-    text-decoration: underline;
-    text-underline-offset: 5px;
-}
 
 /* Warna text spesifik */
 .theme-normal .mode-text.normal { color: #4E342E; }
@@ -132,23 +119,60 @@ body.theme-premium {
 }
 .theme-premium .drop-rate-icon { background: #E91E63; }
 
-.bonus-box-btn { right: 20px; text-align: center; }
+.bonus-box-btn { right: 20px; text-align: center; background: transparent; box-shadow: none;}
 .bonus-icon { width: 50px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
 .bonus-count { font-size: 12px; font-weight: 700; margin-top: 5px; }
+
+/* --- 3. Tombol Undo / Toggle --- */
+.btn-undo {
+    position: absolute;
+    top: 190px; /* Sejajar Box */
+
+    /* POSISI NORMAL (KIRI) */
+    left: 15px;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+}
+
+/* WARNA & POSISI SAAT NORMAL */
+.theme-normal .btn-undo {
+    left: 15px;
+    right: auto;
+    background: #F06292; /* Pink */
+    color: white;
+}
+
+/* WARNA & POSISI SAAT PREMIUM (PINDAH KANAN) */
+.theme-premium .btn-undo {
+    right: 15px;
+    left: auto;
+
+    background: #FFF; /* Putih */
+    color: #D81B60; /* Icon Pink */
+    transform: scale(-1, 1); /* Efek putar saat pindah */
+}
 
 
 /* History Pill */
 .history-pill {
-    background: #fff;
-    border: 2px solid #333;
-    padding: 8px 20px;
+    background: white;
+    border: 1.5px solid #333;
     border-radius: 20px;
+    padding: 6px 25px;
     font-weight: 700;
-    margin-bottom: 30px;
-    cursor: pointer;
-    text-decoration: none;
+    font-size: 14px;
     color: #333;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    text-decoration: none;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
 }
 
 /* THE BOX ANIMATION */
@@ -265,4 +289,131 @@ body.theme-premium {
     font-weight: 700;
     border: none;
     cursor: pointer;
+}
+
+/* Overlay untuk Klik Kiri/Kanan */
+.toggle-overlay {
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 280px; height: 100%;
+    display: flex;
+    z-index: 10;
+}
+.toggle-area { width: 50%; height: 100%; cursor: pointer; }
+
+
+.shaking { animation: shake 0.5s infinite; }
+@keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+.info-card { background: white; padding: 20px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center; }
+.congrats-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; }
+.next-btn { background: #3E2723; color: white; border: none; padding: 10px 40px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+/* WRAPPER */
+.history-wrapper {
+    max-width: 430px;
+    margin: auto;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.history-header {
+    position: relative;
+    padding: 1px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.theme-normal .history-header {
+    background: linear-gradient(180deg, #3E2723, #5D4037);
+    color: #FFF;
+}
+
+.theme-premium .history-header {
+    background: #FFFFFF;
+    color: #F06292;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    font-size: 22px;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* INFO */
+.history-info {
+    margin: 0px;
+    padding: 12px;
+    border-radius: 0 0 20px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.theme-normal .history-info {
+    background: #FFF3E0;
+    color: #5D4037;
+    box-shadow: 0 10px 10px #5D4037;
+}
+
+.theme-premium .history-info {
+    background: #F06292;
+    color: white;
+    box-shadow: 0 10px 10px white;
+}
+
+/* LIST */
+.history-list {
+    padding: 10px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 16px;
+}
+
+.theme-normal .history-item {
+    background: #FFF6E5;
+    border: 2px solid #3E2723;
+}
+
+.theme-premium .history-item {
+    background: #FFB6C9;
+}
+
+/* ITEM */
+.item-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-right: 14px;
+}
+
+.item-name {
+    flex: 1;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.item-time {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.9;
+}
+
+/* EMPTY */
+.empty-state {
+    text-align: center;
+    margin-top: 60px;
+    font-weight: 600;
+    opacity: 0.7;
 }

@@ -4,19 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\History;
 
 class MysteryBoxController extends Controller
 {
-    public function showGachaPage()
+    public function showGachaPage(Request $request)
     {
-        $user = Auth::user();
-        return view('gacha.index', compact('user'));
+        $user = Auth::user()->load('wallet');
+        $mode = $request->query('mode', 'normal');
+
+        return view('gacha.gacha', compact('user', 'mode'));
     }
 
-    public function showGachaHistory()
+    public function showGachaHistory(Request $request)
     {
-        return view('gacha.history');
+        $mode = $request->query('mode', 'normal');
+        $histories = History::with('orders.product')
+            ->whereHas('orders', function ($q) {
+                $q->where('id_user', Auth::id());
+            })
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc')
+            ->limit(10)
+            ->get();
+
+        return view('gacha.history', [
+            'histories' => $histories,
+            'mode' => $mode ?? 'normal'
+        ]);
     }
+
 
     public function getDropRates()
     {
@@ -38,78 +57,83 @@ class MysteryBoxController extends Controller
 
     public function rollGacha(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::user()->load('wallet');
         $type = $request->input('type');
 
-        $gachaCost = 0;
-        $minProductPrice = 0;
-        $maxProductPrice = 0;
-
-        if ($type === 'premium') {
-            $gachaCost = 25000;
-            // Premium: Dapat produk harga 50rb ke atas (Item Mahal)
-            $minProductPrice = 50000;
-            $maxProductPrice = 1000000;
-        } else {
-            // Normal: Dapat produk harga 10rb - 50rb (Item Biasa)
-            $gachaCost = 15000;
-            $minProductPrice = 0;
-            $maxProductPrice = 49999;
-        }
-
-        // Cek apakah user punya cukup koin
-        if ($user->balance < $gachaCost) {
+        // ===============================
+        // 1. VALIDASI MODE
+        // ===============================
+        if (!in_array($type, ['normal', 'premium'])) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Koin tidak cukup! Top up dulu yuk.'
+                'message' => 'Tipe gacha tidak valid.'
+            ], 400);
+        }
+
+        // ===============================
+        // 2. SETTING BIAYA & RANGE PRODUK
+        // ===============================
+        if ($type === 'premium') {
+            $gachaCost = 25000;
+            $minPrice  = 50000;
+            $maxPrice  = 1000000;
+        } else {
+            $gachaCost = 15000;
+            $minPrice  = 0;
+            $maxPrice  = 49999;
+        }
+
+        // ===============================
+        // 3. CEK SALDO COIN
+        // ===============================
+        if ($user->wallet->saldo_coin < $gachaCost) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Koin tidak cukup! Silakan top up terlebih dahulu.'
             ], 400);
         }
 
         try {
             DB::beginTransaction();
 
-            // A. Kurangi Koin User
-            $user->balance -= $gachaCost;
-            $user->save();
+            // ===============================
+            // 4. KURANGI COIN USER
+            // ===============================
+            $user->wallet->saldo_coin -= $gachaCost;
+            $user->wallet->save();
 
-            // B. Ambil Random Product sesuai Kriteria
-            $wonProduct = Product::whereBetween('price', [$minProductPrice, $maxProductPrice])
-                                ->inRandomOrder() // Fitur Ajaib Laravel untuk Random
+            // ===============================
+            // 5. RANDOM PRODUK DARI DATABASE
+            // ===============================
+            $wonProduct = Product::whereBetween('price', [$minPrice, $maxPrice])
+                                ->inRandomOrder()
                                 ->first();
 
-            // Jaga-jaga jika stok produk di range harga tersebut kosong
+            // Fallback kalau range kosong
             if (!$wonProduct) {
-                // Fallback: Ambil barang random apa saja
                 $wonProduct = Product::inRandomOrder()->first();
             }
 
-            // C. Simpan ke History Gacha (Opsional / Sesuai Diagram)
-            // GachaHistory::create([
-            //     'id_user' => $user->id_user,
-            //     'id_product' => $wonProduct->id_product,
-            //     'gacha_type' => $type,
-            //     'date' => now()
-            // ]);
+            DB::commit();
 
-            DB::commit(); // Simpan perubahan
-
-            // 4. Return Data Produk ke Frontend
+            // ===============================
+            // 6. RESPONSE KE FRONTEND
+            // ===============================
             return response()->json([
-                'status' => 'success',
-                'item_name' => $wonProduct->name_product,
-                // Pastikan kolom gambar di DB namanya product_picture
-                'item_image' => $wonProduct->product_picture,
-                'item_price' => $wonProduct->price,
-                'remaining_coin' => $user->balance
+                'status'         => 'success',
+                'item_name'      => $wonProduct->name_product,
+                'item_image'     => $wonProduct->product_picture,
+                'item_price'     => $wonProduct->price,
+                'remaining_coin' => $user->wallet->saldo_coin
             ]);
 
         } catch (\Exception $e) {
-            DB::rollBack(); // Batalkan jika error
+            DB::rollBack();
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Terjadi kesalahan sistem.'
             ], 500);
         }
-
     }
 }

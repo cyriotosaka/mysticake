@@ -14,8 +14,8 @@
 
     <div class="container px-3">
 
-        <div class="brand-header pt-3">
-            <h1>MYstiCake</h1>
+        <div class="brand-header pt-3 text-center">
+            <img src="{{ asset('images/text_logo.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
         </div>
 
         <div class="user-info-row">
@@ -39,7 +39,8 @@
                         </a>
                     </div>
                     <div class="balance">
-                        <i class="bi bi-coin coin-icon"></i> 120.000
+                        <i class="bi bi-coin coin-icon"></i>
+                        {{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}
                         <i class="bi bi-plus-circle plus-icon"></i>
                     </div>
                 </div>
