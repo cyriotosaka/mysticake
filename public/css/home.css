@@ -218,7 +218,7 @@ a { text-decoration: none !important; color: inherit; }
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 60px;
     background-color: #FFC0CB; /* Pink Solid */
     display: flex;
     justify-content: space-between;
@@ -229,18 +229,18 @@ a { text-decoration: none !important; color: inherit; }
 }
 
 .nav-icon {
-    font-size: 30px;
+    font-size: 40px;
     color: #E66A7F;
     transition: 0.2s;
 }
 .nav-icon:hover { transform: scale(1.1); }
 
-/* Mystery Box Float */
+/* Box Float */
 .mystery-box-wrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 25px; /* Naik ke atas */
+    bottom: 10px; /* Naik ke atas */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -248,7 +248,7 @@ a { text-decoration: none !important; color: inherit; }
 }
 
 .mystery-box-img {
-    width: 90px;
+    width: 140px;
     filter: drop-shadow(0 5px 8px rgba(0,0,0,0.2));
     transition: transform 0.3s;
 }
@@ -259,7 +259,7 @@ a { text-decoration: none !important; color: inherit; }
     color: white;
     font-weight: 700;
     font-size: 14px;
-    margin-top: -8px;
+    margin-top: -20px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 

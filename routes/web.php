@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
     // --- HOME & SEARCH ROUTES ---
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    
+
     // Search Routes (sesuai sequence diagram)
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search');
     Route::post('/search', [ProductController::class, 'searchProduct'])->name('search.submit');
@@ -97,25 +97,25 @@ Route::middleware('auth')->group(function () {
 
     // ORDER/CHECKOUT FLOW ROUTES
     Route::get('/order/payment', [\App\Http\Controllers\OrderController::class, 'showPayment'])->name('order.payment');
-    
+
     // Address Management in Checkout
     Route::get('/order/address/select', [\App\Http\Controllers\OrderController::class, 'selectAddress'])->name('order.address.select');
     Route::get('/order/address/details/{id?}', [\App\Http\Controllers\OrderController::class, 'showAddressDetails'])->name('order.address.details');
     Route::post('/order/address/save', [\App\Http\Controllers\OrderController::class, 'saveAddress'])->name('order.address.save');
     Route::delete('/order/address/delete/{id}', [\App\Http\Controllers\OrderController::class, 'deleteAddress'])->name('order.address.delete');
-    
+
     // Delivery Selection
     Route::get('/order/delivery', [\App\Http\Controllers\OrderController::class, 'showDeliveryOptions'])->name('order.delivery');
     Route::post('/order/delivery/{id}', [\App\Http\Controllers\OrderController::class, 'selectDelivery'])->name('order.delivery.select');
-    
+
     // Payment Method Selection
     Route::get('/order/payment-methods', [\App\Http\Controllers\OrderController::class, 'showPaymentMethods'])->name('order.payment.methods');
     Route::post('/order/payment-method/{id}', [\App\Http\Controllers\OrderController::class, 'selectPaymentMethod'])->name('order.payment.method.select');
-    
+
     // Order Processing & Confirmation
     Route::post('/order/process', [\App\Http\Controllers\OrderController::class, 'processOrder'])->name('order.process');
     Route::get('/order/confirmation/{id}', [\App\Http\Controllers\OrderController::class, 'showOrderConfirmation'])->name('order.confirmation');
-    
+
     // Order History
     Route::get('/order/history', [\App\Http\Controllers\OrderController::class, 'orderHistory'])->name('order.history');
     Route::get('/order/{id}', [\App\Http\Controllers\OrderController::class, 'orderDetails'])->name('order.details');
