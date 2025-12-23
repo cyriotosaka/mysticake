@@ -54,16 +54,10 @@
             </a>
         </div>
 
-        <form action="{{ route('search.submit') }}" method="POST" class="search-container">
-            @csrf
-            <a href="{{ route('search') }}" class="text-decoration-none text-dark">
-                <i class="bi bi-search search-icon-left"></i>
-            </a>
-
-            <input type="text" name="q" class="search-input" placeholder="Search" autocomplete="off">
-
-            <i class="bi bi-x-lg search-icon-close"></i>
-        </form>
+        <a href="{{ route('search') }}" class="search-container text-decoration-none">
+            <i class="bi bi-search search-icon-left"></i>
+            <span class="search-input">Search</span>
+        </a>
 
         <div class="banner-section">
             <div class="banner-overlay">
