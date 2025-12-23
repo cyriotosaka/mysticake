@@ -316,31 +316,22 @@
 
     <!-- Payment Summary -->
     <div class="pink-card">
-        <div class="card-header">
-            <i class="bi bi-receipt-cutoff"></i>
-            Payment Summary
-        </div>
-        <div class="summary-row">
-            <span class="summary-label">Total Price</span>
-            <span class="summary-value">{{ number_format($subtotal / 1000, 0) }}.000</span>
-        </div>
-        <div class="summary-row">
-            <span class="summary-label">Delivery Charges</span>
-            <span class="summary-value">{{ number_format($deliveryCharge / 1000, 0) }}.000</span>
-        </div>
-        <div class="summary-row">
-            <span class="summary-label">Extra Charges</span>
-            <span class="summary-value">0.000</span>
-        </div>
-        <div class="summary-row">
-            <span class="summary-label">Discount</span>
-            <span class="summary-value">-0.000</span>
-        </div>
-        <div class="total-row">
-            <span>Total Payment</span>
-            <span>{{ number_format($total / 1000, 0) }}.000</span>
-        </div>
+    <div class="card-header">
+        <i class="bi bi-receipt-cutoff"></i> Payment Summary
     </div>
+    <div class="summary-row">
+        <span class="summary-label">Total Price</span>
+        <span class="summary-value">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+    </div>
+    <div class="summary-row">
+        <span class="summary-label">Delivery Charges</span>
+        <span class="summary-value">Rp {{ number_format($deliveryCharge, 0, ',', '.') }}</span>
+    </div>
+    <div class="total-row">
+        <span>Total Payment</span>
+        <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
+    </div>
+</div>
 
     <!-- Payment Method -->
     <div class="pink-card">
@@ -364,16 +355,78 @@
 
     <!-- Purchase Button -->
     <div class="purchase-section">
-        <form action="{{ route('order.process') }}" method="POST">
-            @csrf
-            <button type="submit" class="purchase-btn" 
-                    @if(!$address || !$delivery || !$paymentMethod) disabled @endif>
-                Purchase
-            </button>
-        </form>
+    <form action="{{ route('order.process') }}" method="POST">
+        @csrf
+        <button type="submit" id="mainPurchaseBtn" class="purchase-btn" 
+                @if(!$address || !$delivery || !$paymentMethod) disabled @endif>
+            Purchase
+        </button>
+    </form>
     </div>
 </div>
 
+<div class="modal fade" id="pinModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 350px;">
+        <div class="modal-content border-0" style="border-radius: 20px;">
+            <div class="modal-body text-center p-4">
+                <h5 class="fw-bold mb-3" style="color: #1A1A1A;">Security PIN</h5>
+                <p class="text-muted small">Please enter your 6-digit PIN to confirm payment</p>
+                <div class="d-flex justify-content-center gap-2 mb-4">
+                    @for($i = 0; $i < 6; $i++)
+                        <input type="password" class="form-control text-center otp-input" 
+                               maxlength="1" pattern="\d*" inputmode="numeric"
+                               style="width: 40px; height: 50px; border: 2px solid #FFE5EC; border-radius: 10px;">
+                    @endfor
+                </div>
+                <button type="button" class="purchase-btn w-100" id="confirmPinBtn">Confirm & Pay</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainPurchaseBtn = document.getElementById('mainPurchaseBtn');
+        const confirmPinBtn = document.getElementById('confirmPinBtn');
+        const pinModal = new bootstrap.Modal(document.getElementById('pinModal'));
+        const inputs = document.querySelectorAll('.otp-input');
+        
+        // Grab payment method name from PHP
+        const paymentMethod = "{{ $paymentMethod->name_method ?? 'Cash' }}";
+
+        // 1. Intercept "Purchase" Click
+        mainPurchaseBtn.addEventListener('click', function(e) {
+            // Only show PIN for non-Cash methods (e.g., E-Wallet, Card)
+            if (paymentMethod !== 'Cash') {
+                e.preventDefault(); 
+                pinModal.show();
+            }
+        });
+
+        // 2. Auto-focus PIN Inputs
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // 3. Confirm & Submit Form
+        confirmPinBtn.addEventListener('click', function() {
+            // Show loading state on button
+            confirmPinBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+            confirmPinBtn.disabled = true;
+            
+            // Submit the actual form
+            mainPurchaseBtn.closest('form').submit();
+        });
+    });
+</script>
 </body>
 </html>

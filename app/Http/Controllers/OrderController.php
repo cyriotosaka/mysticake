@@ -1,9 +1,10 @@
 <?php
-
+//Modified by Muhammad Fikri Khalilullah/5026231198
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\Orders;
 use App\Models\Address;
@@ -18,39 +19,41 @@ class OrderController extends Controller
      * Figma node: 74-940
      */
     public function showPayment()
-    {
-        $user = Auth::user();
-        
-        // Get selected cart items from session
-        $selectedItemIds = session('selected_cart_items', []);
-        
-        if (empty($selectedItemIds)) {
-            return redirect()->route('cart.index')->with('error', 'Please select items to checkout');
-        }
+{
+    $user = Auth::user();
+    
+    // 1. Fetch IDs from Session
+    $selectedItemIds = session('selected_cart_items', []);
+    $addressId = session('selected_address');
+    $deliveryId = session('selected_delivery');
+    $paymentMethodId = session('selected_payment_method');
 
-        // Get cart and items
-        $cart = Cart::where('id_user', $user->id_user)->first();
-        $items = $cart->getSelectedItems($selectedItemIds);
-        
-        // Get selected address, delivery, payment method from session
-        $addressId = session('selected_address');
-        $deliveryId = session('selected_delivery');
-        $paymentMethodId = session('selected_payment_method');
-
-        $address = $addressId ? Address::find($addressId) : null;
-        $delivery = $deliveryId ? Delivery::find($deliveryId) : null;
-        $paymentMethod = $paymentMethodId ? PaymentMethod::find($paymentMethodId) : null;
-
-        // Calculate totals
-        $subtotal = $items->sum(function($item) {
-            return $item->product->price * $item->quantity;
-        });
-        
-        $deliveryCharge = $delivery ? $delivery->delivery_charges : 0;
-        $total = $subtotal + $deliveryCharge;
-
-        return view('order.payment', compact('items', 'subtotal', 'deliveryCharge', 'total', 'address', 'delivery', 'paymentMethod'));
+    // 2. Gatekeeper: If no items, go back to cart
+    if (empty($selectedItemIds)) {
+        return redirect()->route('cart.index')->with('error', 'Please select items to checkout');
     }
+
+    // 3. Fetch actual database objects using those IDs
+    $cart = Cart::where('id_user', $user->id_user)->first();
+    $items = $cart->getSelectedItems($selectedItemIds);
+    
+    $address = $addressId ? Address::find($addressId) : null;
+    $delivery = $deliveryId ? Delivery::find($deliveryId) : null;
+    $paymentMethod = $paymentMethodId ? PaymentMethod::find($paymentMethodId) : null;
+
+    // 4. Calculate real values (no more 0.000 placeholders)
+    $subtotal = $items->sum(fn($item) => $item->product->price * $item->quantity);
+    $deliveryCharge = $delivery ? $delivery->delivery_charges : 0;
+    $total = $subtotal + $deliveryCharge;
+
+    // Save total to session for verification during processOrder
+    session(['calculated_total' => $total]);
+
+    return view('order.payment', compact(
+        'items', 'subtotal', 'deliveryCharge', 'total', 
+        'address', 'delivery', 'paymentMethod'
+    ));
+}
 
     /**
      * Show Address Selection Page
@@ -223,39 +226,55 @@ class OrderController extends Controller
      */
     public function processOrder(Request $request)
     {
-        $user = Auth::user();
-        
-        // Validate all required selections
-        $selectedItemIds = session('selected_cart_items', []);
-        $addressId = session('selected_address');
-        $deliveryId = session('selected_delivery');
-        $paymentMethodId = session('selected_payment_method');
+    $user = Auth::user();
+    
+    // 1. Validate Selections
+    $selectedItemIds = session('selected_cart_items', []);
+    $addressId = session('selected_address');
+    $deliveryId = session('selected_delivery');
+    $paymentMethodId = session('selected_payment_method');
 
-        if (empty($selectedItemIds) || !$addressId || !$deliveryId || !$paymentMethodId) {
-            return redirect()->route('order.payment')->with('error', 'Please complete all selections');
-        }
+    if (empty($selectedItemIds) || !$addressId || !$deliveryId || !$paymentMethodId) {
+        return redirect()->route('order.payment')->with('error', 'Please complete all selections');
+    }
 
-        // Get cart and items
-        $cart = Cart::where('id_user', $user->id_user)->first();
-        $cartItems = $cart->getSelectedItems($selectedItemIds);
+    try {
+        // 2. Start Transaction
+        return DB::transaction(function () use ($user, $selectedItemIds, $addressId, $deliveryId, $paymentMethodId) {
+            
+            $cart = Cart::where('id_user', $user->id_user)->first();
+            $cartItems = $cart->getSelectedItems($selectedItemIds);
 
-        // Create order
-        $order = Orders::createFromCart(
-            $cartItems,
-            $user->id_user,
-            $addressId,
-            $deliveryId,
-            $paymentMethodId
-        );
+            // 3. Create order (using your model method)
+            $order = Orders::createFromCart(
+                $cartItems,
+                $user->id_user,
+                $addressId,
+                $deliveryId,
+                $paymentMethodId
+            );
 
-        // Clear cart items
-        $cart->clearSelectedItems($selectedItemIds);
+            // 4. Initialize Order History (Required for your Details page)
+            // Replace 'OrderHistory' with your actual model name
+            $order->histories()->create([
+                'date' => now()->toDateString(),
+                'time' => now()->toTimeString(),
+                'status_description' => 'Order has been placed and is awaiting processing.'
+            ]);
 
-        // Clear session
-        session()->forget(['selected_cart_items', 'selected_address', 'selected_delivery', 'selected_payment_method']);
+            // 5. Cleanup
+            $cart->clearSelectedItems($selectedItemIds);
+            session()->forget(['selected_cart_items', 'selected_address', 'selected_delivery', 'selected_payment_method']);
 
-        // Redirect to confirmation
-        return redirect()->route('order.confirmation', ['id' => $order->id_order]);
+            return redirect()->route('order.confirmation', ['id' => $order->id_order])
+                             ->with('success', 'Order placed successfully!');
+        });
+
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        \Log::error('Order Processing Error: ' . $e->getMessage());
+        return redirect()->route('order.payment')->with('error', 'Something went wrong. Please try again.');
+    }
     }
 
     /**
@@ -302,4 +321,58 @@ class OrderController extends Controller
 
         return view('order.details', compact('order'));
     }
+    
+    public function checkoutSummary()
+    {
+    // 1. Get cart items
+    $items = Cart::where('user_id', auth()->id())->with('product')->get();
+    
+    // 2. Calculate subtotal
+    $subtotal = $items->sum(fn($item) => $item->product->price * $item->quantity);
+    
+    // 3. Retrieve selections from Session (set in previous steps)
+    $address = UserAddress::find(session('selected_address_id'));
+    $delivery = DeliveryMethod::find(session('selected_delivery_id'));
+    $paymentMethod = PaymentMethod::find(session('selected_payment_id'));
+    
+    $deliveryCharge = $delivery ? $delivery->delivery_charges : 0;
+    $total = $subtotal + $deliveryCharge;
+
+    return view('order.payment', compact(
+        'items', 'subtotal', 'address', 'delivery', 
+        'paymentMethod', 'deliveryCharge', 'total'
+    ));
+    }
+
+    public function showPaymentSummary()
+{
+    $user = auth()->user();
+    
+    // Fetch the IDs stored in session from previous steps
+    $addressId = session('selected_address');
+    $deliveryId = session('selected_delivery');
+    $paymentMethodId = session('selected_payment_method');
+    $selectedItemIds = session('selected_cart_items', []);
+
+    // Load the actual models
+    $address = Address::find($addressId);
+    $delivery = DeliveryMethod::find($deliveryId);
+    $paymentMethod = PaymentMethod::find($paymentMethodId);
+    
+    // Get the specific items from the cart
+    $items = CartItem::whereIn('id', $selectedItemIds)->with('product')->get();
+    
+    // Calculate totals
+    $subtotal = $items->sum(fn($item) => $item->product->price * $item->quantity);
+    $deliveryCharge = $delivery ? $delivery->delivery_charges : 0;
+    $total = $subtotal + $deliveryCharge;
+
+    // Save total to session for the final processOrder step
+    session(['calculated_total' => $total]);
+
+    return view('order.payment', compact(
+        'address', 'delivery', 'paymentMethod', 'items', 
+        'subtotal', 'deliveryCharge', 'total'
+    ));
+}
 }
