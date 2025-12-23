@@ -86,49 +86,36 @@ class Orders extends Model
      * Create order from cart items
      */
     public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
-    {
-        // Calculate total
-        $subtotal = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
-        });
+{
+    $subtotal = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
+    $delivery = Delivery::find($deliveryId);
+    $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
+    $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
 
-        // Get delivery charges
-        $delivery = Delivery::find($deliveryId);
-        $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
+    // Create the Order Record
+    $order = self::create([
+        'id_user' => $userId,
+        'id_address' => $addressId,
+        'id_delivery' => $deliveryId,
+        'id_payment_method' => $paymentMethodId,
+        'order_date' => now(),
+        'extra_charges' => $extraCharges,
+        'total_payment' => $totalPayment,
+        'status_order' => 'Pending'
+    ]);
 
-        $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
-
-        // Create order
-        $order = self::create([
-            'id_user' => $userId,
-            'id_address' => $addressId,
-            'id_delivery' => $deliveryId,
-            'id_payment_method' => $paymentMethodId,
-            'order_date' => now(),
-            'extra_charges' => $extraCharges,
-            'total_payment' => $totalPayment,
-            'status_order' => 'Pending'
-        ]);
-
-        // Create order items
-        foreach ($cartItems as $cartItem) {
-            OrderItem::create([
-                'id_order' => $order->id_order,
-                'id_product' => $cartItem->id_product,
-                'quantity' => $cartItem->quantity,
-                'subtotal' => $cartItem->product->price * $cartItem->quantity
-            ]);
-        }
-
-        // Create history record
-        History::create([
+    // Move items from Cart to OrderItems
+    foreach ($cartItems as $cartItem) {
+        OrderItem::create([
             'id_order' => $order->id_order,
-            'date' => now()->toDateString(),
-            'time' => now()->toTimeString()
+            'id_product' => $cartItem->id_product,
+            'quantity' => $cartItem->quantity,
+            'subtotal' => $cartItem->product->price * $cartItem->quantity
         ]);
-
-        return $order;
     }
+
+    return $order;
+}
 
     /**
      * Get all orders for a user
