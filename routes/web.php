@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/product/{id}/review', [ReviewController::class, 'store'])->name('review.store');
     Route::put('/review/{id}', [ReviewController::class, 'update'])->name('review.update');
     Route::delete('/review/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::post('/review/{id}/like', [ReviewController::class, 'toggleLike'])->name('review.like');
 
     // --- LOGOUT ROUTE ---
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

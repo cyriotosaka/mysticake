@@ -3,6 +3,8 @@
  * Updated by Abdul Ghoni (5026231109)
  * - Menambahkan fitur upload foto review
  * - Menambahkan CRUD (update, destroy) untuk review
+ * - Menambahkan validasi: prevent duplicate review, purchase validation
+ * - Menambahkan fitur like review
  */
 
 namespace App\Http\Controllers;
@@ -39,6 +41,22 @@ class ReviewController extends Controller
         // Ambil user yang login
         $user = Auth::user();
 
+        // ===========================================
+        // HIGH PRIORITY FIX: Validasi Review
+        // ===========================================
+        
+        // Cek apakah user sudah pernah review produk ini (Prevent Duplicate)
+        if (ReviewProduct::hasUserReviewed($user->id_user, $productId)) {
+            return back()->with('error', 'Anda sudah pernah memberikan review untuk produk ini. Silakan edit review yang sudah ada.');
+        }
+
+        // Cek apakah user pernah membeli produk ini (Purchase Validation)
+        if (!ReviewProduct::hasUserPurchased($user->id_user, $productId)) {
+            return back()->with('error', 'Anda harus membeli produk ini terlebih dahulu sebelum bisa memberikan review.');
+        }
+
+        // ===========================================
+
         // Handle photo upload
         $photoName = null;
         if ($request->hasFile('review_photo')) {
@@ -47,14 +65,15 @@ class ReviewController extends Controller
             $photo->move(public_path('images/reviews'), $photoName);
         }
 
-        // Buat review baru
+        // Buat review baru dengan timestamp
         ReviewProduct::create([
             'id_product' => $productId,
             'id_user' => $user->id_user,
             'rating' => $request->input('rating'),
             'comment' => $request->input('comment'),
             'like_review' => 0,
-            'review_photo' => $photoName
+            'review_photo' => $photoName,
+            'created_at' => now() // MEDIUM PRIORITY FIX: Add timestamp
         ]);
 
         return back()->with('success', 'Terima kasih! Review Anda berhasil ditambahkan.');
@@ -142,4 +161,23 @@ class ReviewController extends Controller
 
         return back()->with('success', 'Review berhasil dihapus.');
     }
+
+    /**
+     * Toggle like pada review
+     * MEDIUM PRIORITY FIX: Make like button functional
+     */
+    public function toggleLike($id)
+    {
+        $review = ReviewProduct::find($id);
+        
+        if (!$review) {
+            return back()->with('error', 'Review tidak ditemukan.');
+        }
+
+        // Increment like count
+        $review->incrementLike();
+
+        return back()->with('success', 'Terima kasih atas feedback Anda!');
+    }
 }
+
