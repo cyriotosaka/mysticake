@@ -148,6 +148,7 @@ class ProductController extends Controller
      * 3. return RatingPage view
      * 
      * Created by: Abdul Ghoni (5026231109)
+     * Updated: Menambahkan validasi canReview untuk UI
      */
     public function showRatings($id)
     {
@@ -161,10 +162,17 @@ class ProductController extends Controller
         // 1.1.2.1: findByProduct(productData.id)
         $reviews = ReviewProduct::findByProduct($id);
 
+        // Check if current user can review this product
+        $canReview = ['can_review' => false, 'message' => 'Silakan login untuk memberikan review.'];
+        if (Auth::check()) {
+            $canReview = ReviewProduct::canUserReview(Auth::user()->id_user, $id);
+        }
+
         // 1.1.3: return RatingPage view
         return view('rating.rating', [
             'product' => $product,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'canReview' => $canReview
         ]);
     }
 }

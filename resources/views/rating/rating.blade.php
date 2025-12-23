@@ -1,6 +1,7 @@
     <!-- Nama : Abdul Ghoni -->
     <!-- NRP : 5026231109 -->
     <!-- Updated by Abdul Ghoni (5026231109) - Menambahkan fitur upload foto, CRUD review, photo viewer lightbox -->
+    <!-- Updated: Validasi review, timestamp display, like button functional -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -27,7 +28,7 @@
         <!-- Tabs: Product / Store -->
         <div class="nav-tabs-container">
             <a href="#" class="nav-tab-item active">Product</a>
-            <a href="#" class="nav-tab-item">Store</a>
+            <a href="#" class="nav-tab-item disabled" style="color: #ccc; pointer-events: none;">Store</a>
         </div>
 
         <main class="content-area">
@@ -91,48 +92,66 @@
             </div>
             @endif
 
-            <!-- Add Review Form -->
+            <!-- Add Review Form - Conditional based on canReview status -->
+            @if(Auth::check())
+                @if($canReview['can_review'])
+                <div class="add-review-section">
+                    <h6 class="add-review-title"><i class="bi bi-pencil-square me-2"></i>Tulis Review Anda</h6>
+                    <form action="{{ route('review.store', $product->id_product) }}" method="POST" class="review-form" enctype="multipart/form-data">
+                        @csrf
+                        
+                        <!-- Star Rating Input -->
+                        <div class="star-rating-input">
+                            <label class="rating-label">Rating:</label>
+                            <div class="star-selector">
+                            @for($i = 5; $i >= 1; $i--)
+                            <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }} required>
+                            <label for="star{{ $i }}" class="star-label"><i class="bi bi-star-fill"></i></label>
+                            @endfor
+                        </div>
+                        </div>
+
+                        <!-- Comment Input -->
+                        <div class="comment-input">
+                            <label for="comment" class="rating-label">Komentar (opsional):</label>
+                            <textarea name="comment" id="comment" class="form-control" rows="3" placeholder="Bagikan pengalaman Anda dengan produk ini...">{{ old('comment') }}</textarea>
+                        </div>
+
+                        <!-- Photo Upload -->
+                        <div class="photo-upload-input">
+                            <label for="review_photo" class="rating-label">Upload Foto (opsional):</label>
+                            <div class="photo-upload-area">
+                                <input type="file" name="review_photo" id="review_photo" accept="image/*" class="form-control">
+                                <small class="text-muted">Format: JPG, PNG, GIF. Max: 2MB</small>
+                            </div>
+                            <div id="photo-preview" class="photo-preview" style="display: none;">
+                                <img id="preview-img" src="" alt="Preview">
+                                <button type="button" id="remove-photo" class="btn-remove-photo"><i class="bi bi-x-circle"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit-review">
+                            <i class="bi bi-send me-2"></i>Kirim Review
+                        </button>
+                    </form>
+                </div>
+                @else
+                <!-- Cannot Review Message -->
+                <div class="add-review-section">
+                    <div class="alert alert-warning mb-0" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>{{ $canReview['message'] }}
+                    </div>
+                </div>
+                @endif
+            @else
+            <!-- Not Logged In Message -->
             <div class="add-review-section">
-                <h6 class="add-review-title"><i class="bi bi-pencil-square me-2"></i>Tulis Review Anda</h6>
-                <form action="{{ route('review.store', $product->id_product) }}" method="POST" class="review-form" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <!-- Star Rating Input -->
-                    <div class="star-rating-input">
-                        <label class="rating-label">Rating:</label>
-                        <div class="star-selector">
-                        @for($i = 5; $i >= 1; $i--)
-                        <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}" {{ old('rating') == $i ? 'checked' : '' }} required>
-                        <label for="star{{ $i }}" class="star-label"><i class="bi bi-star-fill"></i></label>
-                        @endfor
-                    </div>
-                    </div>
-
-                    <!-- Comment Input -->
-                    <div class="comment-input">
-                        <label for="comment" class="rating-label">Komentar (opsional):</label>
-                        <textarea name="comment" id="comment" class="form-control" rows="3" placeholder="Bagikan pengalaman Anda dengan produk ini...">{{ old('comment') }}</textarea>
-                    </div>
-
-                    <!-- Photo Upload -->
-                    <div class="photo-upload-input">
-                        <label for="review_photo" class="rating-label">Upload Foto (opsional):</label>
-                        <div class="photo-upload-area">
-                            <input type="file" name="review_photo" id="review_photo" accept="image/*" class="form-control">
-                            <small class="text-muted">Format: JPG, PNG, GIF. Max: 2MB</small>
-                        </div>
-                        <div id="photo-preview" class="photo-preview" style="display: none;">
-                            <img id="preview-img" src="" alt="Preview">
-                            <button type="button" id="remove-photo" class="btn-remove-photo"><i class="bi bi-x-circle"></i></button>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-submit-review">
-                        <i class="bi bi-send me-2"></i>Kirim Review
-                    </button>
-                </form>
+                <div class="alert alert-info mb-0" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>Silakan <a href="{{ route('login') }}">login</a> untuk memberikan review.
+                </div>
             </div>
+            @endif
             
             <!-- Review List -->
             <div class="review-list">
@@ -152,10 +171,21 @@
                                         @endif
                                     @endfor
                                 </div>
+                                <!-- Timestamp Display (MEDIUM Priority Fix) -->
+                                <small class="review-date text-muted">
+                                    <i class="bi bi-clock me-1"></i>{{ $review->getFormattedDate() }}
+                                </small>
                             </div>
                         </div>
-                        <div class="like-count">
-                            ({{ $review->like_review ?? 0 }}) <i class="bi bi-hand-thumbs-up"></i>
+                        <!-- Like Button - Now Functional (MEDIUM Priority Fix) -->
+                        <div class="like-section">
+                            <form action="{{ route('review.like', $review->id_review_product) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn-like-review" title="Like this review">
+                                    <span class="like-count-num">({{ $review->like_review ?? 0 }})</span>
+                                    <i class="bi bi-hand-thumbs-up"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     

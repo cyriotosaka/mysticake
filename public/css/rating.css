@@ -616,3 +616,48 @@ body {
     background: #f0f0f0;
     transform: scale(1.1);
 }
+
+/* --- REVIEW DATE TIMESTAMP --- */
+.review-date {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+}
+
+/* --- LIKE SECTION --- */
+.like-section {
+    display: flex;
+    align-items: center;
+}
+
+.btn-like-review {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.btn-like-review:hover {
+    background: #e3f2fd;
+    border-color: #2196f3;
+    color: #1976d2;
+}
+
+.btn-like-review:active {
+    transform: scale(0.95);
+}
+
+.btn-like-review .like-count-num {
+    font-weight: 500;
+}
+
+.btn-like-review i {
+    font-size: 14px;
+}
