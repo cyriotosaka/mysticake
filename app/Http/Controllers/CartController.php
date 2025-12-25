@@ -36,11 +36,12 @@ class CartController extends Controller
             return $item->product->price * $item->quantity;
         });
 
-        return view('cart', [
+        return view('cart.cart', [
             'cart' => $cart,
             'items' => $items,
             'total' => $total
         ]);
+
     }
 
     /**
@@ -87,11 +88,21 @@ class CartController extends Controller
     {
         $item = CartItem::findOrFail($cartItemId);
 
-        $request->validate([
-            'quantity' => 'required|integer|min:1'
-        ]);
+        // Handle increase/decrease actions
+        if ($request->has('action')) {
+            if ($request->action === 'increase') {
+                $item->quantity += 1;
+            } elseif ($request->action === 'decrease' && $item->quantity > 1) {
+                $item->quantity -= 1;
+            }
+        } else {
+            // Handle direct quantity update
+            $request->validate([
+                'quantity' => 'required|integer|min:1'
+            ]);
+            $item->quantity = $request->quantity;
+        }
 
-        $item->quantity = $request->quantity;
         $item->save();
 
         return back();
@@ -111,8 +122,17 @@ class CartController extends Controller
     /**
      * Proceed to Payment
      */
-    public function checkout()
+    public function checkout(Request $request)
     {
-        return redirect()->route('payment.index');
+        $request->validate([
+            'selected_items' => 'required|array|min:1',
+            'selected_items.*' => 'exists:cart_item,id_cart_item'
+        ]);
+
+        // Store selected items in session
+        session(['selected_cart_items' => $request->selected_items]);
+
+        return redirect()->route('order.payment');
     }
+
 }

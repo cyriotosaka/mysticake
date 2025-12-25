@@ -14,8 +14,8 @@
 
     <div class="container px-3">
 
-        <div class="brand-header pt-3">
-            <h1>MYstiCake</h1>
+        <div class="brand-header pt-3 text-center">
+            <img src="{{ asset('images/text_logo.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
         </div>
 
         <div class="user-info-row">
@@ -39,30 +39,25 @@
                         </a>
                     </div>
                     <div class="balance">
-                        <i class="bi bi-coin coin-icon"></i> 120.000
+                        <i class="bi bi-coin coin-icon"></i>
+                        {{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}
                         <i class="bi bi-plus-circle plus-icon"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="cart-right">
+            <a href="{{ route('cart.index') }}" class="cart-right text-decoration-none">
                 <i class="bi bi-cart-fill cart-icon"></i>
                 @if($cartCount > 0)
                     <div class="cart-badge">{{ $cartCount }}</div>
                 @endif
-            </div>
+            </a>
         </div>
 
-        <form action="{{ route('search.submit') }}" method="POST" class="search-container">
-            @csrf
-            <a href="{{ route('search') }}" class="text-decoration-none text-dark">
-                <i class="bi bi-search search-icon-left"></i>
-            </a>
-
-            <input type="text" name="q" class="search-input" placeholder="Search" autocomplete="off">
-
-            <i class="bi bi-x-lg search-icon-close"></i>
-        </form>
+        <a href="{{ route('search') }}" class="search-container text-decoration-none">
+            <i class="bi bi-search search-icon-left"></i>
+            <span class="search-input">Search</span>
+        </a>
 
         <div class="banner-section">
             <div class="banner-overlay">

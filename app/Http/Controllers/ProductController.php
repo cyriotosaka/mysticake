@@ -36,6 +36,8 @@ class ProductController extends Controller
     /**
      * Menampilkan Halaman Search Awal (GET /search)
      * Sesuai sequence diagram: menampilkan SearchPage view
+     * 
+     * Created by: Abdul Ghoni (5026231109)
      */
     public function showSearchPage()
     {
@@ -61,6 +63,8 @@ class ProductController extends Controller
      * 3. Product Model return productList
      * 4. ProductController call getDetails(productList)
      * 5. Return view dengan fullProductList
+     * 
+     * Created by: Abdul Ghoni (5026231109)
      */
     public function searchProduct(Request $request)
     {
@@ -142,6 +146,9 @@ class ProductController extends Controller
      * 1. call getProductDetails(id) -> Product Model
      * 2. call showRatings(productData) -> ReviewProduct Model
      * 3. return RatingPage view
+     * 
+     * Created by: Abdul Ghoni (5026231109)
+     * Updated: Menambahkan validasi canReview untuk UI
      */
     public function showRatings($id)
     {
@@ -155,10 +162,17 @@ class ProductController extends Controller
         // 1.1.2.1: findByProduct(productData.id)
         $reviews = ReviewProduct::findByProduct($id);
 
+        // Check if current user can review this product
+        $canReview = ['can_review' => false, 'message' => 'Silakan login untuk memberikan review.'];
+        if (Auth::check()) {
+            $canReview = ReviewProduct::canUserReview(Auth::user()->id_user, $id);
+        }
+
         // 1.1.3: return RatingPage view
         return view('rating.rating', [
             'product' => $product,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'canReview' => $canReview
         ]);
     }
 }

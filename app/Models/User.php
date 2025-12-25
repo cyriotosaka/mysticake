@@ -67,6 +67,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Wallet::class, 'id_user', 'id_user');
     }
+    // Aksesor untuk mempermudah pemanggilan saldo (Opsional tapi berguna)
+    public function getBalanceAttribute()
+    {
+        // Jika wallet ada, ambil saldonya. Jika tidak, return 0
+        return $this->wallet ? $this->wallet->saldo_coin : 0;
+    }
 
     /**
      * Relasi: User memiliki banyak review produk

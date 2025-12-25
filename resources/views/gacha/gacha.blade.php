@@ -8,65 +8,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/gacha.css') }}">
 </head>
-<body class="theme-normal" id="bodyTheme">
+<body class="theme-{{ $mode }}">
 
-    <div class="gacha-header">
-        <div class="d-flex align-items-center gap-3">
-            <a href="{{ route('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+<div class="mobile-container">
 
-            <div class="d-flex align-items-center">
-                <i class="fas fa-user-circle fa-2x text-secondary me-2"></i>
-                <div class="coin-display">
-                    <i class="fas fa-coins coin-icon"></i>
-                    <span id="userBalance">{{ number_format($user->balance ?? 120000, 0, ',', '.') }}</span>
-                    <i class="fas fa-plus-circle ms-2 small"></i>
-                </div>
+        <div class="top-header">
+            <a href="{{ route('home') }}" class="icon-btn"><i class="fas fa-arrow-left"></i></a>
+            <img src="{{ asset('images/mysticake_pink.png') }}" alt="MYstiCake" class="brand-logo-img">
+            <div class="icon-btn" onclick="openModal('pageInfoModal')"><i class="fas fa-info-circle"></i></div>
+        </div>
+
+        <div class="user-stats-row">
+            <div class="profile-circle">
+                @if(Auth::user()->profile_pic)
+                    <img src="{{ asset(Auth::user()->profile_pic) }}" alt="User">
+                @else
+                    <i class="fas fa-user-circle" style="font-size: 40px; color: #F06292;"></i>
+                @endif
+            </div>
+
+            <div class="coin-pill">
+                <i class="fas fa-coins text-warning coin-icon"></i>
+                <span id="userBalance">{{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}</span>
+                <i class="fas fa-plus-circle plus-btn"></i>
             </div>
         </div>
 
-        <i class="fas fa-info-circle info-btn" onclick="openModal('pageInfoModal')"></i>
+    <div class="title-container text-center">
+        <img src="{{ asset('images/judul_normal.png') }}"
+            id="dynamicTitleImg"
+            class="gacha-title-img"
+            alt="Mode Title">
     </div>
-
-    <div class="text-center mt-2">
-        <div class="brand-text">MYstiCake</div>
-    </div>
-
-    <div class="wavy-tabs-container">
-        <svg class="wave-svg" viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
-            <path id="wavePath" fill="none" stroke="#4E342E" stroke-width="3"
-                  d="M0,60 C320,120 420,0 720,60 C1020,120 1120,0 1440,60"></path>
-        </svg>
-
-        <div class="mode-switcher">
-            <div class="mode-text normal active" onclick="switchMode('normal')">Normal</div>
-            <div class="mode-text premium" onclick="switchMode('premium')">Premium</div>
-        </div>
-    </div>
-
-    <div class="sub-title" id="boxTitle">MYstery BoX</div>
 
     <div class="gacha-container">
+
+        <a href="{{ route('gacha.history', ['mode' => $mode]) }}" class="history-pill">
+            Gacha History
+        </a>
+
 
         <a href="{{ route('gacha.droprates') }}" class="float-btn drop-rate-btn">
             <i class="fas fa-chart-pie drop-rate-icon"></i>
         </a>
 
         <div class="float-btn bonus-box-btn" onclick="openModal('bonusInfoModal')">
-            <img src="{{ asset('images/mystery_box.png') }}" class="bonus-icon" alt="Bonus">
+            <img src="{{ asset('images/point.png') }}" class="bonus-icon" alt="Bonus">
             <div class="bonus-count">0/100</div>
         </div>
 
-        <a href="{{ route('gacha.history') }}" class="history-pill">
-            Gacha History
-        </a>
+        <div class="float-btn btn-undo" onclick="toggleMode()">
+            <i class="fas fa-reply"></i>
+        </div>
 
         <img src="{{ asset('images/mystery_box.png') }}"
              id="mysteryBoxImg"
              class="mystery-box-main"
              alt="Mystery Box"
              onclick="playGacha()">
-
-        <div class="mt-4 text-center text-muted small" id="tapHint">Tap the Mystery Box !</div>
 
         <button class="play-btn" onclick="playGacha()">
             <span id="priceText">15.000</span> <i class="fas fa-coins"></i>
@@ -112,46 +111,52 @@
 
 
     <script>
-        let currentMode = 'normal';
+        let currentMode = "{{ $mode ?? 'normal' }}";
         const boxImg = document.getElementById('mysteryBoxImg');
+        const titleImg = document.getElementById('dynamicTitleImg'); // Ambil elemen gambar judul
         const body = document.getElementById('bodyTheme');
 
-        // Data Dummy untuk UI Switching
+        // DATABASE TAMPILAN (Setting Gambar & Warna di sini)
         const dataUI = {
             normal: {
                 price: '15.000',
-                img: "{{ asset('images/mystery_box.png') }}", // Pastikan file ini ada
-                info: "This is Normal Mystery Box page, price around 10k to 30k.",
-                color: '#4E342E'
+                box: "{{ asset('images/mystery_box.png') }}",
+                title: "{{ asset('images/judul_normal.png') }}",
+                info: "Normal Mystery Box: Price around 10k - 30k.",
+                themeClass: 'theme-normal'
             },
             premium: {
                 price: '25.000',
-                img: "{{ asset('images/mystery_box.png') }}", // Pastikan file ini ada
-                info: "This is Premium Mystery Box page! Higher chance for rare items. Price around 25k to 100k.",
-                color: '#D81B60'
+                box: "{{ asset('images/mystery_box.png') }}",
+                title: "{{ asset('images/judul_premium.png') }}",
+                info: "Premium Mystery Box: Higher chance! Price 25k - 100k.",
+                themeClass: 'theme-premium'
             }
         };
 
-        // Fungsi Ganti Mode (Slide Effect)
-        function switchMode(mode) {
-            currentMode = mode;
-
-            // 1. Update Class Active Text
-            document.querySelectorAll('.mode-text').forEach(el => el.classList.remove('active'));
-            document.querySelector(`.mode-text.${mode}`).classList.add('active');
-
-            // 2. Ganti Tema Body (Warna BG & Text)
-            body.className = `theme-${mode}`;
-
-            // 3. Ganti Gambar Box & Harga
-            boxImg.src = dataUI[mode].img;
-            document.getElementById('priceText').innerText = dataUI[mode].price;
-            document.getElementById('infoContent').innerText = dataUI[mode].info;
-
-            // 4. Update Warna SVG Wave (Optional)
-            const wavePath = document.getElementById('wavePath');
-            wavePath.setAttribute('stroke', dataUI[mode].color);
+    // Fungsi Toggle Mode (Dipanggil saat klik Tombol Undo)
+        function toggleMode() {
+            const nextMode = currentMode === 'normal' ? 'premium' : 'normal';
+            window.location.href = `/gacha?mode=${nextMode}`;
         }
+
+
+        function updateUI() {
+            const ui = dataUI[currentMode];
+
+            // HAPUS theme lama
+            body.classList.remove('theme-normal', 'theme-premium');
+
+            // TAMBAH theme baru
+            body.classList.add(ui.themeClass);
+
+            titleImg.src = ui.title;
+            boxImg.src = ui.box;
+            document.getElementById('priceText').innerText = ui.price;
+            document.getElementById('infoContent').innerText = ui.info;
+
+        }
+
 
         // Fungsi Play Gacha
         function playGacha() {
@@ -178,6 +183,7 @@
                 })
             })
             .then(response => response.json())
+
             .then(data => {
                 // Stop Animasi
                 boxImg.classList.remove('shaking');
@@ -233,6 +239,11 @@
                 document.getElementById(id).style.display = 'none';
             }
         }
+        function goToHistory() {
+            window.location.href = "{{ route('gacha.history') }}?mode=" + currentMode;
+        }
+
     </script>
+</div>
 </body>
 </html>
