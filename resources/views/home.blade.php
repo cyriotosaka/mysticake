@@ -20,17 +20,27 @@
 
         <div class="user-info-row">
             <div class="profile-left">
-                <div class="avatar-circle">
-                    @php
-                        $photo = Auth::user()->profile_pic;
-                    @endphp
+                
+                <a href="{{ route('settings.profile') }}" class="text-decoration-none">
+                    
+                    <div class="avatar-circle">
+                        @php
+                            $photo = Auth::user()->profile_picture; 
+                        @endphp
 
-                    @if($photo)
-                        <img src="{{ asset($photo) }}?v={{ time() }}" alt="Profile">
-                    @else
-                        <i class="bi bi-person-fill"></i>
-                    @endif
-                </div>
+                        @if($photo)
+                            {{-- Tambahkan style width, height, dan object-fit: cover --}}
+                            <img src="{{ asset($photo) }}?v={{ time() }}" 
+                                alt="Profile" 
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        @else
+                            {{-- Icon putih jika tidak ada foto --}}
+                            <i class="bi bi-person-fill text-white fs-4"></i>
+                        @endif
+                    </div>
+
+                </a>
+
                 <div class="user-details">
                     <div class="username">
                         {{ Auth::user()->username }}
@@ -129,5 +139,28 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Ambil data user yang sedang login dari PHP
+        const currentUser = {
+            email: "{{ Auth::user()->email }}",
+            username: "{{ Auth::user()->username }}",
+            // Gunakan gambar default jika kosong
+            avatar: "{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : '' }}" 
+        };
+
+        // 2. Ambil history lama dari LocalStorage browser
+        let history = JSON.parse(localStorage.getItem('mysticake_login_history')) || [];
+
+        // 3. Hapus data user ini dari list lama (biar tidak duplikat)
+        history = history.filter(user => user.email !== currentUser.email);
+
+        // 4. Masukkan user ini ke urutan paling atas (terbaru)
+        history.unshift(currentUser);
+
+        // 5. Simpan kembali ke browser
+        localStorage.setItem('mysticake_login_history', JSON.stringify(history));
+    });
+    </script>
 </body>
 </html>

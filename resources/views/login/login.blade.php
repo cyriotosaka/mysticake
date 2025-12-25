@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-
+// Updated by Lailatul Fitaliqoh_229
     <div class="header-nav">
         <a href="{{ route('landing') }}" class="back-btn">
             <i class="bi bi-arrow-left"></i>
@@ -37,7 +37,12 @@
 
             <div class="custom-input-group">
                 <label class="custom-label">Email</label>
-                <input type="email" name="email" class="form-control custom-field" placeholder="Type here" required>
+                <input type="email"
+                name="email" 
+                class="form-control" 
+                placeholder="Type here" 
+                value="{{ session('last_email') ?? old('email') }}" 
+                required>
             </div>
 
             <div class="custom-input-group">
