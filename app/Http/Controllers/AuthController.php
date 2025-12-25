@@ -22,27 +22,22 @@ class AuthController extends Controller
         return view('login.login');
     }
 
-    //Proses login user
+    // Proses login user
     public function login(Request $request)
     {
-        // Validasi input
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required'
         ]);
 
-        // Coba login dengan kredensial yang diberikan
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Regenerate session untuk keamanan
             $request->session()->regenerate();
 
-            // Redirect ke home page
             return redirect()->route('home');
         }
 
-        // Jika login gagal, kembali ke halaman login dengan error
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ])->withInput($request->only('email'));
@@ -93,42 +88,31 @@ class AuthController extends Controller
     // Proses logout user
     public function logout(Request $request)
     {
-        // Logout user
         Auth::logout();
-
-        // Invalidate session
         $request->session()->invalidate();
-
-        // Regenerate CSRF token
         $request->session()->regenerateToken();
 
-        // Redirect ke landing page
         return redirect()->route('landing')->with('success', 'Anda telah berhasil logout.');
     }
 
-    // Backward compatibility
-    public function landing()
+    // FITUR SWITCH ACCOUNT
+    public function switchAccount(Request $request)
     {
-        return $this->showLandingPage();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Ambil email target yang dikirim dari form JS
+        $targetEmail = $request->input('email');
+
+        // Redirect ke login membawa data email agar auto-fill
+        return redirect()->route('login')->with('last_email', $targetEmail);
     }
 
-    public function loginPage()
-    {
-        return $this->showLoginPage();
-    }
-
-    public function loginProcess(Request $request)
-    {
-        return $this->login($request);
-    }
-
-    public function registerPage()
-    {
-        return $this->showRegisterPage();
-    }
-
-    public function registerProcess(Request $request)
-    {
-        return $this->register($request);
-    }
+    // Backward compatibility 
+    public function landing() { return $this->showLandingPage(); }
+    public function loginPage() { return $this->showLoginPage(); }
+    public function loginProcess(Request $request) { return $this->login($request); }
+    public function registerPage() { return $this->showRegisterPage(); }
+    public function registerProcess(Request $request) { return $this->register($request); }
 }
