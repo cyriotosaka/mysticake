@@ -1,3 +1,4 @@
+<!---Created by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -14,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Created by Lailatul Fitaliqoh (5026231229) */
         body {
             background-color: #FFFDF5; 
             font-family: 'Instrument Sans', sans-serif;
@@ -277,13 +277,12 @@
             </div>
         </div>
 
-        <div class="menu-card">
-            <div class="menu-icon"><i class="bi bi-phone"></i></div>
+        <a href="{{ route('settings.history') }}" class="menu-card"> <div class="menu-icon"><i class="bi bi-phone"></i></div>
             <div class="menu-content">
                 <h5>Login History</h5>
                 <p>To track account activities on your devices</p>
             </div>
-        </div>
+        </a>
 
         <a href="{{ route('settings.password') }}" class="menu-card">
             <div class="menu-icon"><i class="bi bi-shield-lock-fill"></i></div> <div class="menu-content">
@@ -349,25 +348,39 @@
             <div class="modal-content modal-content-custom p-4">
                 <h6 class="mb-3 fw-bold text-center" style="color: #4E342E;">Please tell us more so we can improve our service</h6>
 
-                <form>
-                    <label class="delete-reason-option">
-                        <input type="radio" name="delete_reason" value="better_service">
+                <form action="{{ route('settings.deleteAccount') }}" method="POST">
+                    @csrf
+                    @method('DELETE') <label class="delete-reason-option">
+                        <input type="radio" name="reason" value="better_service" onchange="toggleOtherReason(false)">
                         <span>I found a better service</span>
                     </label>
                     
                     <label class="delete-reason-option">
-                        <input type="radio" name="delete_reason" value="privacy">
+                        <input type="radio" name="reason" value="privacy" onchange="toggleOtherReason(false)">
                         <span>Privacy concern</span>
                     </label>
                     
                     <label class="delete-reason-option">
-                        <input type="radio" name="delete_reason" value="other">
+                        <input type="radio" name="reason" value="other" onchange="toggleOtherReason(true)">
                         <span>Other reason</span>
                     </label>
 
+                    <div id="otherReasonContainer" style="display: none; margin-top: 10px;">
+                        <textarea name="other_reason_text" 
+                                  class="form-control" 
+                                  rows="3" 
+                                  placeholder="Please type your reason here..." 
+                                  style="background-color: #FFF; border: 1px solid #ccc; font-size: 14px;"></textarea>
+                    </div>
+
                     <div class="mt-4">
-                        <button type="button" class="btn btn-switch w-100 mb-2">Submit</button>
-                        <button type="button" class="btn w-100" style="color: #F06A7D; font-weight: 600;" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-switch w-100 mb-2" onclick="return confirm('Are you sure you want to PERMANENTLY delete your account? This action cannot be undone.')">
+                            Submit
+                        </button>
+                        
+                        <button type="button" class="btn w-100" style="color: #F06A7D; font-weight: 600;" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>
@@ -460,6 +473,21 @@
             });
         }
     });
+    </script>
+
+    <script>
+        function toggleOtherReason(show) {
+            const container = document.getElementById('otherReasonContainer');
+            const textArea = container.querySelector('textarea');
+            
+            if (show) {
+                container.style.display = 'block';
+                textArea.required = true; // Wajib diisi kalo pilih Other
+            } else {
+                container.style.display = 'none';
+                textArea.required = false; // Ga wajib kalo pilih yg lain
+            }
+        }
     </script>
 </body>
 </html>

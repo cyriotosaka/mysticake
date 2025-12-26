@@ -1,3 +1,4 @@
+<!---Created by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Created by Lailatul Fitaliqoh (5026231229) */
         body {
             background-color: #FFFDF5; 
             font-family: 'Instrument Sans', sans-serif;

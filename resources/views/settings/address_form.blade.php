@@ -1,3 +1,4 @@
+<!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
 </head>
 <body>
-    /*Updated by Lailatul Fitaliqoh (5026231229)*/
     <div class="container pt-3">
         <div class="header-nav">
             <a href="{{ route('address.index') }}"><i class="bi bi-arrow-left fs-4"></i></a>
