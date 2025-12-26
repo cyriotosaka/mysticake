@@ -1,3 +1,4 @@
+<!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
 
     <style>
-        /*Updated by Lailatul Fitaliqoh (5026231229)*/
         body {
             background-color: #FFFDF5;
             font-family: 'Instrument Sans', sans-serif;

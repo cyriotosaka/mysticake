@@ -55,15 +55,20 @@ Route::middleware('auth')->group(function () {
     
     // Switch Account
     Route::post('/switch-account', [AuthController::class, 'switchAccount'])->name('auth.switch');
+    
+    // Proses Delete Account
+    Route::delete('/settings/account', [SettingsController::class, 'deleteAccount'])->name('settings.deleteAccount');
 
     // --- SETTINGS ---
     // Profile
     Route::get('/settings/profile', [SettingsController::class, 'editprofile'])->name('settings.profile');
     Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.updateProfile');
+    Route::get('/settings/history', [SettingsController::class, 'loginHistory'])->name('settings.history');
 
     // More Settings & Password
     Route::get('/settings/more', [SettingsController::class, 'moreSettings'])->name('settings.more');
     Route::get('/settings/password', [SettingsController::class, 'changepassword'])->name('settings.password');
+    Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.updatePassword');
 
     // --- ADDRESS MANAGEMENT (CRUD) ---
     Route::get('/settings/address', [AddressController::class, 'index'])->name('address.index');

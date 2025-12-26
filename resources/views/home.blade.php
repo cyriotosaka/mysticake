@@ -145,7 +145,6 @@
         const currentUser = {
             email: "{{ Auth::user()->email }}",
             username: "{{ Auth::user()->username }}",
-            // Gunakan gambar default jika kosong
             avatar: "{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : '' }}" 
         };
 
@@ -155,7 +154,7 @@
         // 3. Hapus data user ini dari list lama (biar tidak duplikat)
         history = history.filter(user => user.email !== currentUser.email);
 
-        // 4. Masukkan user ini ke urutan paling atas (terbaru)
+        // 4. Masukkan user
         history.unshift(currentUser);
 
         // 5. Simpan kembali ke browser
