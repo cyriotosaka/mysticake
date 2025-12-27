@@ -9,6 +9,7 @@
 @extends('layout')
 
 @section('title', $product->name_product)
+@include('partials.theme-script')
 
 @section('content')
 <div class="container py-4">
