@@ -17,7 +17,7 @@
     <div class="container px-3">
 
         <div class="brand-header pt-3 text-center">
-            <img src="{{ asset('images/text_logo.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
+            <img src="{{ asset('images/mysticake_pink.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
         </div>
 
         <div class="user-info-row">
@@ -125,7 +125,7 @@
 
     <div class="bottom-nav-container">
         {{-- Form Logout menggunakan method POST --}}
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
 

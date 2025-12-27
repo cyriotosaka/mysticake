@@ -417,3 +417,143 @@ body.theme-premium {
     font-weight: 600;
     opacity: 0.7;
 }
+
+/* ========================================= */
+/* GACHA RESULT PAGE STYLING           */
+/* ========================================= */
+
+/* --- TITLE HEADER --- */
+.result-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 32px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+/* Warna Title berdasarkan Tema */
+.theme-normal .result-title { color: #4E342E; }
+.theme-premium .result-title { color: #D81B60; }
+
+/* --- STAGE CONTAINER --- */
+.box-stage {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+    text-align: center;
+}
+
+/* --- STAGE 1: CLOSED BOX --- */
+#stage-closed {
+    display: flex; /* Default visible */
+}
+
+.mystery-box-large {
+    width: 300px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 20px;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+}
+
+.mystery-box-large:hover {
+    transform: scale(1.05);
+}
+
+.tap-hint {
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 12px;
+    opacity: 0.8;
+    animation: pulse 1.5s infinite;
+    color: inherit; /* Mengikut warna text tema body */
+}
+
+/* --- STAGE 2: OPENED (REVEAL) --- */
+#stage-opened {
+    display: none; /* Default hidden */
+}
+
+.congrats-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+/* Warna Congrats ikut tema */
+.theme-normal .congrats-text { color: #4E342E; }
+.theme-premium .congrats-text { color: #D81B60; }
+
+.product-reveal-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain; /* Agar gambar produk full terlihat */
+    margin-bottom: 20px;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #333;
+    padding: 0 20px;
+}
+
+.box-open-img {
+    width: 280px;
+    opacity: 0.9;
+    margin-bottom: 25px;
+}
+
+/* --- BUTTON NEXT --- */
+.btn-next {
+    border: none;
+    padding: 12px 60px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.1s;
+    margin-bottom: 40px;
+}
+
+.btn-next:active { transform: scale(0.95); }
+
+/* Warna Tombol Next ikut Tema */
+.theme-normal .btn-next { background-color: #4E342E; color: #FFC107; }
+.theme-premium .btn-next { background-color: #E91E63; color: white; }
+
+
+/* --- ANIMATIONS (Keyframes) --- */
+@keyframes pulse {
+    0% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.6; transform: scale(1); }
+}
+
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Animasi Box Bergetar Heboh */
+.shaking {
+    animation: shakeBox 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shakeBox {
+    10%, 90% { transform: translate3d(-2px, 0, 0) rotate(-2deg); }
+    20%, 80% { transform: translate3d(4px, 0, 0) rotate(4deg); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0) rotate(-6deg); }
+    40%, 60% { transform: translate3d(6px, 0, 0) rotate(6deg); }
+}

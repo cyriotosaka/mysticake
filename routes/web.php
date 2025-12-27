@@ -93,6 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/gacha/roll', [MysteryBoxController::class, 'rollGacha'])->name('gacha.roll');
     Route::get('/gacha/history', [MysteryBoxController::class, 'showGachaHistory'])->name('gacha.history');
     Route::get('/gacha/droprate', [MysteryBoxController::class, 'getDropRates'])->name('gacha.droprates');
+    Route::get('/gacha/reveal', [MysteryBoxController::class, 'showResultPage'])->name('gacha.result');
+    Route::get('/gacha/roll', function() {return redirect('/gacha');});
 
     //Drop Rate - Okky Priscila_168
     Route::get('/gacha/droprate/normal', [MysteryBoxController::class, 'showNormalDropRatePage'])->name('gacha.droprate.normal');

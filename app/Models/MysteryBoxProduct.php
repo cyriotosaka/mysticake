@@ -37,6 +37,13 @@ class MysteryBoxProduct extends Model
         'cashback'
     ];
 
+    protected $casts = [
+        'price' => 'integer',
+        'drop_rate' => 'float', // Agar 0.5 tidak terbaca sebagai string "0.5"
+        'point_gacha' => 'integer',
+        'cashback' => 'integer',
+    ];
+
     /**
      * Relasi ke MysteryBox (Many to One)
      */
