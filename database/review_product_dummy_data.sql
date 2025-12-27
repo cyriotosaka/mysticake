@@ -74,3 +74,81 @@ INSERT INTO `review_product` (`id_review_product`, `id_product`, `id_user`, `com
 -- Update AUTO_INCREMENT
 ALTER TABLE `review_product`
   MODIFY `id_review_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+-- ========================================
+-- Dummy Data untuk Tabel Product
+-- Database: mysticakedb
+-- Created by: Okky Priscila_168
+-- ========================================
+
+-- Hapus data lama jika ada (optional - uncomment jika perlu)
+-- DELETE FROM product WHERE id_product > 0;
+
+-- ========================================
+-- INSERT 20 Dummy Products
+-- ========================================
+-- Kategori berdasarkan harga:
+-- Normal Gacha: Rp 0 - Rp 49.999 (id 1-12)
+-- Premium Gacha: Rp 50.000 - Rp 1.000.000 (id 13-20)
+-- ========================================
+
+INSERT INTO `product` (`id_product`, `id_store`, `price`, `stock`, `name_product`, `description`, `product_picture`) VALUES
+
+-- ========================================
+-- NORMAL GACHA PRODUCTS (Harga < Rp 50.000)
+-- ========================================
+
+-- Low Price Range (Rp 10.000 - Rp 20.000)
+(1, 1, 10000, 40, 'Red Velvet Cupcake', 'Moist red velvet cupcake with cream cheese frosting and fresh strawberry crumbs.', 'images/products/cupcake_red.png'),
+(2, 1, 12000, 55, 'Chocolate Chip Cookie', 'Crispy on the outside, chewy on the inside with premium dark chocolate chips.', 'images/products/cookie_choco.png'),
+(3, 1, 15000, 45, 'Chocolate Nut Donut', 'A fluffy donut covered in silky chocolate glaze with crushed pistachios.', 'images/products/donut_choco.png'),
+(4, 1, 15000, 50, 'Caramel Donut', 'Soft fluffy donut with melted caramel topping.', 'images/products/donut_caramel.png'),
+(5, 1, 18000, 35, 'Strawberry Mochi', 'Soft Japanese mochi filled with fresh strawberry and sweet red bean paste.', 'images/products/mochi_strawberry.png'),
+(6, 1, 20000, 60, 'Vanilla Eclair', 'Classic long pastry filled with cold vanilla custard and topped with white chocolate.', 'images/products/eclair_vanilla.png'),
+
+-- Medium Price Range (Rp 22.000 - Rp 35.000)
+(7, 1, 22000, 30, 'Matcha Pudding', 'Creamy Japanese matcha pudding with a hint of vanilla and caramel sauce.', 'images/products/pudding_matcha.png'),
+(8, 1, 25000, 40, 'Caramel Choco Icecream', 'Creamy vanilla ice cream on a rich chocolate brownie with caramel sauce.', 'images/products/icecream_caramel.png'),
+(9, 1, 28000, 25, 'Tiramisu Cup', 'Individual tiramisu cup with layers of mascarpone cream and espresso-soaked ladyfingers.', 'images/products/tiramisu_cup.png'),
+(10, 1, 32000, 20, 'Fruit Tart Mini', 'Buttery tart shell filled with vanilla custard and topped with fresh seasonal fruits.', 'images/products/tart_fruit.png'),
+
+-- High Normal Range (Rp 38.000 - Rp 48.000)
+(11, 1, 38000, 18, 'Cheese Souffle', 'Light and airy Japanese-style cheese souffle cake, fluffy like a cloud.', 'images/products/souffle_cheese.png'),
+(12, 1, 45000, 15, 'Matcha Mille Crepes', 'Delicate layer cake with thousands of authentic Japanese matcha cream layers.', 'images/products/crepes_matcha.png'),
+
+-- ========================================
+-- PREMIUM GACHA PRODUCTS (Harga >= Rp 50.000)
+-- ========================================
+
+-- Entry Premium (Rp 55.000 - Rp 75.000)
+(13, 1, 55000, 30, 'Macaron Set (5 pcs)', 'A set of colorful macarons with various fruity and creamy fillings.', 'images/products/macaron_set.png'),
+(14, 1, 65000, 25, 'Strawberry Shortcake', 'Light vanilla sponge cake layered with fresh whipped cream and juicy strawberry slices.', 'images/products/cake_strawberry.png'),
+(15, 1, 72000, 22, 'Chocolate Lava Cake', 'Warm chocolate cake with molten chocolate center, served with vanilla ice cream.', 'images/products/cake_lava.png'),
+
+-- Mid Premium (Rp 85.000 - Rp 120.000)
+(16, 1, 85000, 20, 'Blueberry Cheesecake', 'Premium cheesecake with authentic blueberry jam and a crunchy biscuit crust.', 'images/products/cake_blueberry.png'),
+(17, 1, 95000, 15, 'Opera Cake', 'Classic French cake with layers of almond sponge, coffee buttercream, and chocolate ganache.', 'images/products/cake_opera.png'),
+(18, 1, 120000, 12, 'Red Velvet Layer Cake', 'Three-layer red velvet cake with premium cream cheese frosting and red velvet crumbs.', 'images/products/cake_redvelvet.png'),
+
+-- High Premium (Rp 150.000 - Rp 250.000)
+(19, 1, 150000, 8, 'Premium Fruit Pavlova', 'Crispy meringue base topped with fresh cream and exotic seasonal fruits.', 'images/products/pavlova_fruit.png'),
+(20, 1, 250000, 5, 'Grand Chocolate Tower', 'Luxurious 5-tier chocolate cake with Belgian chocolate ganache and gold leaf decoration.', 'images/products/cake_grand.png');
+
+-- ========================================
+-- Verifikasi Data
+-- ========================================
+-- SELECT * FROM product ORDER BY price ASC;
+
+-- ========================================
+-- Summary:
+-- ========================================
+-- Normal Gacha (< Rp 50.000): 12 products
+--   Total Stock: 433 units
+--   Price Range: Rp 10.000 - Rp 45.000
+--
+-- Premium Gacha (>= Rp 50.000): 8 products
+--   Total Stock: 137 units
+--   Price Range: Rp 55.000 - Rp 250.000
+--
+-- Grand Total: 20 products, 570 units
+-- ========================================

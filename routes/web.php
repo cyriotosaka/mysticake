@@ -2,6 +2,12 @@
 /**
  * Updated by Abdul Ghoni (5026231109)
  * - Menambahkan route review.update dan review.destroy untuk CRUD review
+ * Updated by Okky Priscila_168
+ * - Menambahkan route untuk fitur drop rate gacha (normal & premium)
+ * - Menambahkan route untuk fitur top up (halaman utama, dropdown, dan proses top up)
+ * - Menambahkan route topup.coin untuk redirect dari icon plus di home
+ * - Menambahkan route untuk Indomaret dan Alfamart payment flow baru
+ * - Menambahkan route untuk Bank Transfer dan E-wallet flow baru
  * Updated by Lailatul Fitaliqoh (5026231229)
  */
 use Illuminate\Support\Facades\Route;
@@ -13,10 +19,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\OrderController; 
+use App\Http\Controllers\TopUpController;
+use App\Http\Controllers\OrderController;
+
+Route::get('/', [AuthController::class, 'showLandingPage'])->name('landing'); 
 
 // --- PUBLIC ROUTES ---
 Route::get('/', [AuthController::class, 'landing'])->name('landing');
+
 
 Route::middleware('guest')->group(function () {
     // Login Routes
@@ -84,6 +94,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/gacha/history', [MysteryBoxController::class, 'showGachaHistory'])->name('gacha.history');
     Route::get('/gacha/droprate', [MysteryBoxController::class, 'getDropRates'])->name('gacha.droprates');
 
+    //Drop Rate - Okky Priscila_168
+    Route::get('/gacha/droprate/normal', [MysteryBoxController::class, 'showNormalDropRatePage'])->name('gacha.droprate.normal');
+    Route::get('/gacha/droprate/premium', [MysteryBoxController::class, 'showPremiumDropRatePage'])->name('gacha.droprate.premium');
+
+    // CART ROUTES
     // --- CART ---
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
@@ -108,6 +123,109 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/payment-methods', [OrderController::class, 'showPaymentMethods'])->name('order.payment.methods');
     Route::post('/order/payment-method/{id}', [OrderController::class, 'selectPaymentMethod'])->name('order.payment.method.select');
 
+    // ============================================
+    // TOP UP ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // Top Up Coin Page (redirect dari icon plus di home.blade.php)
+    Route::get('/topup/coin', [TopUpController::class, 'showTopUpCoinPage'])->name('topup.coin');
+
+    // Top Up Main Page
+    Route::get('/topup', [TopUpController::class, 'index'])->name('topup.index');
+    
+    // ============================================
+    // DEBIT CARD ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // Add Debit Card Page
+    Route::get('/topup/debitcard/add', [TopUpController::class, 'redirectToAddDebitCard'])->name('topup.debitcard.add');
+    
+    // Store Debit Card and show VA
+    Route::post('/topup/debitcard/store', [TopUpController::class, 'storeDebitCard'])->name('topup.debitcard.store');
+    
+    // Confirm Debit Card Payment
+    Route::post('/topup/debitcard/confirm', [TopUpController::class, 'confirmDebitCardPayment'])->name('topup.debitcard.confirm');
+    
+    // Dropdown AJAX Routes
+    Route::get('/topup/debitcard/dropdown', [TopUpController::class, 'showCreditCardDropDown'])->name('topup.debitcard.dropdown');
+    Route::get('/topup/banktransfer/dropdown', [TopUpController::class, 'showBankTransferDropDown'])->name('topup.banktransfer.dropdown');
+    
+    // Process Top Up Routes
+    Route::post('/topup/debitcard', [TopUpController::class, 'processDebitCard'])->name('topup.debitcard.process');
+    Route::post('/topup/banktransfer', [TopUpController::class, 'processBankTransfer'])->name('topup.banktransfer.process');
+    Route::post('/topup/ewallet', [TopUpController::class, 'processEwallet'])->name('topup.ewallet.process');
+    
+    // ============================================
+    // BANK TRANSFER NEW FLOW ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // Bank Transfer - Page untuk input amount (Step 1)
+    Route::get('/topup/banktransfer', [TopUpController::class, 'showBankTransferPage'])->name('topup.banktransfer.page');
+    
+    // Bank Transfer - Process dan redirect ke VA page (Step 2)
+    Route::post('/topup/banktransfer/process-new', [TopUpController::class, 'processBankTransferPayment'])->name('topup.banktransfer.process.payment');
+    
+    // ============================================
+    // E-WALLET NEW FLOW ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // E-wallet - Page untuk input amount (Step 1)
+    Route::get('/topup/ewallet', [TopUpController::class, 'showEwalletPage'])->name('topup.ewallet.page');
+    
+    // E-wallet - Process dan redirect ke VA page (Step 2)
+    Route::post('/topup/ewallet/process-new', [TopUpController::class, 'processEwalletPayment'])->name('topup.ewallet.process.payment');
+    
+    // ============================================
+    // INDOMARET NEW FLOW ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // Indomaret - Page untuk input amount (Step 1 & 2)
+    Route::get('/topup/indomaret', [TopUpController::class, 'showTopUpCoinIndomaret12'])->name('topup.indomaret.page');
+    
+    // Indomaret - Process payment dan redirect ke barcode page
+    Route::post('/topup/indomaret/process', [TopUpController::class, 'processIndomaretPayment'])->name('topup.indomaret.process.payment');
+    
+    // Indomaret - Barcode page (Step 3)
+    Route::get('/topup/indomaret/barcode', [TopUpController::class, 'showTopUpCoinIndomaret3'])->name('topup.indomaret.barcode');
+    
+    // ============================================
+    // ALFAMART NEW FLOW ROUTES - Created by Okky Priscila_168
+    // ============================================
+    
+    // Alfamart - Page untuk input amount (Step 1 & 2)
+    Route::get('/topup/alfamart', [TopUpController::class, 'showTopUpCoinAlfamart12'])->name('topup.alfamart.page');
+    
+    // Alfamart - Process payment dan redirect ke barcode page
+    Route::post('/topup/alfamart/process', [TopUpController::class, 'processAlfamartPayment'])->name('topup.alfamart.process.payment');
+    
+    // Alfamart - Barcode page (Step 3)
+    Route::get('/topup/alfamart/barcode', [TopUpController::class, 'showTopUpCoinAlfamart3'])->name('topup.alfamart.barcode');
+    
+    // ============================================
+    // LEGACY ROUTES (Backward Compatibility)
+    // ============================================
+    
+    // Legacy Indomaret process (dari modal)
+    Route::post('/topup/indomaret/legacy', [TopUpController::class, 'processIndomaret'])->name('topup.indomaret.process');
+    
+    // Legacy Alfamart process (dari modal)
+    Route::post('/topup/alfamart/legacy', [TopUpController::class, 'processAlfamart'])->name('topup.alfamart.process');
+    
+    // Confirm Payment (for bank transfer, indomaret, alfamart)
+    Route::post('/topup/confirm', [TopUpController::class, 'confirmPayment'])->name('topup.confirm');
+    
+    // Cancel Payment
+    Route::get('/topup/cancel', [TopUpController::class, 'cancelPayment'])->name('topup.cancel');
+    
+    // Add Debit Card Route
+    Route::post('/topup/debitcard/add', [TopUpController::class, 'addDebitCard'])->name('topup.debitcard.add');
+    
+    // Success Page
+    Route::get('/topup/success', [TopUpController::class, 'showSuccess'])->name('topup.success');
+    
+    // Top Up History
+    Route::get('/topup/history', [TopUpController::class, 'history'])->name('topup.history');
+
     // Processing & Confirmation
     Route::post('/order/process', [OrderController::class, 'processOrder'])->name('order.process');
     Route::get('/order/confirmation/{id}', [OrderController::class, 'showOrderConfirmation'])->name('order.confirmation');
@@ -115,5 +233,33 @@ Route::middleware('auth')->group(function () {
     // Order History
     Route::get('/order/history', [OrderController::class, 'orderHistory'])->name('order.history');
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
-
 });
+
+// ============================================
+// DEBUG ROUTE - Hapus setelah selesai testing
+// ============================================
+Route::get('/debug-products', function () {
+    $products = App\Models\Product::select('id_product', 'name_product', 'price', 'stock')->get();
+    return response()->json([
+        'count' => $products->count(),
+        'products' => $products
+    ]);
+
+
+// ============================================
+// ADDITIONAL ROUTES (Sesuai Use Case Diagram)
+// ============================================
+// Route untuk fitur-fitur yang akan dikembangkan sesuai use case diagram:
+// - Melakukan pencarian dessert (sudah ada di /search)
+// - Melihat rating dan feedback (akan ditambahkan)
+// - Memilih rekomendasi dessert (sudah ada di /home)
+// - Menambahkan dessert ke shopping cart (akan ditambahkan)
+// - Melakukan pemesanan (akan ditambahkan)
+// - Melakukan pembayaran (akan ditambahkan)
+// - Top up coin (sudah ada di /topup)
+// - Chat dengan seller (akan ditambahkan)
+// - Melakukan gacha dessert (sudah ada di /gacha)
+// - Melihat history gacha (sudah ada di /gacha/history)
+// - Melihat drop rate (sudah ada di /gacha/droprate)
+});
+

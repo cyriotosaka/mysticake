@@ -1,0 +1,289 @@
+/* Add Debit Card Page Styling - Created by Okky Priscila_168 */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Reem Kufi', sans-serif;
+    background-color: #FFF8E8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header Container */
+.header-container {
+    background-color: #FFF8E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    position: relative;
+    height: 79px;
+}
+
+.back-button {
+    position: absolute;
+    left: 20px;
+    width: 36px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #3A1B16;
+    font-size: 20px;
+    transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+    opacity: 0.7;
+    color: #3A1B16;
+}
+
+.header-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 13.91px;
+    color: #3A1B16;
+    text-align: center;
+}
+
+/* Fixed Floating Bar */
+.floating-bar {
+    position: fixed;
+    top: 79px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 402px;
+    height: 47px;
+    background-color: #3A1B16;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    gap: 10px;
+    z-index: 100;
+}
+
+.shield-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: #89B593;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-bar-text {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #89B593;
+    line-height: 1;
+}
+
+/* Content Container */
+.content-container {
+    padding: 25px;
+    padding-top: 60px; /* Header (79px) + Floating Bar (47px) + spacing (25px) */
+    display: flex;
+    flex-direction: column;
+    max-width: 402px;
+    margin: 0 auto;
+    padding-bottom: 120px;
+}
+
+/* Section Title */
+.section-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #59413D;
+    margin-bottom: 15px;
+}
+
+.section-title-billing {
+    margin-top: 30px;
+}
+
+/* Input Group */
+.input-group-custom {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* Error Message */
+.error-message {
+    display: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: #EF5D6F;
+    position: absolute;
+    top: -16px;
+    left: 0;
+}
+
+/* Input Box Base */
+.input-box {
+    background-color: transparent;
+    border: 0.4px solid #3A1B16;
+    border-radius: 8px;
+    height: 42px;
+    padding: 0 15px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #3A1B16;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-box::placeholder {
+    color: #59413D;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+.input-box:focus {
+    border-color: #3A1B16;
+    border-width: 1px;
+}
+
+/* Full Width Input */
+.input-box-full {
+    width: 352px;
+}
+
+/* Input Row for Expiry and CVV */
+.input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.input-left {
+    flex: 1;
+}
+
+.input-right {
+    flex: 0 0 103px;
+}
+
+/* Expiry Date Input */
+.input-box-expiry {
+    width: 100%;
+}
+
+/* CVV Input */
+.input-box-cvv {
+    width: 103px;
+}
+
+/* Terms Text */
+.terms-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #59413D;
+    text-align: center;
+    margin-top: 220px;
+    line-height: 1.5;
+    padding: 0 10px;
+}
+
+.terms-bold {
+    font-weight: 700;
+}
+
+/* Submit Button */
+.submit-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 302px;
+    height: 50px;
+    background-color: rgba(58, 27, 22, 0.5);
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+}
+
+.submit-btn span {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #FFF8E8;
+}
+
+.submit-btn.active {
+    background-color: #3A1B16;
+    cursor: pointer;
+}
+
+.submit-btn.active:hover {
+    background-color: #2A0F0B;
+}
+
+.submit-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .content-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .input-box-full {
+        width: 100%;
+    }
+    
+    .floating-bar {
+        width: 100%;
+    }
+    
+    .submit-btn {
+        width: calc(100% - 60px);
+    }
+    
+    .input-row {
+        flex-wrap: wrap;
+    }
+    
+    .input-left {
+        flex: 1 1 60%;
+    }
+    
+    .input-right {
+        flex: 1 1 35%;
+    }
+    
+    .input-box-cvv {
+        width: 100%;
+    }
+
+    .terms-text-weirdcombo{
+        font-family: 'Nunito', sans-serif;
+        font-weight: 300;
+        font-size: 13px;
+        color: #59413D;
+        text-align: center;
+        margin-top: 220px;
+        line-height: 1.5;
+        padding: 0 10px;
+    }
+}

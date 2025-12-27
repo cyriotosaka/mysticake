@@ -1,13 +1,17 @@
 <?php
+// Updated by Okky Priscila Putri_168 - Menambahkan auto increment
 
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ReviewProduct;
+
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * Nama tabel di database
@@ -25,6 +29,11 @@ class User extends Authenticatable
     public $timestamps = false;
 
     /**
+     * If id_user is AUTO_INCREMENT (normal case)
+     */
+    public $incrementing = true;
+
+    /**
      * Kolom yang dapat diisi mass-assignment
      */
     protected $fillable = [
@@ -34,14 +43,14 @@ class User extends Authenticatable
         'phone_number',
         'role',
         'id_address',
-        'profile_picture'
+        'profile_picture',
     ];
 
     /**
      * Kolom yang harus disembunyikan
      */
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     /**

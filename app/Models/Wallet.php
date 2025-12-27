@@ -1,4 +1,5 @@
 <?php
+// Updated by Okky Priscila_168 - Menghubungkan to up dengan wallet
 
 namespace App\Models;
 

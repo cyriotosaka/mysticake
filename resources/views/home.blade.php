@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
+<!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,10 +50,14 @@
                             <i class="bi bi-pencil-square" style="font-size: 12px; color: #888;"></i>
                         </a>
                     </div>
+                    
+                    <!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
                     <div class="balance">
                         <i class="bi bi-coin coin-icon"></i>
                         {{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}
-                        <i class="bi bi-plus-circle plus-icon"></i>
+                        <a href="{{ route('topup.coin') }}" class="plus-icon-link">
+                            <i class="bi bi-plus-circle plus-icon"></i>
+                        </a>
                     </div>
                 </div>
             </div>
