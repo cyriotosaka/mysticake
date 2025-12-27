@@ -13,6 +13,7 @@
     {{-- Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @include('partials.theme-script')
 
     <style>
         body {
@@ -327,18 +328,21 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-content-custom p-3">
                 <h5 class="text-center mb-4 fw-bold" style="color: #4E342E;">Change Theme</h5>
-                <div class="modal-option">
+                
+                <label class="modal-option" onclick="setTheme('dark')">
                     <span><i class="bi bi-moon-fill me-2 text-danger"></i> Dark</span>
-                    <input class="form-check-input" type="radio" name="theme">
-                </div>
-                <div class="modal-option">
+                    <input class="form-check-input" type="radio" name="theme" id="radio-dark">
+                </label>
+
+                <label class="modal-option" onclick="setTheme('light')">
                     <span><i class="bi bi-brightness-high-fill me-2 text-danger"></i> Light</span>
-                    <input class="form-check-input" type="radio" name="theme" checked>
-                </div>
-                <div class="modal-option">
+                    <input class="form-check-input" type="radio" name="theme" id="radio-light">
+                </label>
+
+                <label class="modal-option" onclick="setTheme('auto')">
                     <span><i class="bi bi-phone me-2 text-danger"></i> Use device setting</span>
-                    <input class="form-check-input" type="radio" name="theme">
-                </div>
+                    <input class="form-check-input" type="radio" name="theme" id="radio-auto">
+                </label>
             </div>
         </div>
     </div>
@@ -425,12 +429,12 @@
             // Jika kosong (baru pertama kali buka app)
             container.innerHTML = '<p class="text-center text-muted small">No other accounts saved.</p>';
         } else {
-            container.innerHTML = ''; // Kosongkan wadah
+            container.innerHTML = '';
             
             history.forEach(user => {
                 const isActive = (user.email === currentEmail);
                 
-                // Tentukan gambar avatar (pakai icon default jika kosong)
+                // Tentukan gambar (pakai icon default jika kosong)
                 let imgHtml = '';
                 if (user.avatar) {
                     imgHtml = `<img src="${user.avatar}" alt="Profile" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
@@ -488,6 +492,44 @@
                 textArea.required = false; // Ga wajib kalo pilih yg lain
             }
         }
+
+        // DARK MODE    
+        // Menerapkan tema
+        function setTheme(theme) {
+            const html = document.documentElement;
+            
+            if (theme === 'auto') {
+                // Cek settingan laptop/hp user
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    html.setAttribute('data-bs-theme', 'dark');
+                } else {
+                    html.setAttribute('data-bs-theme', 'light');
+                }
+                localStorage.setItem('mysticake_theme', 'auto');
+            } 
+            else if (theme === 'dark') {
+                html.setAttribute('data-bs-theme', 'dark');
+                localStorage.setItem('mysticake_theme', 'dark');
+            } 
+            else {
+                html.setAttribute('data-bs-theme', 'light');
+                localStorage.setItem('mysticake_theme', 'light');
+            }
+
+            updateRadioButtons(theme);
+        }
+
+        // Update radio button agar sesuai status saat ini
+        function updateRadioButtons(theme) {
+            if(theme === 'dark') document.getElementById('radio-dark').checked = true;
+            else if(theme === 'light') document.getElementById('radio-light').checked = true;
+            else document.getElementById('radio-auto').checked = true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('mysticake_theme') || 'light'; // Default light
+            setTheme(savedTheme);
+        });
     </script>
 </body>
 </html>
