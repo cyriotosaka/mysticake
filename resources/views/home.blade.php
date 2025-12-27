@@ -1,8 +1,6 @@
 <!-- Created by Arsya Nueva_099 -->
 <!DOCTYPE html>
 <html lang="id">
-<!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,7 +139,8 @@
             <div class="mystery-text">Mystery Box</div>
         </a>
 
-        <a href="#" class="nav-icon">
+        {{-- PERUBAHAN DI SINI: Link Chat sudah aktif --}}
+        <a href="{{ route('chat.index') }}" class="nav-icon">
              <i class="bi bi-chat-text-fill" style="color: #E66A7F;"></i>
         </a>
     </div>

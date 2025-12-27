@@ -1,6 +1,7 @@
 <!-- Created by Arsya Nueva_099 -->
 <!-- Nama : Abdul Ghoni -->
 <!-- NRP : 5026231109 -->
+ <!-- Updated by Lailatul Fitaliqoh (5026231229)-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,9 +69,11 @@
                 <button type="submit" class="btn-order">Order Now</button>
             </form>
 
-            <button class="btn-chat">
+            <a href="{{ route('chat.product', $product->id_product) }}" 
+               class="btn-chat" 
+               style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
                 <i class="fas fa-comment-dots"></i>
-            </button>
+            </a>
         </div>
 
     </div>

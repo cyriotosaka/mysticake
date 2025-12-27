@@ -1,29 +1,15 @@
 <?php
-
+//Created by Lailatul Fitaliqoh (5026231229)
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
-    /**
-     * Tabel yang digunakan
-     */
     protected $table = 'chat';
-
-    /**
-     * Primary key
-     */
     protected $primaryKey = 'id_chat';
-
-    /**
-     * Tidak memakai timestamps
-     */
     public $timestamps = false;
 
-    /**
-     * Kolom yang dapat diisi (mass assignment)
-     */
     protected $fillable = [
         'id_user',
         'id_store',
@@ -31,7 +17,8 @@ class Chat extends Model
         'id_product',
         'date',
         'time',
-        'message'
+        'message',
+        'sender_role'
     ];
 
     /**
