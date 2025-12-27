@@ -14,6 +14,7 @@ use App\Models\MysteryBoxProduct;
 use App\Models\MysteryBox;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\MysteryBoxHistory;
 
 class MysteryBoxController extends Controller
 {
@@ -36,13 +37,11 @@ class MysteryBoxController extends Controller
     public function showGachaHistory(Request $request)
     {
         $mode = $request->query('mode', 'normal');
-        $histories = History::with('orders.product')
-            ->whereHas('orders', function ($q) {
-                $q->where('id_user', Auth::id());
-            })
-            ->orderBy('date', 'desc')
-            ->orderBy('time', 'desc')
-            ->limit(10)
+
+        $histories = MysteryBoxHistory::where('id_user', Auth::id())
+            ->with('product')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
             ->get();
 
         return view('gacha.history', [
@@ -294,18 +293,16 @@ class MysteryBoxController extends Controller
                 'price'      => 0, // Harga 0 karena hadiah
             ]);
 
-            // ===============================
-            // 6. KURANGI STOCK PRODUK (Optional)
-            // ===============================
-            // Uncomment jika ingin mengurangi stock setelah gacha
-            // if ($wonProduct->stock > 0) {
-            //     $wonProduct->stock -= 1;
-            //     $wonProduct->save();
-            // }
+            DB::commit();
+
+            MysteryBoxHistory::create([
+                'id_user'    => $user->id_user,
+                'id_product' => $wonProduct->id_product,
+                // created_at otomatis terisi
+            ]);
 
             DB::commit();
 
-            // 6. REDIRECT KE RESULT
             return redirect()->route('gacha.result')->with([
                 'gacha_result' => $wonProduct,
                 'gacha_mode' => $type

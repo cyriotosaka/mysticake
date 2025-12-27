@@ -15,27 +15,25 @@
 
 <div class="history-wrapper">
 
-    <!-- HEADER -->
     <div class="history-header">
         <h1>Gacha History</h1>
-        <a href="{{ route('gacha.index', ['mode' => $mode]) }}" class="close-btn">
+        <a href="{{ url('/gacha') }}?mode={{ $mode }}" class="close-btn">
             <i class="fas fa-times"></i>
         </a>
     </div>
 
-    <!-- INFO -->
     <div class="history-info">
-        Gacha history shows up to 10 latest draws
+        History shows your completed orders
     </div>
 
-    <!-- LIST -->
     <div class="history-list">
         @forelse($histories as $history)
             <div class="history-item">
                 <img
-                    src="{{ asset('images/' . $history->product->product_picture) }}"
+                    src="{{ asset('images/products/' . $history->product->product_picture) }}"
                     class="item-img"
                     alt="{{ $history->product->name_product }}"
+                    onerror="this.src='https://placehold.co/50'"
                 >
 
                 <div class="item-name">
@@ -49,7 +47,8 @@
             </div>
         @empty
             <div class="empty-state">
-                No gacha history yet ✨
+                <i class="fas fa-box-open" style="font-size: 40px; margin-bottom: 10px; opacity: 0.5;"></i><br>
+                Belum ada riwayat gacha.
             </div>
         @endforelse
     </div>
