@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('partials.theme-script')
 <div class="container">
     <h3>Tulis Review untuk: {{ $product->name }}</h3>
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('partials.theme-script')
 <div class="container">
     <h3>Ulasan untuk: {{ $product->name }}</h3>
     <a href="{{ route('products.reviews.create', $product->id) }}" class="btn btn-primary mb-3">Tulis Review</a>
