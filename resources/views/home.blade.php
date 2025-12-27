@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-<!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +50,6 @@
                         </a>
                     </div>
                     
-                    <!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
                     <div class="balance">
                         <i class="bi bi-coin coin-icon"></i>
                         {{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}
@@ -140,7 +137,8 @@
             <div class="mystery-text">Mystery Box</div>
         </a>
 
-        <a href="#" class="nav-icon">
+        {{-- PERUBAHAN DI SINI: Link Chat sudah aktif --}}
+        <a href="{{ route('chat.index') }}" class="nav-icon">
              <i class="bi bi-chat-text-fill" style="color: #E66A7F;"></i>
         </a>
     </div>

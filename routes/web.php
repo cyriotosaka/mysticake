@@ -9,6 +9,9 @@
  * - Menambahkan route untuk Indomaret dan Alfamart payment flow baru
  * - Menambahkan route untuk Bank Transfer dan E-wallet flow baru
  * Updated by Lailatul Fitaliqoh (5026231229)
+ * - Login
+ * - Auth Action sampai adrees management
+ * - Chat
  */
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TopUpController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ChatController; 
 
 Route::get('/', [AuthController::class, 'showLandingPage'])->name('landing'); 
 
@@ -61,7 +65,7 @@ Route::middleware('auth')->group(function () {
     // --- AUTH ACTIONS ---
     // Logout (Support GET & POST)
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); // Fallback jika diakses via URL
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); 
     
     // Switch Account
     Route::post('/switch-account', [AuthController::class, 'switchAccount'])->name('auth.switch');
@@ -233,7 +237,19 @@ Route::middleware('auth')->group(function () {
     // Order History
     Route::get('/order/history', [OrderController::class, 'orderHistory'])->name('order.history');
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
-});
+
+    // CHAT ROUTES
+    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index'); 
+    Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
+
+    // ... route chat lainnya ...
+    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index'); 
+    Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
+    Route::get('/chat/product/{id}', [ChatController::class, 'chatWithProduct'])->name('chat.product');
+
+}); 
 
 // ============================================
 // DEBUG ROUTE - Hapus setelah selesai testing
@@ -244,22 +260,4 @@ Route::get('/debug-products', function () {
         'count' => $products->count(),
         'products' => $products
     ]);
-
-
-// ============================================
-// ADDITIONAL ROUTES (Sesuai Use Case Diagram)
-// ============================================
-// Route untuk fitur-fitur yang akan dikembangkan sesuai use case diagram:
-// - Melakukan pencarian dessert (sudah ada di /search)
-// - Melihat rating dan feedback (akan ditambahkan)
-// - Memilih rekomendasi dessert (sudah ada di /home)
-// - Menambahkan dessert ke shopping cart (akan ditambahkan)
-// - Melakukan pemesanan (akan ditambahkan)
-// - Melakukan pembayaran (akan ditambahkan)
-// - Top up coin (sudah ada di /topup)
-// - Chat dengan seller (akan ditambahkan)
-// - Melakukan gacha dessert (sudah ada di /gacha)
-// - Melihat history gacha (sudah ada di /gacha/history)
-// - Melihat drop rate (sudah ada di /gacha/droprate)
 });
-
