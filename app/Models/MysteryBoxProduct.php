@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MysteryBoxProduct extends Model
 {
     /**
-     * Nama tabel
+     * created by Arsya Nueva_099
      */
     protected $table = 'mystery_box_product';
 

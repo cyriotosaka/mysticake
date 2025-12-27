@@ -1,3 +1,4 @@
+<!-- Created by Arsya Nueva_099 -->
 <!DOCTYPE html>
 <html lang="en">
 <!-- Updated by Okky Priscila_168 -->
@@ -30,11 +31,11 @@
             <!-- Email Field -->
             <div class="form-group">
                 <label for="email">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Type here" 
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Type here"
                     value="{{ old('email') }}"
                     required
                 >
@@ -46,11 +47,11 @@
             <!-- Username Field -->
             <div class="form-group">
                 <label for="username">Username</label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    placeholder="Type here" 
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Type here"
                     value="{{ old('username') }}"
                     required
                 >
@@ -62,10 +63,10 @@
             <!-- Password Field -->
             <div class="form-group">
                 <label for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
                     placeholder="Type here"
                     required
                 >
@@ -77,11 +78,11 @@
             <!-- Phone Number Field -->
             <div class="form-group">
                 <label for="phone_number">Phone Number</label>
-                <input 
-                    type="tel" 
-                    id="phone_number" 
-                    name="phone_number" 
-                    placeholder="Type here" 
+                <input
+                    type="tel"
+                    id="phone_number"
+                    name="phone_number"
+                    placeholder="Type here"
                     value="{{ old('phone_number') }}"
                 >
                 @error('phone_number')
