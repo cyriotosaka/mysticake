@@ -1,3 +1,4 @@
+<!-- Created by Arsya Nueva_099 -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,23 +17,23 @@
     <div class="container px-3">
 
         <div class="brand-header pt-3 text-center">
-            <img src="{{ asset('images/text_logo.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
+            <img src="{{ asset('images/mysticake_pink.png') }}" alt="MYstiCake" style="height: 30px; width: auto;">
         </div>
 
         <div class="user-info-row">
             <div class="profile-left">
-                
+
                 <a href="{{ route('settings.profile') }}" class="text-decoration-none">
-                    
+
                     <div class="avatar-circle">
                         @php
-                            $photo = Auth::user()->profile_picture; 
+                            $photo = Auth::user()->profile_picture;
                         @endphp
 
                         @if($photo)
                             {{-- Tambahkan style width, height, dan object-fit: cover --}}
-                            <img src="{{ asset($photo) }}?v={{ time() }}" 
-                                alt="Profile" 
+                            <img src="{{ asset($photo) }}?v={{ time() }}"
+                                alt="Profile"
                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                         @else
                             {{-- Icon putih jika tidak ada foto --}}
@@ -49,7 +50,8 @@
                             <i class="bi bi-pencil-square" style="font-size: 12px; color: #888;"></i>
                         </a>
                     </div>
-                    
+
+                    <!-- Updated by Okky Priscila_168 - Menambahkan redirect ke top up page -->
                     <div class="balance">
                         <i class="bi bi-coin coin-icon"></i>
                         {{ number_format($user->wallet->saldo_coin ?? 0, 0, ',', '.') }}
@@ -123,7 +125,7 @@
 
     <div class="bottom-nav-container">
         {{-- Form Logout menggunakan method POST --}}
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> 
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
 
@@ -150,7 +152,7 @@
         const currentUser = {
             email: "{{ Auth::user()->email }}",
             username: "{{ Auth::user()->username }}",
-            avatar: "{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : '' }}" 
+            avatar: "{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : '' }}"
         };
 
         // 2. Ambil history lama dari LocalStorage browser

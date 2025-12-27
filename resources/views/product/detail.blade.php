@@ -1,3 +1,4 @@
+<!-- Created by Arsya Nueva_099 -->
 <!-- Nama : Abdul Ghoni -->
 <!-- NRP : 5026231109 -->
  <!-- Updated by Lailatul Fitaliqoh (5026231229)-->
@@ -39,7 +40,7 @@
                 <i class="fas fa-star star-icon"></i>
                 <span class="review-count">Product Reviews ({{ $totalReviews }})</span>
             </a>
-            
+
             <form action="{{ route('cart.add', $product->id_product) }}" method="POST" style="display: inline; margin: 0;">
                 @csrf
                 <button type="submit" class="cart-btn" style="background: none; border: none; cursor: pointer; padding: 5px;">

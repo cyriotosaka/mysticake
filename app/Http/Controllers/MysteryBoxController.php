@@ -1,4 +1,5 @@
 <?php
+//Created by Arsya Nueva_099
 //Updated by Okky Priscila_168 - Menambahkan method fitur drop rate gacha (normal & premium)
 //Updated - Drop rate sekarang dinamis berdasarkan stock produk
 
@@ -9,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\History;
+use App\Models\MysteryBoxProduct;
+use App\Models\MysteryBox;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\MysteryBoxHistory;
 
 class MysteryBoxController extends Controller
 {
@@ -31,13 +37,11 @@ class MysteryBoxController extends Controller
     public function showGachaHistory(Request $request)
     {
         $mode = $request->query('mode', 'normal');
-        $histories = History::with('orders.product')
-            ->whereHas('orders', function ($q) {
-                $q->where('id_user', Auth::id());
-            })
-            ->orderBy('date', 'desc')
-            ->orderBy('time', 'desc')
-            ->limit(10)
+
+        $histories = MysteryBoxHistory::where('id_user', Auth::id())
+            ->with('product')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
             ->get();
 
         return view('gacha.history', [
@@ -48,10 +52,10 @@ class MysteryBoxController extends Controller
 
     /**
      * Calculate drop rate berdasarkan stock
-     * 
+     *
      * Logic: Drop rate = (stock produk / total stock semua produk dalam range) * 100%
      * Semakin banyak stock, semakin besar kemungkinan user mendapatkan produk tersebut
-     * 
+     *
      * @param Collection $products - Collection of products
      * @return Collection - Products with calculated drop_rate
      */
@@ -59,7 +63,7 @@ class MysteryBoxController extends Controller
     {
         // Hitung total stock dari semua produk dalam range
         $totalStock = $products->sum('stock');
-        
+
         // Jika total stock 0, beri rate yang sama untuk semua
         if ($totalStock == 0) {
             $equalRate = count($products) > 0 ? (100 / count($products)) : 0;
@@ -68,7 +72,7 @@ class MysteryBoxController extends Controller
                 return $product;
             });
         }
-        
+
         // Hitung drop rate untuk setiap produk berdasarkan stock
         return $products->map(function ($product) use ($totalStock) {
             $dropRate = ($product->stock / $totalStock) * 100;
@@ -80,7 +84,7 @@ class MysteryBoxController extends Controller
     /**
      * Show Normal Drop Rate Page
      * Dipanggil ketika user klik icon drop rate dari halaman gacha normal
-     * 
+     *
      * Normal gacha: produk dengan harga Rp 0 - Rp 49.999
      * Drop rate dihitung berdasarkan stock masing-masing produk
      */
@@ -118,7 +122,7 @@ class MysteryBoxController extends Controller
     /**
      * Show Premium Drop Rate Page
      * Dipanggil ketika user klik icon drop rate dari halaman gacha premium
-     * 
+     *
      * Premium gacha: produk dengan harga Rp 50.000 - Rp 1.000.000
      * Drop rate dihitung berdasarkan stock masing-masing produk
      */
@@ -160,7 +164,7 @@ class MysteryBoxController extends Controller
     public function getDropRates(Request $request)
     {
         $type = $request->query('type', 'normal');
-        
+
         if ($type === 'premium') {
             $minPrice = self::PREMIUM_MIN_PRICE;
             $maxPrice = self::PREMIUM_MAX_PRICE;
@@ -195,129 +199,131 @@ class MysteryBoxController extends Controller
     public function rollGacha(Request $request)
     {
         $user = Auth::user()->load('wallet');
-        $type = $request->input('type');
+        $type = $request->input('type'); // 'normal', 'premium', atau 'bonus'
 
-        // ===============================
-        // 1. VALIDASI MODE
-        // ===============================
-        if (!in_array($type, ['normal', 'premium'])) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Tipe gacha tidak valid.'
-            ], 400);
+        // 1. SETTING VARIABEL
+        $boxId = 1;     // Default box (misal bonus pakai barang normal)
+        $gachaCost = 0;
+        $isBonus = false;
+
+        // 2. VALIDASI TIPE & HARGA
+        if ($type === 'bonus') {
+            $isBonus = true;
+            if ($user->wallet->point_gacha < 100) {
+                return back()->with('error', 'Poin belum cukup (Butuh 100 Poin)!');
+            }
+            $boxId = 1; // Bonus ambil hadiah dari pool Normal Box
+            $gachaCost = 0;
         }
-
-        // ===============================
-        // 2. SETTING BIAYA & RANGE PRODUK
-        // ===============================
-        if ($type === 'premium') {
-            $gachaCost = 25000;
-            $minPrice  = self::PREMIUM_MIN_PRICE;
-            $maxPrice  = self::PREMIUM_MAX_PRICE;
-        } else {
+        elseif ($type === 'normal') {
+            $boxId = 1;
             $gachaCost = 15000;
-            $minPrice  = self::NORMAL_MIN_PRICE;
-            $maxPrice  = self::NORMAL_MAX_PRICE;
+        }
+        elseif ($type === 'premium') {
+            $boxId = 2; // Pastikan Box ID 2 ada di database!
+            $gachaCost = 25000;
+        }
+        else {
+            return back()->with('error', 'Tipe gacha tidak valid.');
         }
 
-        // ===============================
-        // 3. CEK SALDO COIN
-        // ===============================
-        if ($user->wallet->saldo_coin < $gachaCost) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Koin tidak cukup! Silakan top up terlebih dahulu.'
-            ], 400);
+        // 3. CEK SALDO (Hanya jika bukan bonus)
+        if (!$isBonus && $user->wallet->saldo_coin < $gachaCost) {
+            return back()->with('error', 'Koin tidak cukup! Silakan top up.');
         }
 
         try {
             DB::beginTransaction();
 
-            // ===============================
-            // 4. KURANGI COIN USER
-            // ===============================
-            $user->wallet->saldo_coin -= $gachaCost;
+            // ---------------------------------------------------
+            // STEP A: LOGIC RNG (Acak Barang)
+            // ---------------------------------------------------
+            $candidates = MysteryBoxProduct::where('id_mystery_box', $boxId)
+                            ->with('product')
+                            ->get();
+
+            if ($candidates->isEmpty()) {
+                throw new \Exception("Box ID $boxId kosong, admin belum setting hadiah!");
+            }
+
+            $totalWeight = $candidates->sum('drop_rate');
+            $random = mt_rand(0, 10000) / 10000 * $totalWeight;
+
+            $wonItem = null;
+            $currentWeight = 0;
+
+            foreach ($candidates as $item) {
+                $currentWeight += $item->drop_rate;
+                if ($random <= $currentWeight) {
+                    $wonItem = $item;
+                    break;
+                }
+            }
+            if (!$wonItem) $wonItem = $candidates->random();
+            $wonProduct = $wonItem->product;
+
+            // ---------------------------------------------------
+            // STEP B: TRANSAKSI (SALDO, POIN & CART)
+            // ---------------------------------------------------
+
+            // 1. Potong Saldo / Poin
+            if ($isBonus) {
+                $user->wallet->point_gacha -= 100; // Potong Poin
+            } else {
+                $user->wallet->saldo_coin -= $gachaCost; // Potong Koin
+                $user->wallet->point_gacha += 10;        // Tambah Poin
+                // Opsional: Batasi poin max 100
+                // if($user->wallet->point_gacha > 100) $user->wallet->point_gacha = 100;
+            }
             $user->wallet->save();
 
-            // ===============================
-            // 5. WEIGHTED RANDOM BERDASARKAN STOCK
-            // ===============================
-            $products = Product::whereBetween('price', [$minPrice, $maxPrice])
-                              ->where('stock', '>', 0)
-                              ->get();
 
-            if ($products->isEmpty()) {
-                // Fallback jika tidak ada produk dalam range
-                $wonProduct = Product::where('stock', '>', 0)->inRandomOrder()->first();
-            } else {
-                // Weighted random berdasarkan stock
-                $wonProduct = $this->weightedRandomSelect($products);
-            }
+            // 2. MASUKKAN KE CART (Logic Baru)
+            // Cek cart user
+            $cart = Cart::firstOrCreate(
+                ['id_user' => $user->id_user],
+                ['created_at' => now()]
+            );
 
-            // Fallback terakhir
-            if (!$wonProduct) {
-                $wonProduct = Product::inRandomOrder()->first();
-            }
-
-            // ===============================
-            // 6. KURANGI STOCK PRODUK (Optional)
-            // ===============================
-            // Uncomment jika ingin mengurangi stock setelah gacha
-            // if ($wonProduct->stock > 0) {
-            //     $wonProduct->stock -= 1;
-            //     $wonProduct->save();
-            // }
+            // Masukkan item dengan harga 0 (Gratis)
+            CartItem::create([
+                'id_cart'    => $cart->id_cart,
+                'id_product' => $wonProduct->id_product,
+                'quantity'   => 1,
+                'price'      => 0, // Harga 0 karena hadiah
+            ]);
 
             DB::commit();
 
-            // ===============================
-            // 7. RESPONSE KE FRONTEND
-            // ===============================
-            return response()->json([
-                'status'         => 'success',
-                'item_name'      => $wonProduct->name_product,
-                'item_image'     => $wonProduct->product_picture,
-                'item_price'     => $wonProduct->price,
-                'remaining_coin' => $user->wallet->saldo_coin
+            MysteryBoxHistory::create([
+                'id_user'    => $user->id_user,
+                'id_product' => $wonProduct->id_product,
+                // created_at otomatis terisi
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('gacha.result')->with([
+                'gacha_result' => $wonProduct,
+                'gacha_mode' => $type
             ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan sistem.'
-            ], 500);
+            return back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
     }
-
-    /**
-     * Weighted Random Selection berdasarkan stock
-     * Produk dengan stock lebih banyak punya kemungkinan lebih besar untuk terpilih
-     * 
-     * @param Collection $products
-     * @return Product
-     */
-    private function weightedRandomSelect($products)
+    public function showResultPage()
     {
-        $totalStock = $products->sum('stock');
-        
-        if ($totalStock == 0) {
-            return $products->random();
+        // Cek apakah ada data hasil gacha di session
+        if (!session()->has('gacha_result')) {
+            // Kalau user refresh atau akses langsung, kembalikan ke halaman depan
+            return redirect()->route('gacha.index'); // Sesuaikan dengan nama route halaman utama gacha kamu
         }
 
-        // Generate random number antara 1 dan total stock
-        $randomNumber = rand(1, $totalStock);
-        
-        $cumulativeStock = 0;
-        foreach ($products as $product) {
-            $cumulativeStock += $product->stock;
-            if ($randomNumber <= $cumulativeStock) {
-                return $product;
-            }
-        }
+        $result = session('gacha_result');
+        $mode = session('gacha_mode', 'normal');
 
-        // Fallback
-        return $products->first();
+        return view('gacha.result', compact('result', 'mode'));
     }
 }
