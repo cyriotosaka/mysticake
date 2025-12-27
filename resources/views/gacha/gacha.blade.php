@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
+<!-- Updated by Okky Priscila_168 - Menambahkan link droprate berdasarkan mode gacha -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,10 +49,16 @@
             Gacha History
         </a>
 
-
-        <a href="{{ route('gacha.droprates') }}" class="float-btn drop-rate-btn">
-            <i class="fas fa-chart-pie drop-rate-icon"></i>
-        </a>
+        {{-- Link Drop Rate berdasarkan Mode - Updated by Okky Priscila_168 --}}
+        @if($mode === 'premium')
+            <a href="{{ route('gacha.droprate.premium') }}" class="float-btn drop-rate-btn">
+                <i class="fas fa-chart-pie drop-rate-icon"></i>
+            </a>
+        @else
+            <a href="{{ route('gacha.droprate.normal') }}" class="float-btn drop-rate-btn">
+                <i class="fas fa-chart-pie drop-rate-icon"></i>
+            </a>
+        @endif
 
         <div class="float-btn bonus-box-btn" onclick="openModal('bonusInfoModal')">
             <img src="{{ asset('images/point.png') }}" class="bonus-icon" alt="Bonus">
@@ -113,8 +121,8 @@
     <script>
         let currentMode = "{{ $mode ?? 'normal' }}";
         const boxImg = document.getElementById('mysteryBoxImg');
-        const titleImg = document.getElementById('dynamicTitleImg'); // Ambil elemen gambar judul
-        const body = document.getElementById('bodyTheme');
+        const titleImg = document.getElementById('dynamicTitleImg');
+        const body = document.body; // FIX: ganti dari getElementById ke document.body
 
         // DATABASE TAMPILAN (Setting Gambar & Warna di sini)
         const dataUI = {
@@ -134,12 +142,11 @@
             }
         };
 
-    // Fungsi Toggle Mode (Dipanggil saat klik Tombol Undo)
+        // Fungsi Toggle Mode (Dipanggil saat klik Tombol Undo)
         function toggleMode() {
             const nextMode = currentMode === 'normal' ? 'premium' : 'normal';
             window.location.href = `/gacha?mode=${nextMode}`;
         }
-
 
         function updateUI() {
             const ui = dataUI[currentMode];
@@ -154,9 +161,10 @@
             boxImg.src = ui.box;
             document.getElementById('priceText').innerText = ui.price;
             document.getElementById('infoContent').innerText = ui.info;
-
         }
 
+        // Panggil updateUI saat halaman load
+        updateUI();
 
         // Fungsi Play Gacha
         function playGacha() {
@@ -176,14 +184,13 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}" // Token keamanan wajib Laravel
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
                 body: JSON.stringify({
                     type: currentMode
                 })
             })
             .then(response => response.json())
-
             .then(data => {
                 // Stop Animasi
                 boxImg.classList.remove('shaking');
@@ -195,7 +202,6 @@
                     // Tampilkan Hasil
                     showResult(data);
                 } else {
-                    // Jika error (misal koin habis)
                     alert(data.message);
                 }
             })
@@ -207,14 +213,11 @@
         }
 
         // Tampilkan Layar Congratulations
-        function showResult() {
-            // Di sini nanti inject data dari AJAX Response
-            // Contoh Hardcode:
+        function showResult(data) {
             const prizeImg = document.getElementById('prizeImage');
             const prizeName = document.getElementById('prizeName');
 
             if(data.item_image) {
-                // Asumsi gambar ada di folder public/images/
                 prizeImg.src = "/images/" + data.item_image;
             } else {
                 prizeImg.src = "https://placehold.co/200?text=No+Image";
@@ -239,6 +242,7 @@
                 document.getElementById(id).style.display = 'none';
             }
         }
+
         function goToHistory() {
             window.location.href = "{{ route('gacha.history') }}?mode=" + currentMode;
         }

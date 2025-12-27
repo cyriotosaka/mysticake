@@ -1,0 +1,146 @@
+/* Premium Drop Rate CSS - Created by Okky Priscila_168 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #FCB9CB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+.droprate-container {
+    width: 100%;
+    max-width: 402px;
+    height: 100vh;
+    background-color: #FCB9CB;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Fixed Header */
+.droprate-header {
+    width: 402px;
+    height: 65px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.droprate-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 30.75px;
+    font-weight: 700;
+    color: #EF5D6F;
+    margin: 0;
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EF5D6F;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 0.8;
+}
+
+.close-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Scrollable List */
+.droprate-list {
+    margin-top: 65px;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.droprate-item {
+    background-color: #FCB9CB;
+    border: 2px solid #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    min-height: 60px;
+}
+
+.droprate-item:first-child {
+    border-top: none;
+}
+
+.reward-name {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    flex: 1;
+}
+
+.reward-rate {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-left: 20px;
+}
+
+/* Scrollbar Styling */
+.droprate-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.droprate-list::-webkit-scrollbar-track {
+    background: rgba(239, 93, 111, 0.2);
+    border-radius: 5px;
+}
+
+.droprate-list::-webkit-scrollbar-thumb {
+    background: #EF5D6F;
+    border-radius: 5px;
+    border: 2px solid #FFFFFF;
+}
+
+.droprate-list::-webkit-scrollbar-thumb:hover {
+    background: #D94A5C;
+    border: 2px solid #FFFFFF;
+}
+
+/* Mobile Responsive */
+@media (max-width: 402px) {
+    .droprate-header {
+        width: 100%;
+        left: 0;
+        transform: none;
+    }
+}

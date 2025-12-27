@@ -1,0 +1,213 @@
+/* Top Up Success Page Styling - Created by Okky Priscila_168 */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Reem Kufi', sans-serif;
+    background-color: #FFF8E8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header Container */
+.header-container {
+    background-color: #FFF8E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    position: relative;
+    height: 79px;
+}
+
+.header-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 13.91px;
+    color: #3A1B16;
+    text-align: center;
+}
+
+/* Fixed Floating Bar */
+.floating-bar {
+    position: fixed;
+    top: 79px;
+    left: 0;
+    width: 100%;
+    max-width: 402px;
+    height: 47px;
+    background-color: #3A1B16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 100;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (min-width: 402px) {
+    .floating-bar {
+        width: 402px;
+    }
+}
+
+.floating-bar-text {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.coin-icon {
+    width: 26.80px;
+    height: 28.88px;
+    color: #FFD700;
+    font-size: 24px;
+}
+
+/* Content Container */
+.content-container {
+    padding: 20px;
+    padding-top: 146px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 402px;
+    margin: 0 auto;
+    min-height: calc(100vh - 126px);
+    justify-content: center;
+}
+
+/* Success Card */
+.success-card {
+    width: 363px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.success-icon-container {
+    margin-bottom: 20px;
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #4CAF50;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #3A1B16;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+.success-detail {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #888888;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.btn-primary-action,
+.btn-secondary-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary-action {
+    background-color: #3A1B16;
+    color: #FFFFFF;
+    border: none;
+}
+
+.btn-primary-action:hover {
+    background-color: #2A0F0B;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary-action {
+    background-color: #FFFFFF;
+    color: #3A1B16;
+    border: 2px solid #3A1B16;
+}
+
+.btn-secondary-action:hover {
+    background-color: #FFF8E8;
+    color: #3A1B16;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary-action i,
+.btn-secondary-action i {
+    font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .success-card {
+        width: calc(100% - 40px);
+    }
+    
+    .floating-bar {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        max-width: calc(100% - 40px);
+    }
+}

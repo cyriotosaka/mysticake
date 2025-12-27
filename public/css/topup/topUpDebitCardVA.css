@@ -1,0 +1,261 @@
+/* Debit Card VA Page Styling - Created by Okky Priscila_168 */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Reem Kufi', sans-serif;
+    background-color: #FFF8E8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header Container */
+.header-container {
+    background-color: #FFF8E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    position: relative;
+    height: 79px;
+}
+
+.back-button {
+    position: absolute;
+    left: 20px;
+    width: 36px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #3A1B16;
+    font-size: 20px;
+    transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+    opacity: 0.7;
+    color: #3A1B16;
+}
+
+.header-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 13.91px;
+    color: #3A1B16;
+    text-align: center;
+}
+
+/* Fixed Floating Bar */
+.floating-bar {
+    position: fixed;
+    top: 79px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 402px;
+    height: 47px;
+    background-color: #3A1B16;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.admin-fee-label {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #FFFFFF;
+}
+
+.admin-fee-value {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #FFFFFF;
+}
+
+/* Content Container */
+.content-container {
+    padding: 20px;
+    padding-top: 146px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 402px;
+    margin: 0 auto;
+    padding-bottom: 120px;
+}
+
+/* Virtual Account Card */
+.va-card {
+    width: 363px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.va-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+}
+
+.va-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.va-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #59413D
+}
+
+.va-body {
+    padding: 0 20px 20px 20px;
+}
+
+.va-label {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #59413D
+    margin-bottom: 5px;
+}
+
+.va-number-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10x;
+}
+
+.va-number {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #59413D
+    letter-spacing: 1px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #691C1C
+    font-size: 18px;
+    transition: opacity 0.2s ease;
+}
+
+.copy-btn:hover {
+    opacity: 0.7;
+}
+
+.va-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #691C1C;
+    margin-bottom: 10px;
+}
+
+.va-info-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.info-warning {
+    color: #EF5D6F;
+}
+
+.info-note {
+    color: #691C1C;
+}
+
+.info-bank {
+    color: #3A1B16;
+    font-weight: 500;
+}
+
+/* Info Card */
+.info-card {
+    width: 363px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+}
+
+.info-icon {
+    font-size: 14px;
+    color: #59413D;
+}
+
+.info-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #888888;
+}
+
+/* OK Button */
+.ok-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 302px;
+    height: 50px;
+    background-color: #3A1B16;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ok-btn span {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #FFF8E8;
+}
+
+.ok-btn:hover {
+    background-color: #2A0F0B;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .va-card,
+    .info-card {
+        width: calc(100% - 40px);
+    }
+    
+    .floating-bar {
+        width: 100%;
+    }
+    
+    .ok-btn {
+        width: calc(100% - 60px);
+    }
+}

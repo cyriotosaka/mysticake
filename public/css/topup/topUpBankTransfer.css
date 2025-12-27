@@ -1,0 +1,323 @@
+/* Bank Transfer Virtual Account Page Styling - Created by Okky Priscila_168 */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Reem Kufi', sans-serif;
+    background-color: #FFF8E8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header Container */
+.header-container {
+    background-color: #FFF8E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    position: relative;
+    height: 79px;
+}
+
+.back-button {
+    position: absolute;
+    left: 20px;
+    width: 36px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #3A1B16;
+    font-size: 20px;
+    transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+    opacity: 0.7;
+    color: #3A1B16;
+}
+
+.header-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 13.91px;
+    color: #3A1B16;
+    text-align: center;
+}
+
+/* Fixed Floating Bar */
+.floating-bar {
+    position: fixed;
+    top: 79px;
+    left: 0;
+    width: 100%;
+    max-width: 402px;
+    height: 47px;
+    background-color: #3A1B16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 100;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (min-width: 402px) {
+    .floating-bar {
+        width: 402px;
+    }
+}
+
+.floating-bar-text {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.coin-icon {
+    width: 26.80px;
+    height: 28.88px;
+    color: #FFD700;
+    font-size: 24px;
+}
+
+/* Content Container */
+.content-container {
+    padding: 20px;
+    padding-top: 146px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 402px;
+    margin: 0 auto;
+}
+
+/* Virtual Account Card */
+.va-card {
+    width: 363px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.va-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #F0E6D6;
+}
+
+.va-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.va-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #3A1B16;
+}
+
+.va-body {
+    padding: 20px;
+}
+
+.va-label {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.va-number-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.va-number {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #3A1B16;
+    letter-spacing: 2px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #3A1B16;
+    font-size: 18px;
+    transition: opacity 0.2s ease;
+}
+
+.copy-btn:hover {
+    opacity: 0.7;
+}
+
+.va-info-text {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.info-warning {
+    color: #D4A574;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.info-warning i {
+    margin-top: 2px;
+}
+
+.info-note {
+    color: #666666;
+}
+
+.info-bank {
+    color: #3A1B16;
+    font-weight: 500;
+}
+
+.va-footer {
+    padding: 15px 20px;
+    background-color: #FFF8E8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #888888;
+}
+
+.va-footer i {
+    color: #D4A574;
+}
+
+/* Amount Card */
+.amount-card {
+    width: 363px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    text-align: center;
+}
+
+.amount-label {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.amount-value {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #3A1B16;
+}
+
+.admin-fee {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #E8DDD0;
+}
+
+.fee-label,
+.total-label {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #888888;
+}
+
+.fee-value {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #3A1B16;
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #E8DDD0;
+}
+
+.total-value {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #3A1B16;
+}
+
+/* Cancel Button */
+.cancel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 200px;
+    padding: 12px 20px;
+    background-color: #FFFFFF;
+    border: 2px solid #691C1C;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #691C1C;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #691C1C;
+    color: #FFFFFF;
+}
+
+.cancel-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .va-card,
+    .amount-card {
+        width: calc(100% - 40px);
+    }
+    
+    .floating-bar {
+        width: 100%;
+    }
+}
