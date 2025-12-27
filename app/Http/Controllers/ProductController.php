@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\ReviewProduct;
 
 class ProductController extends Controller
@@ -18,8 +19,10 @@ class ProductController extends Controller
         // 2. Hitung jumlah barang di keranjang user ini
         $cartCount = 0;
         if ($user) {
-            // Pastikan menggunakan 'id_user' atau 'id' sesuai database kamu
-            $cartCount = Cart::where('id_user', $user->id_user ?? $user->id)->count();
+            $cart = Cart::where('id_user', $user->id_user ?? $user->id)->first();
+            if ($cart) {
+                $cartCount = CartItem::where('id_cart', $cart->id_cart)->count();
+            }
         }
 
         // 3. Ambil 2 Produk untuk bagian "Recommendation"
