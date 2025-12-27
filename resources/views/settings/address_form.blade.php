@@ -1,3 +1,4 @@
+<!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,12 +22,17 @@
 
             <div class="form-group">
                 <label class="form-label">Full Address</label>
-                <textarea name="full_address" class="form-control-underlined" rows="3" placeholder="Ex: Jl. Keputih No. 10">{{ old('full_address', $address->full_address ?? '') }}</textarea>
+                <textarea name="full_address" class="form-control-underlined" rows="3" placeholder="Ex: Jl. Keputih No. 10" required>{{ old('full_address', $address->full_address ?? '') }}</textarea>
             </div>
 
             <div class="form-group">
                 <label class="form-label">Contact Number</label>
-                <input type="text" name="address_contact" class="form-control-underlined" value="{{ old('address_contact', $address->address_contact ?? '') }}" placeholder="0812...">
+                <input type="text" 
+                       name="address_contact_number" 
+                       class="form-control-underlined" 
+                       value="{{ old('address_contact_number', $address->address_contact_number ?? '') }}" 
+                       placeholder="0812..." 
+                       required>
             </div>
 
             <button type="submit" class="btn btn-pink mt-4">Save Address</button>

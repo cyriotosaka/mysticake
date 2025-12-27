@@ -1,3 +1,4 @@
+<!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
 <!-- Updated by Okky Priscila_168 -->
@@ -11,9 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
+</head> 
 <body>
-
     <div class="header-nav">
         <a href="{{ route('landing') }}" class="back-btn">
             <i class="bi bi-arrow-left"></i>
@@ -39,7 +39,12 @@
 
             <div class="custom-input-group">
                 <label class="custom-label">Email</label>
-                <input type="email" name="email" class="form-control custom-field" placeholder="Type here" required>
+                <input type="email"
+                name="email" 
+                class="form-control custom-field" 
+                placeholder="Type here" 
+                value="{{ session('last_email') ?? old('email') }}" 
+                required>
             </div>
 
             <div class="custom-input-group">
@@ -59,4 +64,4 @@
     </div>
 
 </body>
-</html>
+</html> 
