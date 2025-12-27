@@ -7,6 +7,7 @@
     <title>{{ isset($address) ? 'Edit Address' : 'Add Address' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
+    @include('partials.theme-script')
 </head>
 <body>
     <div class="container pt-3">

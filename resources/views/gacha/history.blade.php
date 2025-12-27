@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/gacha.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    @include('partials.theme-script')
 </head>
 
 <body class="theme-{{ $mode }}">

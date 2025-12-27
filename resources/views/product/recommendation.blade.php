@@ -11,6 +11,7 @@
 @section('title', 'Recommendations')
 
 @section('content')
+@include('partials.theme-script')
 <div class="container py-4">
 
     <!-- Header -->
