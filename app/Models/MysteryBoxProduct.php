@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MysteryBoxProduct extends Model
 {
     /**
-     * Nama tabel
+     * created by Arsya Nueva_099
      */
     protected $table = 'mystery_box_product';
 
@@ -35,6 +35,13 @@ class MysteryBoxProduct extends Model
         'type_gacha',
         'drop_rate',
         'cashback'
+    ];
+
+    protected $casts = [
+        'price' => 'integer',
+        'drop_rate' => 'float', // Agar 0.5 tidak terbaca sebagai string "0.5"
+        'point_gacha' => 'integer',
+        'cashback' => 'integer',
     ];
 
     /**

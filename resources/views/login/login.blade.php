@@ -1,3 +1,4 @@
+<!-- Created by Arsya Nueva_099 -->
 <!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
@@ -41,10 +42,10 @@
             <div class="custom-input-group">
                 <label class="custom-label">Email</label>
                 <input type="email"
-                name="email" 
-                class="form-control custom-field" 
-                placeholder="Type here" 
-                value="{{ session('last_email') ?? old('email') }}" 
+                name="email"
+                class="form-control custom-field"
+                placeholder="Type here"
+                value="{{ session('last_email') ?? old('email') }}"
                 required>
             </div>
 
@@ -65,4 +66,4 @@
     </div>
 
 </body>
-</html> 
+</html>
