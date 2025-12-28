@@ -60,7 +60,15 @@
     <div class="gacha-container">
 
         <a href="{{ route('gacha.history', ['mode' => $mode]) }}" class="history-pill">Gacha History</a>
-        <a href="{{ route('gacha.droprates') }}" class="float-btn drop-rate-btn"><i class="fas fa-chart-pie drop-rate-icon"></i></a>
+        
+        @php
+            // Tentukan route berdasarkan mode saat ini
+            $dropRateRoute = ($mode == 'premium') ? route('gacha.droprate.premium') : route('gacha.droprate.normal');
+        @endphp
+        
+        <a href="{{ $dropRateRoute }}" class="float-btn drop-rate-btn">
+            <i class="fas fa-chart-pie drop-rate-icon"></i>
+        </a>
 
         @php
             $userPoint = $user->wallet->point_gacha ?? 0;

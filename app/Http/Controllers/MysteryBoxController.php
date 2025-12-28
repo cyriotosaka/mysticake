@@ -90,68 +90,54 @@ class MysteryBoxController extends Controller
      */
     public function showNormalDropRatePage()
     {
-        // Ambil produk untuk Normal Mystery Box (harga < 50000)
-        $products = Product::whereBetween('price', [self::NORMAL_MIN_PRICE, self::NORMAL_MAX_PRICE])
-            ->where('stock', '>', 0) // Hanya produk yang ada stock
-            ->select('id_product', 'name_product', 'stock', 'price')
-            ->orderBy('stock', 'desc') // Urutkan dari stock terbanyak
+        // 1. Join tabel mystery_box_product dengan product
+        $items = DB::table('mystery_box_product')
+            ->join('product', 'mystery_box_product.id_product', '=', 'product.id_product')
+            ->where('mystery_box_product.id_mystery_box', 1) // ID 1 = Normal Box
+            ->select('product.name_product', 'product.stock')
             ->get();
 
-        // Hitung drop rate berdasarkan stock
-        $rewards = $this->calculateDropRates($products);
+        // 2. Hitung Total Stock untuk persentase
+        $totalStock = $items->sum('stock');
+        $rewards = [];
 
-        // Transform ke format yang dibutuhkan view
-        $rewards = $rewards->map(function ($product) {
-            return [
-                'name' => $product->name_product,
-                'rate' => $product->drop_rate,
-                'stock' => $product->stock
+        // 3. Loop data untuk hitung %
+        foreach ($items as $item) {
+            $rate = $totalStock > 0 ? ($item->stock / $totalStock) * 100 : 0;
+            $rewards[] = [
+                'name' => $item->name_product,
+                'rate' => number_format($rate, 1) . '%',
+                'stock' => $item->stock
             ];
-        });
-
-        // Jika tidak ada produk, tampilkan pesan
-        if ($rewards->isEmpty()) {
-            $rewards = collect([
-                ['name' => 'No products available', 'rate' => '0.00%', 'stock' => 0]
-            ]);
         }
 
+        // 4. Return ke View Blade (Bukan JSON)
         return view('gacha.normalDropRate', compact('rewards'));
     }
 
     /**
      * Show Premium Drop Rate Page
-     * Dipanggil ketika user klik icon drop rate dari halaman gacha premium
-     *
-     * Premium gacha: produk dengan harga Rp 50.000 - Rp 1.000.000
-     * Drop rate dihitung berdasarkan stock masing-masing produk
+     * Mengambil data REAL dari tabel mystery_box_product (Box ID 2)
      */
     public function showPremiumDropRatePage()
     {
-        // Ambil produk untuk Premium Mystery Box (harga >= 50000)
-        $products = Product::whereBetween('price', [self::PREMIUM_MIN_PRICE, self::PREMIUM_MAX_PRICE])
-            ->where('stock', '>', 0) // Hanya produk yang ada stock
-            ->select('id_product', 'name_product', 'stock', 'price')
-            ->orderBy('stock', 'desc') // Urutkan dari stock terbanyak
+        // 1. Join tabel mystery_box_product dengan product
+        $items = DB::table('mystery_box_product')
+            ->join('product', 'mystery_box_product.id_product', '=', 'product.id_product')
+            ->where('mystery_box_product.id_mystery_box', 2) // ID 2 = Premium Box
+            ->select('product.name_product', 'product.stock')
             ->get();
 
-        // Hitung drop rate berdasarkan stock
-        $rewards = $this->calculateDropRates($products);
+        $totalStock = $items->sum('stock');
+        $rewards = [];
 
-        // Transform ke format yang dibutuhkan view
-        $rewards = $rewards->map(function ($product) {
-            return [
-                'name' => $product->name_product,
-                'rate' => $product->drop_rate,
-                'stock' => $product->stock
+        foreach ($items as $item) {
+            $rate = $totalStock > 0 ? ($item->stock / $totalStock) * 100 : 0;
+            $rewards[] = [
+                'name' => $item->name_product,
+                'rate' => number_format($rate, 1) . '%',
+                'stock' => $item->stock
             ];
-        });
-
-        // Jika tidak ada produk, tampilkan pesan
-        if ($rewards->isEmpty()) {
-            $rewards = collect([
-                ['name' => 'No products available', 'rate' => '0.00%', 'stock' => 0]
-            ]);
         }
 
         return view('gacha.premiumDropRate', compact('rewards'));
