@@ -10,8 +10,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=nunito:700|reem-kufi:700" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/normalDropRate.css') }}">
+    @include('partials.theme-script')
 </head>
-<body>
+<body class="normal-drop-page">
     <div class="droprate-container">
         <!-- Fixed Header -->
         <header class="droprate-header">

@@ -2,7 +2,6 @@
 <!---Updated by Lailatul Fitaliqoh_229--->
 <!DOCTYPE html>
 <html lang="id">
-<!-- Updated by Okky Priscila_168 -->
 
 <head>
     <meta charset="UTF-8">

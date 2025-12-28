@@ -7,6 +7,7 @@
     <title>Gacha Reveal</title>
 
     <link href="{{ asset('css/gacha.css') }}" rel="stylesheet">
+    @include('partials.theme-script')
 </head>
 
 <body class="{{ $mode == 'premium' ? 'theme-premium' : 'theme-normal' }}">
