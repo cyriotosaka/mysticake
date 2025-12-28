@@ -1,7 +1,6 @@
 <!-- Created by Arsya Nueva_099 -->
 <!DOCTYPE html>
 <html lang="en">
-<!-- Updated by Okky Priscila_168 -->
 
 <head>
     <meta charset="UTF-8">

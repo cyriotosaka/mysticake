@@ -210,14 +210,11 @@
     }
 
     /* 6. RATINGS & REVIEWS STYLES */
-    /* Container Utama & Area Konten */
     [data-bs-theme="dark"] .mobile-view,
     [data-bs-theme="dark"] .content-area {
         background-color: #121212 !important; 
         color: #E0E0E0 !important;
     }
-
-    /* Header Rating & Tabs */
     [data-bs-theme="dark"] .rating-header,
     [data-bs-theme="dark"] .nav-tabs-container {
         background-color: #1E1E1E !important;
@@ -230,16 +227,12 @@
         color: #E66A7F !important;
         border-bottom-color: #E66A7F !important;
     }
-
-    /* Product Info Section (Tempat Foto & Harga) */
     [data-bs-theme="dark"] .product-info-section,
     [data-bs-theme="dark"] .filter-section {
-        background-color: #1E1E1E !important; /* Abu gelap */
+        background-color: #1E1E1E !important; 
         color: #E0E0E0 !important;
-        border-bottom: 1px solid #333 !important; /* border pemisah */
+        border-bottom: 1px solid #333 !important; 
     }
-
-    /* Product Summary Teks */
     [data-bs-theme="dark"] .product-name,
     [data-bs-theme="dark"] .product-price-box h4 {
         color: #FFFFFF !important;
@@ -247,8 +240,6 @@
     [data-bs-theme="dark"] .rating-summary {
         color: #B0B0B0 !important;
     }
-
-    /* Filter Pills (All, 5 Star, dll) */
     [data-bs-theme="dark"] .nav-pills .nav-link {
         background-color: #2C2C2C !important;
         color: #E0E0E0 !important;
@@ -259,8 +250,6 @@
         color: #FFFFFF !important;
         border-color: #E66A7F !important;
     }
-
-    /* Form & Review Cards */
     [data-bs-theme="dark"] .add-review-section, 
     [data-bs-theme="dark"] .review-card {
         background-color: #1E1E1E !important;
@@ -281,16 +270,223 @@
         color: #B0B0B0 !important;
     }
     [data-bs-theme="dark"] .text-muted {
-        color: #888 !important; /* Timestamps */
+        color: #888 !important; 
     }
-    
-    /* Tombol Like/Edit/Delete Review */
     [data-bs-theme="dark"] .btn-like-review,
     [data-bs-theme="dark"] .btn-edit-review,
     [data-bs-theme="dark"] .btn-delete-review {
         background-color: #2C2C2C !important;
         border-color: #444 !important;
         color: #B0B0B0 !important;
+    }
+
+    /* 7. SEARCH & FILTER STYLES */
+    [data-bs-theme="dark"] .search-header {
+        background-color: #121212 !important; 
+        border-bottom: 1px solid #333 !important; 
+    }
+
+    [data-bs-theme="dark"] .filter-bar {
+        background-color: #121212 !important; 
+        border-bottom: 1px solid #333 !important;
+    }
+
+    [data-bs-theme="dark"] .search-input-field {
+        background-color: #2C2C2C !important;
+        color: #fff !important;
+        border-color: #444 !important;
+    }
+    [data-bs-theme="dark"] .search-icon-input,
+    [data-bs-theme="dark"] .btn-back i {
+        color: #fff !important;
+    }
+    
+    /* Search Cards & Items */
+    [data-bs-theme="dark"] .card-rating,
+    [data-bs-theme="dark"] .card-result,
+    [data-bs-theme="dark"] .filter-item {
+        background-color: #1E1E1E !important;
+        border: 1px solid #333 !important;
+        box-shadow: none !important;
+        color: #E0E0E0 !important;
+    }
+    
+    /* Text Inside Search Cards */
+    [data-bs-theme="dark"] .card-title-h,
+    [data-bs-theme="dark"] .result-title,
+    [data-bs-theme="dark"] .section-title,
+    [data-bs-theme="dark"] .section-subtitle {
+        color: #FFFFFF !important;
+    }
+    
+    [data-bs-theme="dark"] .card-meta,
+    [data-bs-theme="dark"] .rating-info,
+    [data-bs-theme="dark"] .result-meta {
+        color: #B0B0B0 !important;
+    }
+    
+    [data-bs-theme="dark"] .result-price {
+        color: #F06A7D !important;
+        font-weight: bold;
+    }
+
+    /* Recent Search Tags */
+    [data-bs-theme="dark"] .tag-item {
+        background-color: #2C2C2C !important;
+        color: #ddd !important;
+        border: 1px solid #444 !important;
+    }
+    [data-bs-theme="dark"] .tag-item:hover {
+        background-color: #3C3C3C !important;
+    }
+
+    /* Filter Bar */
+    [data-bs-theme="dark"] .filter-bar {
+        border-bottom-color: #333 !important;
+    }
+    
+    /* Default Image Background */
+    [data-bs-theme="dark"] .result-img,
+    [data-bs-theme="dark"] .card-rating img {
+        background-color: #2C2C2C !important;
+    }
+
+    /* 8. GACHA PAGE STYLES */
+    /* --- JUDUL NORMAL --- */
+    [data-bs-theme="dark"] body.theme-normal .gacha-title-img {
+        filter: brightness(0) invert(1) drop-shadow(0 0 2px gold) !important;
+    }
+
+    /* 9. GACHA HISTORY STYLES */
+    /* Container Utama History */
+    [data-bs-theme="dark"] .history-wrapper {
+        background-color: #121212 !important; 
+        border: 1px solid #333 !important;
+        box-shadow: none !important;
+    }
+
+    /* Header History */
+    [data-bs-theme="dark"] .history-header {
+        background-color: #1E1E1E !important; 
+        color: #FFFFFF !important;
+        border-bottom: 1px solid #333 !important;
+    }
+    
+    [data-bs-theme="dark"] .history-header h1 {
+        color: #FFFFFF !important;
+    }
+
+    /* Tombol Close (X) */
+    [data-bs-theme="dark"] .close-btn {
+        color: #FFFFFF !important;
+    }
+    [data-bs-theme="dark"] .close-btn:hover {
+        color: #F06A7D !important; 
+    }
+
+    /* Info Bar */
+    [data-bs-theme="dark"] .history-info {
+        background-color: #2C2C2C !important;
+        color: #ccc !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    /* List Item History */
+    [data-bs-theme="dark"] .history-item {
+        background-color: #1E1E1E !important;
+        border-bottom: 1px solid #333 !important;
+    }
+    
+    [data-bs-theme="dark"] .history-item:hover {
+        background-color: #252525 !important;
+    }
+
+    /* Nama Barang & Waktu */
+    [data-bs-theme="dark"] .item-name {
+        color: #FFFFFF !important;
+    }
+    
+    [data-bs-theme="dark"] .item-time {
+        color: #888 !important;
+    }
+
+    /* Gambar Item (Background Transparan) */
+    [data-bs-theme="dark"] .item-img {
+        background-color: #2C2C2C !important;
+        border: 1px solid #444 !important;
+    }
+
+    /* Empty State */
+    [data-bs-theme="dark"] .empty-state {
+        color: #888 !important;
+    }
+
+    /* 10. DROP RATE PAGES STYLES */
+    /* --- NORMAL DROP RATE --- */
+    [data-bs-theme="dark"] body.normal-drop-page {
+        background-color: #121212 !important;
+    }
+    
+    [data-bs-theme="dark"] body.normal-drop-page .droprate-container {
+        background-color: #121212 !important; 
+    }
+
+    [data-bs-theme="dark"] body.normal-drop-page .droprate-header {
+        background-color: #1E1E1E !important; 
+        border-bottom: 1px solid #333 !important;
+    }
+    
+    [data-bs-theme="dark"] body.normal-drop-page .droprate-title {
+        color: #D4AF37 !important; 
+    }
+    
+    [data-bs-theme="dark"] body.normal-drop-page .droprate-item {
+        background-color: #1E1E1E !important;
+        border-bottom: 1px solid #333 !important;
+        box-shadow: none !important;
+    }
+
+    /* --- PREMIUM DROP RATE --- */
+    [data-bs-theme="dark"] body.premium-drop-page {
+        background-color: #2a0a10 !important; /* Background merah pekat */
+    }
+
+    [data-bs-theme="dark"] body.premium-drop-page .droprate-container {
+        background-color: #2a0a10 !important;
+    }
+
+    [data-bs-theme="dark"] body.premium-drop-page .droprate-header {
+        background-color: #3e1016 !important; 
+        border-bottom: 1px solid #5a1a22 !important;
+    }
+
+    [data-bs-theme="dark"] body.premium-drop-page .droprate-title {
+        color: #FF8FA3 !important; 
+    }
+
+    [data-bs-theme="dark"] body.premium-drop-page .droprate-item {
+        background-color: #3e1016 !important; 
+        border-bottom: 1px solid #5a1a22 !important;
+        box-shadow: none !important;
+    }
+
+    /* --- GLOBAL ELEMENTS */
+    [data-bs-theme="dark"] .droprate-item .reward-name {
+        color: #FFFFFF !important; 
+    }
+    
+    [data-bs-theme="dark"] .droprate-item .reward-rate {
+        color: #ccc !important; 
+        font-weight: bold;
+    }
+
+    [data-bs-theme="dark"] .close-button {
+        color: #FFFFFF !important; 
+        background: rgba(255,255,255,0.1); 
+    }
+    
+    [data-bs-theme="dark"] .close-button:hover {
+        background: rgba(255,255,255,0.2);
     }
 
 </style>
