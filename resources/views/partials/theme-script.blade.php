@@ -448,7 +448,7 @@
 
     /* --- PREMIUM DROP RATE --- */
     [data-bs-theme="dark"] body.premium-drop-page {
-        background-color: #2a0a10 !important; /* Background merah pekat */
+        background-color: #2a0a10 !important; 
     }
 
     [data-bs-theme="dark"] body.premium-drop-page .droprate-container {
@@ -489,6 +489,160 @@
         background: rgba(255,255,255,0.2);
     }
 
+    /* 11. PAYMENT & DELIVERY */
+    [data-bs-theme="dark"] body {
+        background-color: #121212 !important; 
+        color: #ffffff !important;
+    }
+
+    /* B. HEADER & TEXT */
+    [data-bs-theme="dark"] .page-header,
+    [data-bs-theme="dark"] .back-btn {
+        color: #ffffff !important;
+    }
+    [data-bs-theme="dark"] .text-muted,
+    [data-bs-theme="dark"] small {
+        color: #B0B0B0 !important;
+    }
+
+    /* KARTU PINK UTAMA */
+    [data-bs-theme="dark"] .pink-card,
+    [data-bs-theme="dark"] .card-pink-bg {
+        background: #2a0a10 !important; 
+        border: 1px solid #FF8FA3 !important; 
+        box-shadow: none !important;
+        color: #ffffff !important;
+    }
+
+    /* KARTU PUTIH BIASA */
+    [data-bs-theme="dark"] .card, 
+    [data-bs-theme="dark"] .bg-white,
+    [data-bs-theme="dark"] .shadow-sm {
+        background-color: #1E1E1E !important;
+        color: #FFFFFF !important;
+        border: 1px solid #333 !important;
+    }
+    /* Hover Effect untuk pilihan */
+    [data-bs-theme="dark"] a[href] .card:hover,
+    [data-bs-theme="dark"] div[onclick] .card:hover {
+        background-color: #252525 !important;
+        border-color: #555 !important;
+    }
+
+    /* TOMBOL PUTIH KECIL */
+    [data-bs-theme="dark"] .white-button {
+        background: #1E1E1E !important;
+        color: #FF8FA3 !important;
+        border: 1px solid #FF8FA3 !important;
+    }
+    [data-bs-theme="dark"] .white-button:hover {
+        background: #333 !important;
+    }
+
+    /* ITEM PRODUK & ALAMAT */
+    [data-bs-theme="dark"] .product-item,
+    [data-bs-theme="dark"] .address-box {
+        background: rgba(0, 0, 0, 0.4) !important; 
+        border: 1px solid #5a1a22 !important;
+    }
+    
+    /* TEXT DI DALAM KARTU */
+    [data-bs-theme="dark"] .address-text, 
+    [data-bs-theme="dark"] .delivery-text,
+    [data-bs-theme="dark"] .product-name,
+    [data-bs-theme="dark"] .product-price,
+    [data-bs-theme="dark"] .summary-row,
+    [data-bs-theme="dark"] .total-row,
+    [data-bs-theme="dark"] .card-header,
+    [data-bs-theme="dark"] .product-qty,
+    [data-bs-theme="dark"] h5, 
+    [data-bs-theme="dark"] h6,
+    [data-bs-theme="dark"] strong {
+        color: #ffffff !important;
+    }
+
+    /* FOOTER */
+    [data-bs-theme="dark"] .purchase-section {
+        background-color: #121212 !important;
+        border-top: 1px solid #333 !important;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.5) !important;
+    }
+    
+    /* MODAL PIN */
+    [data-bs-theme="dark"] #pinModal .modal-content {
+        background-color: #1E1E1E !important;
+        border: 1px solid #444 !important;
+    }
+    [data-bs-theme="dark"] .otp-input {
+        background-color: #2C2C2C !important;
+        color: #fff !important;
+        border-color: #FF8FA3 !important;
+    }
+
+    /* 12. ADDRESS SELECTION STYLES */
+    [data-bs-theme="dark"] .address-card {
+        background-color: #1E1E1E !important;
+        border: 1px solid #333 !important;
+        box-shadow: none !important;
+        color: #fff !important;
+    }
+    
+    [data-bs-theme="dark"] .address-card:hover {
+        background-color: #252525 !important;
+        border-color: #555 !important;
+    }
+
+    /* Card yang Dipilih (Selected) */
+    [data-bs-theme="dark"] .address-card.selected {
+        border: 2px solid #FF8FA3 !important; 
+        background-color: #2a0a10 !important; 
+    }
+
+    /* TEKS & KONTEN */
+    [data-bs-theme="dark"] .address-card h6,
+    [data-bs-theme="dark"] .address-card p {
+        color: #ffffff !important;
+    }
+    
+    [data-bs-theme="dark"] .address-card .text-muted {
+        color: #B0B0B0 !important;
+    }
+
+    /* TOMBOL-TOMBOL DI DALAM CARD */
+    /* Link Edit */
+    [data-bs-theme="dark"] .edit-link {
+        color: #64B5F6 !important;
+    }
+    [data-bs-theme="dark"] .edit-link:hover {
+        color: #90CAF9 !important;
+    }
+
+    /* Tombol Hapus */
+    [data-bs-theme="dark"] .delete-btn {
+        color: #FF8FA3 !important;
+    }
+    [data-bs-theme="dark"] .delete-btn:hover {
+        color: #FF5C7C !important;
+        background-color: rgba(255,255,255,0.05) !important;
+        border-radius: 50%;
+    }
+
+    /* TOMBOL TAMBAH ALAMAT */
+    [data-bs-theme="dark"] .add-address-btn {
+        background-color: #1E1E1E !important;
+        border: 2px dashed #FF8FA3 !important;
+        color: #FF8FA3 !important;
+    }
+    
+    [data-bs-theme="dark"] .add-address-btn:hover:not(:disabled) {
+        background-color: #2a0a10 !important; 
+    }
+
+    [data-bs-theme="dark"] .add-address-btn:disabled {
+        border-color: #444 !important;
+        color: #666 !important;
+        background-color: #121212 !important;
+    }
 </style>
 
 <script>
