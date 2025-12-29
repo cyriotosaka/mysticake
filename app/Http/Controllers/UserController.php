@@ -1,4 +1,5 @@
 <?php
+/* created by Arsya Nueva D (5026231099) */
 /* Updated by Lailatul Fitaliqoh (5026231229) */
 namespace App\Http\Controllers;
 
@@ -110,7 +111,7 @@ class UserController extends Controller
         $address->id_user = Auth::id();
         $address->full_address = $request->full_address;
         $address->address_contact = $request->address_contact;
-        $address->map_point = '-6.200,106.816'; 
+        $address->map_point = '-6.200,106.816';
         $address->save();
 
         // Redirect kembali ke list alamat
@@ -120,7 +121,7 @@ class UserController extends Controller
    // Menampilkan Form Edit Alamat
     public function showEditAddressForm($id)
     {
-        // Memastikan alamat itu milik user yang sedang login 
+        // Memastikan alamat itu milik user yang sedang login
         $address = Address::where('id_address', $id)
                           ->where('id_user', Auth::id())
                           ->firstOrFail();
@@ -147,7 +148,7 @@ class UserController extends Controller
         return redirect()->route('settings.address.list')->with('success', 'Alamat berhasil diubah');
     }
 
-    // Proses Hapus Alamat 
+    // Proses Hapus Alamat
     public function removeAddress($id)
     {
         $address = Address::where('id_address', $id)
