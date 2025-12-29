@@ -85,9 +85,16 @@ class Orders extends Model
     /**
      * Create order from cart items
      */
-    public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
+    /**
+ * Create order from cart items
+ */
+public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
 {
-    $subtotal = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
+    // --- MERGED FIX ---
+    // We use $item->price (from cart_items table) instead of $item->product->price.
+    // This ensures Gacha items (price 0) and normal items (standard price) are both correct.
+    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+
     $delivery = Delivery::find($deliveryId);
     $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
     $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
@@ -110,7 +117,10 @@ class Orders extends Model
             'id_order' => $order->id_order,
             'id_product' => $cartItem->id_product,
             'quantity' => $cartItem->quantity,
-            'subtotal' => $cartItem->product->price * $cartItem->quantity
+            
+            // --- MERGED FIX ---
+            // Save the specific price the user "bought" it at (0 for Gacha)
+            'subtotal' => $cartItem->price * $cartItem->quantity
         ]);
     }
 
