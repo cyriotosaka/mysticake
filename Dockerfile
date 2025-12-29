@@ -1,8 +1,8 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Install system dependencies
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip nginx supervisor \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -16,52 +16,24 @@ WORKDIR /var/www/html
 COPY . .
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
-# Configure Nginx
-COPY <<EOF /etc/nginx/sites-available/default
-server {
-    listen 80;
-    root /var/www/html/public;
-    index index.php index.html;
-    
-    location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
-    }
-    
-    location ~ \.php\$ {
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-    
-    location ~ /\.ht {
-        deny all;
-    }
-}
-EOF
+# Create a router script for static files
+RUN echo '<?php \n\
+$uri = urldecode(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)); \n\
+if ($uri !== "/" && file_exists(__DIR__."/public".$uri)) { \n\
+    $ext = pathinfo($uri, PATHINFO_EXTENSION); \n\
+    $mimes = ["css" => "text/css", "js" => "application/javascript", "png" => "image/png", "jpg" => "image/jpeg", "gif" => "image/gif", "svg" => "image/svg+xml", "woff" => "font/woff", "woff2" => "font/woff2", "ttf" => "font/ttf"]; \n\
+    if (isset($mimes[$ext])) { header("Content-Type: " . $mimes[$ext]); } \n\
+    readfile(__DIR__."/public".$uri); \n\
+    exit; \n\
+} \n\
+require_once __DIR__."/public/index.php"; \n\
+' > /var/www/html/router.php
 
-# Configure Supervisor
-COPY <<EOF /etc/supervisor/conf.d/supervisord.conf
-[supervisord]
-nodaemon=true
+EXPOSE 8080
 
-[program:php-fpm]
-command=php-fpm -F
-autostart=true
-autorestart=true
-
-[program:nginx]
-command=nginx -g "daemon off;"
-autostart=true
-autorestart=true
-EOF
-
-EXPOSE 80
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["php", "-S", "0.0.0.0:8080", "router.php"]
