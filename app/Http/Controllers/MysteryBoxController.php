@@ -185,20 +185,18 @@ class MysteryBoxController extends Controller
     public function rollGacha(Request $request)
     {
         $user = Auth::user()->load('wallet');
-        $type = $request->input('type'); // 'normal', 'premium', atau 'bonus'
+        $type = $request->input('type'); 
 
-        // 1. SETTING VARIABEL
-        $boxId = 1;     // Default box (misal bonus pakai barang normal)
+        $boxId = 1;     
         $gachaCost = 0;
         $isBonus = false;
 
-        // 2. VALIDASI TIPE & HARGA
         if ($type === 'bonus') {
             $isBonus = true;
             if ($user->wallet->point_gacha < 100) {
                 return back()->with('error', 'Poin belum cukup (Butuh 100 Poin)!');
             }
-            $boxId = 1; // Bonus ambil hadiah dari pool Normal Box
+            $boxId = 1; 
             $gachaCost = 0;
         }
         elseif ($type === 'normal') {
@@ -206,14 +204,13 @@ class MysteryBoxController extends Controller
             $gachaCost = 15000;
         }
         elseif ($type === 'premium') {
-            $boxId = 2; // Pastikan Box ID 2 ada di database!
+            $boxId = 2; 
             $gachaCost = 25000;
         }
         else {
             return back()->with('error', 'Tipe gacha tidak valid.');
         }
 
-        // 3. CEK SALDO (Hanya jika bukan bonus)
         if (!$isBonus && $user->wallet->saldo_coin < $gachaCost) {
             return back()->with('error', 'Koin tidak cukup! Silakan top up.');
         }
@@ -221,15 +218,13 @@ class MysteryBoxController extends Controller
         try {
             DB::beginTransaction();
 
-            // ---------------------------------------------------
-            // STEP A: LOGIC RNG (Acak Barang)
-            // ---------------------------------------------------
+            // STEP A: RNG Logic
             $candidates = MysteryBoxProduct::where('id_mystery_box', $boxId)
                             ->with('product')
                             ->get();
 
             if ($candidates->isEmpty()) {
-                throw new \Exception("Box ID $boxId kosong, admin belum setting hadiah!");
+                throw new \Exception("Box ID $boxId kosong!");
             }
 
             $totalWeight = $candidates->sum('drop_rate');
@@ -237,7 +232,6 @@ class MysteryBoxController extends Controller
 
             $wonItem = null;
             $currentWeight = 0;
-
             foreach ($candidates as $item) {
                 $currentWeight += $item->drop_rate;
                 if ($random <= $currentWeight) {
@@ -248,43 +242,34 @@ class MysteryBoxController extends Controller
             if (!$wonItem) $wonItem = $candidates->random();
             $wonProduct = $wonItem->product;
 
-            // ---------------------------------------------------
-            // STEP B: TRANSAKSI (SALDO, POIN & CART)
-            // ---------------------------------------------------
-
-            // 1. Potong Saldo / Poin
+            // STEP B: TRANSAKSI
             if ($isBonus) {
-                $user->wallet->point_gacha -= 100; // Potong Poin
+                $user->wallet->point_gacha -= 100;
             } else {
-                $user->wallet->saldo_coin -= $gachaCost; // Potong Koin
-                $user->wallet->point_gacha += 10;        // Tambah Poin
-                // Opsional: Batasi poin max 100
-                // if($user->wallet->point_gacha > 100) $user->wallet->point_gacha = 100;
+                $user->wallet->saldo_coin -= $gachaCost;
+                $user->wallet->point_gacha += 10;
             }
             $user->wallet->save();
 
+            // 1. Create or Find Cart
+            $cart = Cart::firstOrCreate(['id_user' => $user->id_user]);
 
-            // 2. MASUKKAN KE CART (Logic Baru)
-            // Cek cart user
-            $cart = Cart::firstOrCreate(
-                ['id_user' => $user->id_user],
-                ['created_at' => now()]
-            );
-
-            // Masukkan item dengan harga 0 (Gratis)
-            CartItem::create([
+            // 2. Add to Cart (WITHOUT 'price' column to avoid SQL error)
+            $newItem = CartItem::create([
                 'id_cart'    => $cart->id_cart,
                 'id_product' => $wonProduct->id_product,
-                'quantity'   => 1,
-                'price'      => 0, // Harga 0 karena hadiah
+                'quantity'   => 1
             ]);
 
-            DB::commit();
+            // 3. Mark as FREE in Session Registry
+            $gachaIds = session('gacha_item_ids', []);
+            $gachaIds[] = $newItem->id_cart_item; 
+            session(['gacha_item_ids' => $gachaIds]);
 
+            // 4. Save History
             MysteryBoxHistory::create([
                 'id_user'    => $user->id_user,
                 'id_product' => $wonProduct->id_product,
-                // created_at otomatis terisi
             ]);
 
             DB::commit();

@@ -294,29 +294,47 @@
     </div>
 
     <!-- Order Items -->
-    <div class="pink-card product-list-card">
-        <div class="card-header">
-            <i class="bi bi-bag-fill"></i>
-            Enak Dessert
-        </div>
-        @foreach($items as $item)
-            <div class="product-item">
-                <img src="{{ asset('images/products/'.$item->product->product_picture) }}"
-                     class="product-img"
-                     onerror="this.src='https://placehold.co/50x50/FFE5EC/FF6B83?text=Cake';">
-                <div class="product-info">
-                    <div class="product-name">{{ $item->product->name_product }}</div>
-                    <div class="product-qty">Qty: {{ $item->quantity }}</div>
-                </div>
-                <div class="product-price">
-                    {{ number_format($item->product->price * $item->quantity / 1000, 0) }}.000
-                </div>
-            </div>
-        @endforeach
-    </div>
+    @php
+    $gachaIds = session('gacha_item_ids', []);
+    $subtotal = 0;
+@endphp
 
-    <!-- Payment Summary -->
-    <div class="pink-card">
+<div class="pink-card product-list-card">
+    <div class="card-header">
+        <i class="bi bi-bag-fill"></i> Enak Dessert
+    </div>
+    @foreach($items as $item)
+        @php
+            // Check if this specific cart item ID is in our "Free" session list
+            $isGacha = in_array($item->id_cart_item, $gachaIds);
+            
+            // Math: If gacha, price is 0. Else, use original product price.
+            $currentPrice = $isGacha ? 0 : $item->product->price;
+            $itemTotal = $currentPrice * $item->quantity;
+            $subtotal += $itemTotal;
+        @endphp
+
+        <div class="product-item">
+            <img src="{{ asset('images/products/'.$item->product->product_picture) }}" class="product-img">
+            <div class="product-info">
+                <div class="product-name">
+                    {{ $item->product->name_product }}
+                    @if($isGacha) <span class="badge bg-warning text-dark">WIN</span> @endif
+                </div>
+                <div class="product-qty">Qty: {{ $item->quantity }}</div>
+            </div>
+            <div class="product-price">
+                @if($isGacha)
+                    <span class="text-success fw-bold">FREE</span>
+                @else
+                    {{ number_format($itemTotal / 1000, 0) }}.000
+                @endif
+            </div>
+        </div>
+    @endforeach
+</div>
+
+<div class="pink-card">
     <div class="card-header">
         <i class="bi bi-receipt-cutoff"></i> Payment Summary
     </div>
@@ -330,7 +348,7 @@
     </div>
     <div class="total-row">
         <span>Total Payment</span>
-        <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
+        <span>Rp {{ number_format($subtotal + $deliveryCharge, 0, ',', '.') }}</span>
     </div>
 </div>
 
