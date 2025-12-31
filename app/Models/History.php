@@ -1,5 +1,5 @@
 <?php
-
+//Created by Lailatul Fitaliqoh (5026231229)
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
