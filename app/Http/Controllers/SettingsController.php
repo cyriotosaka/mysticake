@@ -1,6 +1,5 @@
 <?php
-// Muhammad Fikri Khalilullah/5026231198
-// Updated by Lailatul Fitaliqoh (5026231229)
+// Created by Lailatul Fitaliqoh (5026231229)
 
 namespace App\Http\Controllers;
 
