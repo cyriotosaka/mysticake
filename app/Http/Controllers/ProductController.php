@@ -1,4 +1,19 @@
 <?php
+/**
+ * ProductController
+ * 
+ * Updated by: Abdul Ghoni (5026231109)
+ * 
+ * Use Case 1 - Pencarian Produk:
+ * - showSearchPage(): Menampilkan halaman search awal dengan highest rated products
+ * - searchProduct(): Melakukan pencarian produk berdasarkan keyword
+ * - getDetails(): Helper untuk mendapatkan detail lengkap produk dengan reviews
+ * 
+ * Use Case 3 - Rating dan Review:
+ * - showRatings(): Menampilkan halaman Rating & Feedback produk
+ * - Menambahkan validasi canReview untuk cek apakah user bisa review
+ * - Eager loading store untuk tampilan nama toko
+ */
 
 namespace App\Http\Controllers;
 

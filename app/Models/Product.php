@@ -1,4 +1,13 @@
 <?php
+/**
+ * Product Model
+ * 
+ * Updated by: Abdul Ghoni (5026231109)
+ * 
+ * Use Case 1 - Pencarian Produk:
+ * - scopeSearch(): Query scope untuk memfilter produk berdasarkan keyword pencarian
+ * - scopeHighestRated(): Query scope untuk mengambil produk dengan rating tertinggi
+ */
 
 namespace App\Models;
 

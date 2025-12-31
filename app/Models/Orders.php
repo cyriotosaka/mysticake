@@ -1,4 +1,17 @@
 <?php
+/**
+ * Orders Model
+ * 
+ * Updated by: Abdul Ghoni (5026231109)
+ * 
+ * Use Case 2 - Melakukan Pemesanan Produk:
+ * - findByUser(): Mengambil semua order berdasarkan user ID untuk history
+ * - getFormattedDate(): Format tanggal order untuk display
+ * - getFormattedTotal(): Format total pembayaran dengan Rupiah
+ * 
+ * Use Case 3 - Rating dan Review:
+ * - Model ini digunakan untuk validasi hasUserPurchased di ReviewProduct
+ */
 
 namespace App\Models;
 
