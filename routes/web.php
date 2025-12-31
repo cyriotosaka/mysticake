@@ -1,8 +1,21 @@
 <?php
 /**
  * Created by Arsya Nueva_099
+ * 
  * Updated by Abdul Ghoni (5026231109)
- * - Menambahkan route review.update dan review.destroy untuk CRUD review
+ * Use Case 1 - Pencarian Produk:
+ * - Route GET /search untuk halaman pencarian
+ * - Route POST /search untuk submit pencarian
+ * Use Case 2 - Melakukan Pemesanan Produk:
+ * - Routes untuk cart (index, add, update, delete, checkout)
+ * - Routes untuk order flow (payment, address, delivery, payment-methods, process, confirmation, history)
+ * Use Case 3 - Rating dan Review:
+ * - Route GET /product/{id}/ratings untuk melihat rating
+ * - Route POST /product/{id}/review untuk submit review
+ * - Route PUT /review/{id} untuk update review (CRUD)
+ * - Route DELETE /review/{id} untuk hapus review (CRUD)
+ * - Route POST /review/{id}/like untuk like review
+ * 
  * Updated by Okky Priscila_168
  * - Menambahkan route untuk fitur drop rate gacha (normal & premium)
  * - Menambahkan route untuk fitur top up (halaman utama, dropdown, dan proses top up)

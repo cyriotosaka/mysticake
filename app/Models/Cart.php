@@ -1,4 +1,14 @@
 <?php
+/**
+ * Cart Model
+ * 
+ * Updated by: Abdul Ghoni (5026231109)
+ * 
+ * Use Case 2 - Melakukan Pemesanan Produk:
+ * - getSelectedItems(): Mengambil cart items berdasarkan ID yang dipilih user
+ * - getTotalAmount(): Menghitung total harga untuk items yang dipilih
+ * - clearSelectedItems(): Menghapus items dari cart setelah checkout berhasil
+ */
 
 namespace App\Models;
 
