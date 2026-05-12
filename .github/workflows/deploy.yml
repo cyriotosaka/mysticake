@@ -36,8 +36,8 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/$GCP_PROJECT_ID//$ARTIFACT_REPO/pso"
-          gcloud run deploy my-app-service \
+          IMAGE="asia-southeast2-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REPO/pso"
+          gcloud run deploy mysticake \
             --image=$IMAGE:$GITHUB_SHA \
             --platform=managed \
             --region=$GCP_REGION \
