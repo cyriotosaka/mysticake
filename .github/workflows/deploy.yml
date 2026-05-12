@@ -10,6 +10,11 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ secrets.GCP_REGION }}
+      ARTIFACT_REPO: ${{ secrets.ARTIFACT_REPO }}
+      MONGODB_URL: ${{ secrets.MONGODB_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -19,28 +24,24 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - run: gcloud auth configure-docker asia-southeast2-docker.pkg.dev
-      
-      - name: Debug secrets
+      - name: Configure Docker for Artifact Registry
         run: |
-          echo "Project: ${{ secrets.GCP_PROJECT_ID }}"
-          echo "Region: ${{ secrets.GCP_REGION }}"
-          echo "Repo: ${{ secrets.ARTIFACT_REPO }}"
+          gcloud auth configure-docker asia-southeast2-docker.pkg.dev
 
-      - name: Build & Push image
+      - name: Build & Push Docker image
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/pso"
+          IMAGE="asia-southeast2-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REPO/pso"
           docker build -t $IMAGE:$GITHUB_SHA .
           docker push $IMAGE:$GITHUB_SHA
 
-      - name: Deploy ke Cloud Run
+      - name: Deploy to Cloud Run
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/pso"
+          IMAGE="asia-southeast2-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REPO/pso"
           gcloud run deploy my-app-service \
             --image=$IMAGE:$GITHUB_SHA \
             --platform=managed \
-            --region=${{ secrets.GCP_REGION }} \
+            --region=$GCP_REGION \
             --allow-unauthenticated \
             --port=8080 \
             --memory=512Mi \
-            --set-env-vars="MONGODB_URL=${{ secrets.MONGODB_URL }}"
+            --set-env-vars="MONGODB_URL=$MONGODB_URL"
