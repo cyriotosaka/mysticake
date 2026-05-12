@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,12 +29,12 @@ jobs:
 
       - name: Deploy ke Cloud Run
         run: |
-         IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTFACT_REPO }}/pso"
-         gcloud run deploy my-app-service \
-          --image=$IMAGE:$GITHUB_SHA \
-          --platform=managed \
-          --region=${{ secrets.GCP_REGION }} \
-          --allow-unauthenticated \
-          --port=8080 \
-          --memory=512Mi \
-          --set-env-vars="MONGODB_URL=${{ secrets.MONGODB_URL }}"
+          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/pso"
+          gcloud run deploy my-app-service \
+            --image=$IMAGE:$GITHUB_SHA \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --port=8080 \
+            --memory=512Mi \
+            --set-env-vars="MONGODB_URL=${{ secrets.MONGODB_URL }}"
