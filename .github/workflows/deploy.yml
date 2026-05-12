@@ -21,6 +21,12 @@ jobs:
 
       - run: gcloud auth configure-docker asia-southeast2-docker.pkg.dev
       
+      - name: Debug secrets
+        run: |
+          echo "Project: ${{ secrets.GCP_PROJECT_ID }}"
+          echo "Region: ${{ secrets.GCP_REGION }}"
+          echo "Repo: ${{ secrets.ARTIFACT_REPO }}"
+
       - name: Build & Push image
         run: |
           IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REPO }}/pso"
