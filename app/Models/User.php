@@ -1,14 +1,13 @@
 <?php
+
 // Updated by Okky Priscila Putri_168 - Menambahkan auto increment
-//Updated by Lailatul Fitaliqoh (5026231229)
+// Updated by Lailatul Fitaliqoh (5026231229)
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\ReviewProduct;
-
 
 class User extends Authenticatable
 {
@@ -77,6 +76,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Wallet::class, 'id_user', 'id_user');
     }
+
     // Aksesor untuk mempermudah pemanggilan saldo (Opsional tapi berguna)
     public function getBalanceAttribute()
     {
@@ -140,12 +140,12 @@ class User extends Authenticatable
         if ($this->profile_picture) {
             return asset($this->profile_picture);
         }
+
         return asset('images/default-avatar.png');
     }
 
     public function topUps()
     {
-    return $this->hasMany(TopUp::class, 'id_user', 'id_user');
+        return $this->hasMany(TopUp::class, 'id_user', 'id_user');
     }
-
 }

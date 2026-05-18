@@ -1,10 +1,11 @@
 <?php
-//Created by Lailatul Fitaliqoh (5026231229)
+
+// Created by Lailatul Fitaliqoh (5026231229)
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('chat', function (Blueprint $table) {
-            if (!Schema::hasColumn('chat', 'sender_role')) {
+            if (! Schema::hasColumn('chat', 'sender_role')) {
                 $table->enum('sender_role', ['user', 'store'])
-                      ->default('user')
-                      ->after('message'); 
+                    ->default('user')
+                    ->after('message');
             }
         });
     }

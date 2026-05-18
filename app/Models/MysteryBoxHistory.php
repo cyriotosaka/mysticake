@@ -1,4 +1,5 @@
 <?php
+
 // created by Arsya Nueva_099
 
 namespace App\Models;
@@ -17,7 +18,7 @@ class MysteryBoxHistory extends Model
 
     protected $fillable = [
         'id_user',
-        'id_product'
+        'id_product',
     ];
 
     // Relasi ke Product (PENTING biar bisa ambil gambar & nama)

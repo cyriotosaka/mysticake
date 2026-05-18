@@ -10,13 +10,15 @@ class Store extends Model
     use HasFactory;
 
     protected $table = 'store';
+
     protected $primaryKey = 'id_store';
+
     public $timestamps = false;
 
     protected $fillable = [
         'name_store',
         'rating_store',
-        'store_picture'
+        'store_picture',
     ];
 
     public function products()

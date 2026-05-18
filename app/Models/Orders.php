@@ -1,14 +1,15 @@
 <?php
+
 /**
  * Orders Model
- * 
+ *
  * Updated by: Abdul Ghoni (5026231109)
- * 
+ *
  * Use Case 2 - Melakukan Pemesanan Produk:
  * - findByUser(): Mengambil semua order berdasarkan user ID untuk history
  * - getFormattedDate(): Format tanggal order untuk display
  * - getFormattedTotal(): Format total pembayaran dengan Rupiah
- * 
+ *
  * Use Case 3 - Rating dan Review:
  * - Model ini digunakan untuk validasi hasUserPurchased di ReviewProduct
  */
@@ -20,7 +21,9 @@ use Illuminate\Database\Eloquent\Model;
 class Orders extends Model
 {
     protected $table = 'orders';
+
     protected $primaryKey = 'id_order';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -31,7 +34,7 @@ class Orders extends Model
         'order_date',
         'extra_charges',
         'total_payment',
-        'status_order'
+        'status_order',
     ];
 
     /**
@@ -99,46 +102,46 @@ class Orders extends Model
      * Create order from cart items
      */
     /**
- * Create order from cart items
- */
-public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
-{
-    // --- MERGED FIX ---
-    // We use $item->price (from cart_items table) instead of $item->product->price.
-    // This ensures Gacha items (price 0) and normal items (standard price) are both correct.
-    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+     * Create order from cart items
+     */
+    public static function createFromCart($cartItems, $userId, $addressId, $deliveryId, $paymentMethodId, $extraCharges = 0)
+    {
+        // --- MERGED FIX ---
+        // We use $item->price (from cart_items table) instead of $item->product->price.
+        // This ensures Gacha items (price 0) and normal items (standard price) are both correct.
+        $subtotal = $cartItems->sum(fn ($item) => $item->price * $item->quantity);
 
-    $delivery = Delivery::find($deliveryId);
-    $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
-    $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
+        $delivery = Delivery::find($deliveryId);
+        $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
+        $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
 
-    // Create the Order Record
-    $order = self::create([
-        'id_user' => $userId,
-        'id_address' => $addressId,
-        'id_delivery' => $deliveryId,
-        'id_payment_method' => $paymentMethodId,
-        'order_date' => now(),
-        'extra_charges' => $extraCharges,
-        'total_payment' => $totalPayment,
-        'status_order' => 'Pending'
-    ]);
-
-    // Move items from Cart to OrderItems
-    foreach ($cartItems as $cartItem) {
-        OrderItem::create([
-            'id_order' => $order->id_order,
-            'id_product' => $cartItem->id_product,
-            'quantity' => $cartItem->quantity,
-            
-            // --- MERGED FIX ---
-            // Save the specific price the user "bought" it at (0 for Gacha)
-            'subtotal' => $cartItem->price * $cartItem->quantity
+        // Create the Order Record
+        $order = self::create([
+            'id_user' => $userId,
+            'id_address' => $addressId,
+            'id_delivery' => $deliveryId,
+            'id_payment_method' => $paymentMethodId,
+            'order_date' => now(),
+            'extra_charges' => $extraCharges,
+            'total_payment' => $totalPayment,
+            'status_order' => 'Pending',
         ]);
-    }
 
-    return $order;
-}
+        // Move items from Cart to OrderItems
+        foreach ($cartItems as $cartItem) {
+            OrderItem::create([
+                'id_order' => $order->id_order,
+                'id_product' => $cartItem->id_product,
+                'quantity' => $cartItem->quantity,
+
+                // --- MERGED FIX ---
+                // Save the specific price the user "bought" it at (0 for Gacha)
+                'subtotal' => $cartItem->price * $cartItem->quantity,
+            ]);
+        }
+
+        return $order;
+    }
 
     /**
      * Get all orders for a user
@@ -164,8 +167,6 @@ public static function createFromCart($cartItems, $userId, $addressId, $delivery
      */
     public function getFormattedTotal()
     {
-        return 'Rp ' . number_format($this->total_payment, 0, ',', '.');
+        return 'Rp '.number_format($this->total_payment, 0, ',', '.');
     }
-
 }
-

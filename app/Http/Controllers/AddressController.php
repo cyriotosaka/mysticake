@@ -1,10 +1,12 @@
 <?php
+
 /* Created by Lailatul Fitaliqoh (5026231229) */
+
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Address;
 
 class AddressController extends Controller
 {
@@ -16,9 +18,10 @@ class AddressController extends Controller
     {
         $user = Auth::user();
         $addresses = Address::where('id_user', $user->id_user)->get();
-        
+
         // Cek apakah user masih bisa nambah alamat (max 3)
-        $canAddMore = $addresses->count() < 3; 
+        $canAddMore = $addresses->count() < 3;
+
         return view('settings.address_index', compact('addresses', 'canAddMore'));
     }
 
@@ -28,7 +31,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        return view('settings.address_form'); 
+        return view('settings.address_form');
     }
 
     /**
@@ -43,7 +46,7 @@ class AddressController extends Controller
         $request->validate([
             'full_address' => 'required|string',
             'map_point' => 'nullable|string',
-            'address_contact_number' => 'required|string' // Sesuaikan name di form blade
+            'address_contact_number' => 'required|string', // Sesuaikan name di form blade
         ]);
 
         // Validasi max 3 alamat (Security tambahan di backend)
@@ -56,7 +59,7 @@ class AddressController extends Controller
             'id_user' => $user->id_user,
             'full_address' => $request->full_address,
             'map_point' => $request->map_point,
-            'address_contact_number' => $request->address_contact_number
+            'address_contact_number' => $request->address_contact_number,
         ]);
 
         return redirect()->route('address.index')->with('success', 'Alamat berhasil ditambahkan.');
@@ -70,9 +73,9 @@ class AddressController extends Controller
     {
         // Cari alamat berdasarkan ID dan pastikan milik user yang login
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
-                          
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
+
         return view('settings.address_form', compact('address'));
     }
 
@@ -83,14 +86,14 @@ class AddressController extends Controller
     public function update(Request $request, $id)
     {
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
 
         $request->validate([
             'full_address' => 'required|string',
-            'address_contact_number' => 'required|string'
+            'address_contact_number' => 'required|string',
         ]);
-        
+
         $address->update($request->only(['full_address', 'map_point', 'address_contact_number']));
 
         return redirect()->route('address.index')->with('success', 'Alamat berhasil diperbarui.');
@@ -103,9 +106,9 @@ class AddressController extends Controller
     public function destroy($id)
     {
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
-        
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
+
         $address->delete();
 
         return redirect()->route('address.index')->with('success', 'Alamat berhasil dihapus.');

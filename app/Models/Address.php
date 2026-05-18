@@ -1,4 +1,5 @@
 <?php
+
 // Muhammad Fikri Khalilullah/5026231198
 // Updated by Lailatul Fitaliqoh_229
 
@@ -9,14 +10,16 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $table = 'address';
+
     protected $primaryKey = 'id_address';
+
     public $timestamps = false;
 
     protected $fillable = [
         'id_user',
         'full_address',
         'map_point',
-        'address_contact_number'
+        'address_contact_number',
     ];
 
     public function user()
@@ -42,7 +45,10 @@ class Address extends Model
 
     public function getMapUrlAttribute()
     {
-        if (!$this->latitude || !$this->longitude) return null;
+        if (! $this->latitude || ! $this->longitude) {
+            return;
+        }
+
         return "https://www.google.com/maps?q={$this->latitude},{$this->longitude}";
     }
 
@@ -68,6 +74,7 @@ class Address extends Model
     public static function canAddAddress($userId)
     {
         $count = self::forUser($userId)->count();
+
         return $count < 3;
     }
 

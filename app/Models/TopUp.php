@@ -1,10 +1,11 @@
 <?php
+
 // Created by Okky Priscila_168
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class TopUp extends Model
 {
@@ -42,7 +43,7 @@ class TopUp extends Model
         'total_top_up',
         'date',
         'time',
-        'admin_fee'
+        'admin_fee',
     ];
 
     /**
@@ -56,13 +57,13 @@ class TopUp extends Model
         'total_top_up' => 'double',
         'date' => 'date',
         'time' => 'string',
-        'admin_fee' => 'double'
+        'admin_fee' => 'double',
     ];
 
     /**
      * Relasi ke User (Top Up dilakukan oleh user)
      * Many top_ups belong to one user
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -73,7 +74,7 @@ class TopUp extends Model
     /**
      * Relasi ke PaymentMethod
      * Top Up menggunakan salah satu metode pembayaran
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function paymentMethod()
@@ -84,8 +85,8 @@ class TopUp extends Model
     /**
      * Accessor: Format total top up + admin fee (computed)
      * Contoh penggunaan: $topUp->total_including_fee
-     * 
-     * @return double
+     *
+     * @return float
      */
     public function getTotalIncludingFeeAttribute()
     {
@@ -95,57 +96,57 @@ class TopUp extends Model
     /**
      * Accessor: Format total_top_up sebagai currency string
      * Contoh penggunaan: $topUp->formatted_amount
-     * 
+     *
      * @return string
      */
     public function getFormattedAmountAttribute()
     {
-        return 'Rp ' . number_format($this->total_top_up, 0, ',', '.');
+        return 'Rp '.number_format($this->total_top_up, 0, ',', '.');
     }
 
     /**
      * Accessor: Format admin_fee sebagai currency string
      * Contoh penggunaan: $topUp->formatted_admin_fee
-     * 
+     *
      * @return string
      */
     public function getFormattedAdminFeeAttribute()
     {
-        return 'Rp ' . number_format($this->admin_fee, 0, ',', '.');
+        return 'Rp '.number_format($this->admin_fee, 0, ',', '.');
     }
 
     /**
      * Accessor: Format total (amount + fee) sebagai currency string
      * Contoh penggunaan: $topUp->formatted_total
-     * 
+     *
      * @return string
      */
     public function getFormattedTotalAttribute()
     {
-        return 'Rp ' . number_format($this->total_including_fee, 0, ',', '.');
+        return 'Rp '.number_format($this->total_including_fee, 0, ',', '.');
     }
 
     /**
      * Accessor: Get formatted datetime
      * Contoh penggunaan: $topUp->formatted_datetime
-     * 
+     *
      * @return string
      */
     public function getFormattedDatetimeAttribute()
     {
-        if (!$this->date || !$this->time) {
+        if (! $this->date || ! $this->time) {
             return '-';
         }
 
-        return Carbon::parse($this->date)->format('d M Y') . ' ' . $this->time;
+        return Carbon::parse($this->date)->format('d M Y').' '.$this->time;
     }
 
     /**
      * Scope: Filter by user
      * Contoh penggunaan: TopUp::forUser($userId)->get()
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $userId
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $userId
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForUser($query, $userId)
@@ -156,9 +157,9 @@ class TopUp extends Model
     /**
      * Scope: Filter by payment method
      * Contoh penggunaan: TopUp::byPaymentMethod($methodId)->get()
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $paymentMethodId
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $paymentMethodId
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByPaymentMethod($query, $paymentMethodId)
@@ -169,10 +170,10 @@ class TopUp extends Model
     /**
      * Scope: Filter by date range
      * Contoh penggunaan: TopUp::betweenDates($startDate, $endDate)->get()
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $startDate
-     * @param string $endDate
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $startDate
+     * @param  string  $endDate
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBetweenDates($query, $startDate, $endDate)
@@ -183,8 +184,8 @@ class TopUp extends Model
     /**
      * Scope: Order by most recent
      * Contoh penggunaan: TopUp::recent()->get()
-     * 
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeRecent($query)

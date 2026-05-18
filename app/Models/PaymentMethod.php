@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentMethod extends Model
 {
     protected $table = 'payment_method';
+
     protected $primaryKey = 'id_payment_method';
+
     public $timestamps = false;
 
     protected $fillable = [
         'name_method',
-        'payment_barcode'
+        'payment_barcode',
     ];
 
     public function orders()

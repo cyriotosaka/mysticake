@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Created by Arsya Nueva_099
- * 
+ *
  * Updated by Abdul Ghoni (5026231109)
  * Use Case 1 - Pencarian Produk:
  * - Route GET /search untuk halaman pencarian
@@ -15,7 +16,7 @@
  * - Route PUT /review/{id} untuk update review (CRUD)
  * - Route DELETE /review/{id} untuk hapus review (CRUD)
  * - Route POST /review/{id}/like untuk like review
- * 
+ *
  * Updated by Okky Priscila_168
  * - Menambahkan route untuk fitur drop rate gacha (normal & premium)
  * - Menambahkan route untuk fitur top up (halaman utama, dropdown, dan proses top up)
@@ -27,26 +28,24 @@
  * - Auth Action sampai adrees management
  * - Chat
  * Updated by Muhammad Fikri Khalilullah/5026231198
- * 
  */
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\MysteryBoxController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TopUpController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ChatController; 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TopUpController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'showLandingPage'])->name('landing');
 
 // --- PUBLIC ROUTES ---
 Route::get('/', [AuthController::class, 'landing'])->name('landing');
-
 
 Route::middleware('guest')->group(function () {
     // Login Routes
@@ -81,8 +80,8 @@ Route::middleware('auth')->group(function () {
     // --- AUTH ACTIONS ---
     // Logout (Support GET & POST)
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); 
-    
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); // Fallback jika diakses via URL
 
     // Switch Account
@@ -116,9 +115,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/gacha/history', [MysteryBoxController::class, 'showGachaHistory'])->name('gacha.history');
     Route::get('/gacha/droprate', [MysteryBoxController::class, 'getDropRates'])->name('gacha.droprates');
     Route::get('/gacha/reveal', [MysteryBoxController::class, 'showResultPage'])->name('gacha.result');
-    Route::get('/gacha/roll', function() {return redirect('/gacha');});
+    Route::get('/gacha/roll', function () {
+        return redirect('/gacha');
+    });
 
-    //Drop Rate - Okky Priscila_168
+    // Drop Rate - Okky Priscila_168
     Route::get('/gacha/droprate/normal', [MysteryBoxController::class, 'showNormalDropRatePage'])->name('gacha.droprate.normal');
     Route::get('/gacha/droprate/premium', [MysteryBoxController::class, 'showPremiumDropRatePage'])->name('gacha.droprate.premium');
 
@@ -259,25 +260,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
 
     // CHAT ROUTES
-    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index'); 
+    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
 
     // ... route chat lainnya ...
-    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index'); 
+    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
     Route::get('/chat/product/{id}', [ChatController::class, 'chatWithProduct'])->name('chat.product');
 
-}); 
+});
 
 // ============================================
 // DEBUG ROUTE - Hapus setelah selesai testing
 // ============================================
 Route::get('/debug-products', function () {
     $products = App\Models\Product::select('id_product', 'name_product', 'price', 'stock')->get();
+
     return response()->json([
         'count' => $products->count(),
-        'products' => $products
+        'products' => $products,
     ]);
 });

@@ -1,14 +1,15 @@
 <?php
+
 /**
  * ProductController
- * 
+ *
  * Updated by: Abdul Ghoni (5026231109)
- * 
+ *
  * Use Case 1 - Pencarian Produk:
  * - showSearchPage(): Menampilkan halaman search awal dengan highest rated products
  * - searchProduct(): Melakukan pencarian produk berdasarkan keyword
  * - getDetails(): Helper untuk mendapatkan detail lengkap produk dengan reviews
- * 
+ *
  * Use Case 3 - Rating dan Review:
  * - showRatings(): Menampilkan halaman Rating & Feedback produk
  * - Menambahkan validasi canReview untuk cek apakah user bisa review
@@ -17,12 +18,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Models\ReviewProduct;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -45,31 +46,31 @@ class ProductController extends Controller
 
         // 4. Kirim data ke View 'home'
         return view('home', [
-            'user'            => $user,
-            'cartCount'       => $cartCount,
-            'recommendations' => $recommendations
+            'user' => $user,
+            'cartCount' => $cartCount,
+            'recommendations' => $recommendations,
         ]);
     }
 
     /**
      * Menampilkan Halaman Search Awal (GET /search)
      * Sesuai sequence diagram: menampilkan SearchPage view
-     * 
+     *
      * Created by: Abdul Ghoni (5026231109)
      */
     public function showSearchPage()
     {
         // Data untuk halaman search awal
         $recentSearches = ['Cake', 'Cheeseroll', 'IceCream', 'Dessert', 'Coklat', 'Puding', 'caramel', 'donat', 'Martabak', 'bolu'];
-        
+
         // Ambil produk rating tertinggi menggunakan scope
         $highestRated = Product::highestRated(6)->get();
 
         return view('search.search', [
-            'query'          => null,
-            'results'        => collect(),
-            'highestRated'   => $highestRated,
-            'recentSearches' => $recentSearches
+            'query' => null,
+            'results' => collect(),
+            'highestRated' => $highestRated,
+            'recentSearches' => $recentSearches,
         ]);
     }
 
@@ -81,14 +82,14 @@ class ProductController extends Controller
      * 3. Product Model return productList
      * 4. ProductController call getDetails(productList)
      * 5. Return view dengan fullProductList
-     * 
+     *
      * Created by: Abdul Ghoni (5026231109)
      */
     public function searchProduct(Request $request)
     {
         // Validasi input
         $request->validate([
-            'q' => 'required|string|min:1'
+            'q' => 'required|string|min:1',
         ]);
 
         $keyword = $request->input('q');
@@ -100,10 +101,10 @@ class ProductController extends Controller
         $fullProductList = $this->getDetails($productList);
 
         return view('search.search-results', [
-            'query'          => $keyword,
-            'results'        => $fullProductList,
-            'highestRated'   => collect(),
-            'recentSearches' => []
+            'query' => $keyword,
+            'results' => $fullProductList,
+            'highestRated' => collect(),
+            'recentSearches' => [],
         ]);
     }
 
@@ -115,9 +116,9 @@ class ProductController extends Controller
     private function getDetails($productList)
     {
         return $productList->load([
-            'reviews' => function($query) {
+            'reviews' => function ($query) {
                 $query->orderByDesc('id_review_product')->take(5);
-            }
+            },
         ]);
     }
 
@@ -137,14 +138,14 @@ class ProductController extends Controller
 
         // 4. Format angka review (opsional, biar jadi 1k, 3.2k, dll)
         if ($totalReviews > 1000) {
-            $totalReviews = round($totalReviews / 1000, 1) . 'k';
+            $totalReviews = round($totalReviews / 1000, 1).'k';
         }
 
         // Tampilkan view (Pastikan folder view-nya benar)
         return view('product.detail', [
             'product' => $product,
             'avgRating' => $avgRating,
-            'totalReviews' => $totalReviews
+            'totalReviews' => $totalReviews,
         ]);
     }
 
@@ -154,9 +155,9 @@ class ProductController extends Controller
     public function showRecommendation()
     {
         $recommendations = Product::inRandomOrder()->take(10)->get();
+
         return view('product.recommendation', compact('recommendations'));
     }
-
 
     /**
      * Menampilkan Halaman Rating & Feedback (GET /product/{id}/ratings)
@@ -164,7 +165,7 @@ class ProductController extends Controller
      * 1. call getProductDetails(id) -> Product Model
      * 2. call showRatings(productData) -> ReviewProduct Model
      * 3. return RatingPage view
-     * 
+     *
      * Created by: Abdul Ghoni (5026231109)
      * Updated: Menambahkan validasi canReview untuk UI
      */
@@ -173,7 +174,7 @@ class ProductController extends Controller
         // 1.1.1.1: find(id)
         $product = Product::with('store')->find($id);
 
-        if (!$product) {
+        if (! $product) {
             abort(404, 'Product not found');
         }
 
@@ -190,7 +191,7 @@ class ProductController extends Controller
         return view('rating.rating', [
             'product' => $product,
             'reviews' => $reviews,
-            'canReview' => $canReview
+            'canReview' => $canReview,
         ]);
     }
 }

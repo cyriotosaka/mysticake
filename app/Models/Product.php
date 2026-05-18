@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Product Model
- * 
+ *
  * Updated by: Abdul Ghoni (5026231109)
- * 
+ *
  * Use Case 1 - Pencarian Produk:
  * - scopeSearch(): Query scope untuk memfilter produk berdasarkan keyword pencarian
  * - scopeHighestRated(): Query scope untuk mengambil produk dengan rating tertinggi
@@ -12,9 +13,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ReviewProduct;
-use App\Models\Store; // pastikan ini ada ya
-use App\Models\CartItem;
+
+// pastikan ini ada ya
 
 class Product extends Model
 {
@@ -42,7 +42,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'product_picture'
+        'product_picture',
     ];
 
     /**
@@ -93,7 +93,7 @@ class Product extends Model
             'history_gacha',
             'type_gacha',
             'drop_rate',
-            'cashback'
+            'cashback',
         ]);
     }
 
@@ -158,7 +158,7 @@ class Product extends Model
 
         return $query->where(function ($q) use ($keyword) {
             $q->where('name_product', 'LIKE', "%{$keyword}%")
-              ->orWhere('description', 'LIKE', "%{$keyword}%");
+                ->orWhere('description', 'LIKE', "%{$keyword}%");
         });
     }
 
@@ -171,8 +171,8 @@ class Product extends Model
     public function scopeHighestRated($query, int $limit = 6)
     {
         return $query->withAvg('reviews', 'rating')
-                     ->withCount('reviews')
-                     ->orderByDesc('reviews_avg_rating')
-                     ->take($limit);
+            ->withCount('reviews')
+            ->orderByDesc('reviews_avg_rating')
+            ->take($limit);
     }
 }

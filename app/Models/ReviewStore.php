@@ -29,7 +29,7 @@ class ReviewStore extends Model
         'id_user',
         'comment',
         'like_review',
-        'rating'
+        'rating',
     ];
 
     /**

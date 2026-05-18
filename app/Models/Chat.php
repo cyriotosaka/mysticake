@@ -1,5 +1,7 @@
 <?php
-//Created by Lailatul Fitaliqoh (5026231229)
+
+// Created by Lailatul Fitaliqoh (5026231229)
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Chat extends Model
 {
     protected $table = 'chat';
+
     protected $primaryKey = 'id_chat';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -18,7 +22,7 @@ class Chat extends Model
         'date',
         'time',
         'message',
-        'sender_role'
+        'sender_role',
     ];
 
     /**

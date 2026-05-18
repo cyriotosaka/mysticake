@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Updated by Abdul Ghoni (5026231109)
  * - Menambahkan fitur upload foto review
@@ -9,18 +10,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\ReviewProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ReviewProduct;
-use App\Models\Product;
 
 class ReviewController extends Controller
 {
     /**
      * Menyimpan review baru untuk produk
-     * 
-     * @param Request $request
-     * @param int $productId
+     *
+     * @param  int  $productId
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, $productId)
@@ -29,12 +29,12 @@ class ReviewController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
-            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Cek apakah produk ada
         $product = Product::find($productId);
-        if (!$product) {
+        if (! $product) {
             return back()->with('error', 'Produk tidak ditemukan.');
         }
 
@@ -44,14 +44,14 @@ class ReviewController extends Controller
         // ===========================================
         // HIGH PRIORITY FIX: Validasi Review
         // ===========================================
-        
+
         // Cek apakah user sudah pernah review produk ini (Prevent Duplicate)
         if (ReviewProduct::hasUserReviewed($user->id_user, $productId)) {
             return back()->with('error', 'Anda sudah pernah memberikan review untuk produk ini. Silakan edit review yang sudah ada.');
         }
 
         // Cek apakah user pernah membeli produk ini (Purchase Validation)
-        if (!ReviewProduct::hasUserPurchased($user->id_user, $productId)) {
+        if (! ReviewProduct::hasUserPurchased($user->id_user, $productId)) {
             return back()->with('error', 'Anda harus membeli produk ini terlebih dahulu sebelum bisa memberikan review.');
         }
 
@@ -61,7 +61,7 @@ class ReviewController extends Controller
         $photoName = null;
         if ($request->hasFile('review_photo')) {
             $photo = $request->file('review_photo');
-            $photoName = time() . '_' . $user->id_user . '_' . $photo->getClientOriginalName();
+            $photoName = time().'_'.$user->id_user.'_'.$photo->getClientOriginalName();
             $photo->move(public_path('images/reviews'), $photoName);
         }
 
@@ -73,7 +73,7 @@ class ReviewController extends Controller
             'comment' => $request->input('comment'),
             'like_review' => 0,
             'review_photo' => $photoName,
-            'created_at' => now() // MEDIUM PRIORITY FIX: Add timestamp
+            'created_at' => now(), // MEDIUM PRIORITY FIX: Add timestamp
         ]);
 
         return back()->with('success', 'Terima kasih! Review Anda berhasil ditambahkan.');
@@ -85,8 +85,8 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $review = ReviewProduct::find($id);
-        
-        if (!$review) {
+
+        if (! $review) {
             return back()->with('error', 'Review tidak ditemukan.');
         }
 
@@ -98,28 +98,28 @@ class ReviewController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
-            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'review_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Handle photo upload
         if ($request->hasFile('review_photo')) {
             // Hapus foto lama jika ada
             if ($review->review_photo) {
-                $oldPhotoPath = public_path('images/reviews/' . $review->review_photo);
+                $oldPhotoPath = public_path('images/reviews/'.$review->review_photo);
                 if (file_exists($oldPhotoPath)) {
                     unlink($oldPhotoPath);
                 }
             }
-            
+
             $photo = $request->file('review_photo');
-            $photoName = time() . '_' . Auth::user()->id_user . '_' . $photo->getClientOriginalName();
+            $photoName = time().'_'.Auth::user()->id_user.'_'.$photo->getClientOriginalName();
             $photo->move(public_path('images/reviews'), $photoName);
             $review->review_photo = $photoName;
         }
 
         // Handle remove photo
         if ($request->input('remove_photo') == '1' && $review->review_photo) {
-            $oldPhotoPath = public_path('images/reviews/' . $review->review_photo);
+            $oldPhotoPath = public_path('images/reviews/'.$review->review_photo);
             if (file_exists($oldPhotoPath)) {
                 unlink($oldPhotoPath);
             }
@@ -139,8 +139,8 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         $review = ReviewProduct::find($id);
-        
-        if (!$review) {
+
+        if (! $review) {
             return back()->with('error', 'Review tidak ditemukan.');
         }
 
@@ -151,7 +151,7 @@ class ReviewController extends Controller
 
         // Hapus foto jika ada
         if ($review->review_photo) {
-            $photoPath = public_path('images/reviews/' . $review->review_photo);
+            $photoPath = public_path('images/reviews/'.$review->review_photo);
             if (file_exists($photoPath)) {
                 unlink($photoPath);
             }
@@ -169,8 +169,8 @@ class ReviewController extends Controller
     public function toggleLike($id)
     {
         $review = ReviewProduct::find($id);
-        
-        if (!$review) {
+
+        if (! $review) {
             return back()->with('error', 'Review tidak ditemukan.');
         }
 
@@ -180,4 +180,3 @@ class ReviewController extends Controller
         return back()->with('success', 'Terima kasih atas feedback Anda!');
     }
 }
-

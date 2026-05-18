@@ -34,7 +34,7 @@ class MysteryBoxProduct extends Model
         'history_gacha',
         'type_gacha',
         'drop_rate',
-        'cashback'
+        'cashback',
     ];
 
     protected $casts = [

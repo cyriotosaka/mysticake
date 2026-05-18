@@ -1,5 +1,7 @@
 <?php
-//Created by Lailatul Fitaliqoh (5026231229)
+
+// Created by Lailatul Fitaliqoh (5026231229)
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,13 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class History extends Model
 {
     protected $table = 'history';
+
     protected $primaryKey = 'id_history';
+
     public $timestamps = false;
 
     protected $fillable = [
         'id_order',
         'date',
-        'time'
+        'time',
     ];
 
     /**

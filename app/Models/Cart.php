@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Cart Model
- * 
+ *
  * Updated by: Abdul Ghoni (5026231109)
- * 
+ *
  * Use Case 2 - Melakukan Pemesanan Produk:
  * - getSelectedItems(): Mengambil cart items berdasarkan ID yang dipilih user
  * - getTotalAmount(): Menghitung total harga untuk items yang dipilih
@@ -17,12 +18,14 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     protected $table = 'cart';
+
     protected $primaryKey = 'id_cart';
+
     public $timestamps = false;
 
     protected $fillable = [
         'id_user',
-        'created_at'
+        'created_at',
     ];
 
     public function user()
@@ -48,8 +51,8 @@ class Cart extends Model
      */
     public function getTotalAmount($selectedIds = null)
     {
-        $items = $selectedIds 
-            ? $this->getSelectedItems($selectedIds) 
+        $items = $selectedIds
+            ? $this->getSelectedItems($selectedIds)
             : $this->items()->with('product')->get();
 
         return $items->sum(function ($item) {
@@ -66,5 +69,4 @@ class Cart extends Model
             ->where('id_cart', $this->id_cart)
             ->delete();
     }
-
 }

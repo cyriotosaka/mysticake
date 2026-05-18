@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Nama: Abdul Ghoni
  * NRP: 5026231109
@@ -11,12 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     protected $table = 'delivery';
+
     protected $primaryKey = 'id_delivery';
+
     public $timestamps = false;
 
     protected $fillable = [
         'type',
-        'delivery_charges'
+        'delivery_charges',
     ];
 
     /**
@@ -40,6 +43,6 @@ class Delivery extends Model
      */
     public function getFormattedPriceAttribute()
     {
-        return 'Rp ' . number_format($this->delivery_charges, 0, ',', '.');
+        return 'Rp '.number_format($this->delivery_charges, 0, ',', '.');
     }
 }

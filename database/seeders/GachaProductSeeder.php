@@ -7,19 +7,20 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * GachaProductSeeder
- * 
+ *
  * Seeder untuk menambahkan produk-produk Mystery Box Gacha
  * - 20 produk untuk Normal Box (harga Rp 0 - Rp 49.999)
  * - 20 produk untuk Premium Box (harga Rp 50.000+)
- * 
+ *
  * Cara penggunaan:
  * 1. Letakkan file ini di: database/seeders/GachaProductSeeder.php
  * 2. Jalankan: php artisan db:seed --class=GachaProductSeeder
- * 
+ *
  * Atau tambahkan ke DatabaseSeeder.php:
  * $this->call(GachaProductSeeder::class);
- * 
+ *
  * @author MYstiCake Team
+ *
  * @date December 29, 2025
  */
 class GachaProductSeeder extends Seeder
@@ -32,12 +33,12 @@ class GachaProductSeeder extends Seeder
         // ============================================================
         // PART 1: INSERT NEW PRODUCTS
         // ============================================================
-        
+
         $products = [
             // =============================================
             // NORMAL BOX PRODUCTS (Price: Rp 0 - Rp 49,999)
             // =============================================
-            
+
             // Cupcakes & Muffins (Rp 10,000 - Rp 18,000)
             [
                 'id_store' => 1,
@@ -392,7 +393,7 @@ class GachaProductSeeder extends Seeder
             ];
         }
 
-        $this->command->info('✅ Inserted ' . count($products) . ' new products.');
+        $this->command->info('✅ Inserted '.count($products).' new products.');
 
         // ============================================================
         // PART 2: INSERT MYSTERY BOX PRODUCT RELATIONS
@@ -422,7 +423,7 @@ class GachaProductSeeder extends Seeder
         foreach ($normalBoxProducts as $product) {
             // Hitung drop rate awal berdasarkan stock (akan di-override oleh controller)
             $dropRate = 0.20; // Default
-            
+
             $normalInsertData[] = [
                 'id_mystery_box' => 1,
                 'id_product' => $product->id_product,
@@ -435,16 +436,16 @@ class GachaProductSeeder extends Seeder
             ];
         }
 
-        if (!empty($normalInsertData)) {
+        if (! empty($normalInsertData)) {
             DB::table('mystery_box_product')->insert($normalInsertData);
-            $this->command->info('✅ Inserted ' . count($normalInsertData) . ' products to Normal Box.');
+            $this->command->info('✅ Inserted '.count($normalInsertData).' products to Normal Box.');
         }
 
         // Insert Premium Box relations (id_mystery_box = 2)
         $premiumInsertData = [];
         foreach ($premiumBoxProducts as $product) {
             $dropRate = 0.10; // Default untuk premium
-            
+
             $premiumInsertData[] = [
                 'id_mystery_box' => 2,
                 'id_product' => $product->id_product,
@@ -457,9 +458,9 @@ class GachaProductSeeder extends Seeder
             ];
         }
 
-        if (!empty($premiumInsertData)) {
+        if (! empty($premiumInsertData)) {
             DB::table('mystery_box_product')->insert($premiumInsertData);
-            $this->command->info('✅ Inserted ' . count($premiumInsertData) . ' products to Premium Box.');
+            $this->command->info('✅ Inserted '.count($premiumInsertData).' products to Premium Box.');
         }
 
         // ============================================================
@@ -469,8 +470,8 @@ class GachaProductSeeder extends Seeder
         $this->command->info('========================================');
         $this->command->info('🎰 GACHA PRODUCT SEEDER COMPLETED!');
         $this->command->info('========================================');
-        $this->command->info('Normal Box: ' . count($normalInsertData) . ' products');
-        $this->command->info('Premium Box: ' . count($premiumInsertData) . ' products');
+        $this->command->info('Normal Box: '.count($normalInsertData).' products');
+        $this->command->info('Premium Box: '.count($premiumInsertData).' products');
         $this->command->info('');
         $this->command->info('📝 Note: Drop rate akan dihitung dinamis');
         $this->command->info('   berdasarkan stock di Controller.');

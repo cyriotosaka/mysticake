@@ -1,12 +1,14 @@
 <?php
+
 // Created by Arsya Nueva_099
 // Updated by Lailatul Fitaliqoh_229
+
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -26,8 +28,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -54,10 +56,10 @@ class AuthController extends Controller
     {
         // Validasi input
         $request->validate([
-            'username'     => 'required|string|max:255|unique:user,username',
-            'email'        => 'required|email|max:255|unique:user,email',
-            'password'     => 'required|string|min:6',
-            'phone_number' => 'nullable|numeric|digits_between:10,15'
+            'username' => 'required|string|max:255|unique:user,username',
+            'email' => 'required|email|max:255|unique:user,email',
+            'password' => 'required|string|min:6',
+            'phone_number' => 'nullable|numeric|digits_between:10,15',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
@@ -67,18 +69,18 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'phone_number.numeric' => 'Nomor telepon harus berupa angka.',
-            'phone_number.digits_between' => 'Nomor telepon harus 10-15 digit.'
+            'phone_number.digits_between' => 'Nomor telepon harus 10-15 digit.',
         ]);
 
         // Simpan user baru ke database
         $user = User::create([
-            'username'     => $request->username,
-            'email'        => $request->email,
-            'password'     => Hash::make($request->password),
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
-            'role'         => 'buyer', // Default role sebagai buyer
-            'profile_pic'  => null,
-            'id_address'   => null
+            'role' => 'buyer', // Default role sebagai buyer
+            'profile_pic' => null,
+            'id_address' => null,
         ]);
 
         // Redirect ke home page dengan pesan sukses
@@ -109,10 +111,29 @@ class AuthController extends Controller
         return redirect()->route('login')->with('last_email', $targetEmail);
     }
 
-    // Backward compatibility 
-    public function landing() { return $this->showLandingPage(); }
-    public function loginPage() { return $this->showLoginPage(); }
-    public function loginProcess(Request $request) { return $this->login($request); }
-    public function registerPage() { return $this->showRegisterPage(); }
-    public function registerProcess(Request $request) { return $this->register($request); }
+    // Backward compatibility
+    public function landing()
+    {
+        return $this->showLandingPage();
+    }
+
+    public function loginPage()
+    {
+        return $this->showLoginPage();
+    }
+
+    public function loginProcess(Request $request)
+    {
+        return $this->login($request);
+    }
+
+    public function registerPage()
+    {
+        return $this->showRegisterPage();
+    }
+
+    public function registerProcess(Request $request)
+    {
+        return $this->register($request);
+    }
 }

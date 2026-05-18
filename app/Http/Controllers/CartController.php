@@ -1,13 +1,14 @@
 <?php
-//Muhammad Fikri Khalilullah/5026231198
+
+// Muhammad Fikri Khalilullah/5026231198
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -21,12 +22,13 @@ class CartController extends Controller
         $gachaIds = session('gacha_item_ids', []);
 
         // Separate items based on the Session IDs
-        $gachaItems = $items->filter(fn($item) => in_array($item->id_cart_item, $gachaIds));
-        $regularItems = $items->filter(fn($item) => !in_array($item->id_cart_item, $gachaIds));
+        $gachaItems = $items->filter(fn ($item) => in_array($item->id_cart_item, $gachaIds));
+        $regularItems = $items->filter(fn ($item) => ! in_array($item->id_cart_item, $gachaIds));
 
         $total = $items->sum(function ($item) use ($gachaIds) {
             // Price is 0 if it's a gacha win, otherwise use product price
             $currentPrice = in_array($item->id_cart_item, $gachaIds) ? 0 : $item->product->price;
+
             return $currentPrice * $item->quantity;
         });
 
@@ -36,7 +38,7 @@ class CartController extends Controller
             'gachaItems' => $gachaItems,
             'regularItems' => $regularItems,
             'total' => $total,
-            'gachaIds' => $gachaIds
+            'gachaIds' => $gachaIds,
         ]);
     }
 
@@ -46,8 +48,8 @@ class CartController extends Controller
         $cart = Cart::firstOrCreate(['id_user' => $user->id_user]);
 
         $item = CartItem::where('id_cart', $cart->id_cart)
-                        ->where('id_product', $productId)
-                        ->first();
+            ->where('id_product', $productId)
+            ->first();
 
         if ($item) {
             $item->quantity += 1;
@@ -56,9 +58,10 @@ class CartController extends Controller
             CartItem::create([
                 'id_cart' => $cart->id_cart,
                 'id_product' => $productId,
-                'quantity' => 1
+                'quantity' => 1,
             ]);
         }
+
         return redirect()->route('cart.index');
     }
 
@@ -84,6 +87,7 @@ class CartController extends Controller
         }
 
         $item->save();
+
         return back();
     }
 
@@ -94,7 +98,7 @@ class CartController extends Controller
 
         // Allow deletion, but maybe warn if it's gacha
         $item->delete();
-        
+
         // Clean up session if gacha item is deleted
         if (in_array($id, $gachaIds)) {
             session(['gacha_item_ids' => array_diff($gachaIds, [$id])]);
@@ -107,10 +111,11 @@ class CartController extends Controller
     {
         $request->validate([
             'selected_items' => 'required|array|min:1',
-            'selected_items.*' => 'exists:cart_item,id_cart_item'
+            'selected_items.*' => 'exists:cart_item,id_cart_item',
         ]);
 
         session(['selected_cart_items' => $request->selected_items]);
+
         return redirect()->route('order.payment');
     }
 }

@@ -1,5 +1,7 @@
 <?php
-//Created by Lailatul Fitaliqoh (5026231229)
+
+// Created by Lailatul Fitaliqoh (5026231229)
+
 namespace Database\Seeders;
 
 use App\Models\User;

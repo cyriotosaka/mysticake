@@ -1,13 +1,14 @@
 <?php
+
 /* created by Arsya Nueva D (5026231099) */
 /* Updated by Lailatul Fitaliqoh (5026231229) */
+
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class UserController extends Controller
 {
@@ -26,22 +27,22 @@ class UserController extends Controller
         $userModel = User::findOrFail($userAuth->id_user);
 
         $request->validate([
-            'username'     => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'phone_number' => 'required|numeric',
-            'email'        => 'required|email|unique:users,email,'.$userModel->id_user.',id_user', // Validasi unique kecuali punya sendiri
-            'role'         => 'required|in:buyer,seller',
-            'profile_pic'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'email' => 'required|email|unique:users,email,'.$userModel->id_user.',id_user', // Validasi unique kecuali punya sendiri
+            'role' => 'required|in:buyer,seller',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // Update Data Teks
-        $userModel->username     = $request->username;
+        $userModel->username = $request->username;
         $userModel->phone_number = $request->phone_number;
-        $userModel->email        = $request->email;
-        $userModel->role         = $request->role;
+        $userModel->email = $request->email;
+        $userModel->role = $request->role;
 
         // Update Foto Profil
         if ($request->hasFile('profile_pic')) {
-            if($userModel->profile_pic && $userModel->profile_pic != 'default.jpg') {
+            if ($userModel->profile_pic && $userModel->profile_pic != 'default.jpg') {
             }
 
             $path = $request->file('profile_pic')->store('public/images/profiles');
@@ -71,7 +72,7 @@ class UserController extends Controller
         $user = User::find(Auth::id());
 
         // Cek password lama
-        if (!Hash::check($request->old_password, $user->password)) {
+        if (! Hash::check($request->old_password, $user->password)) {
             return back()->withErrors(['old_password' => 'Password lama salah!']);
         }
 
@@ -87,11 +88,12 @@ class UserController extends Controller
         return view('settings.more_settings');
     }
 
-   // MANAJEMEN ALAMAT
+    // MANAJEMEN ALAMAT
     public function showAddressList()
     {
         // Ambil alamat milik user yang sedang login
         $addresses = Address::where('id_user', Auth::id())->get();
+
         return view('settings.address_index', compact('addresses'));
     }
 
@@ -104,7 +106,7 @@ class UserController extends Controller
     {
         $request->validate([
             'full_address' => 'required',
-            'address_contact' => 'required|numeric'
+            'address_contact' => 'required|numeric',
         ]);
 
         $address = new Address();
@@ -118,13 +120,13 @@ class UserController extends Controller
         return redirect()->route('settings.address.list')->with('success', 'Alamat berhasil ditambahkan');
     }
 
-   // Menampilkan Form Edit Alamat
+    // Menampilkan Form Edit Alamat
     public function showEditAddressForm($id)
     {
         // Memastikan alamat itu milik user yang sedang login
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
 
         return view('settings.address_form', compact('address'));
     }
@@ -132,17 +134,17 @@ class UserController extends Controller
     public function editAddress(Request $request, $id)
     {
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
 
         $request->validate([
             'full_address' => 'required',
-            'address_contact' => 'required|numeric'
+            'address_contact' => 'required|numeric',
         ]);
 
         $address->update([
             'full_address' => $request->full_address,
-            'address_contact' => $request->address_contact
+            'address_contact' => $request->address_contact,
         ]);
 
         return redirect()->route('settings.address.list')->with('success', 'Alamat berhasil diubah');
@@ -152,8 +154,8 @@ class UserController extends Controller
     public function removeAddress($id)
     {
         $address = Address::where('id_address', $id)
-                          ->where('id_user', Auth::id())
-                          ->firstOrFail();
+            ->where('id_user', Auth::id())
+            ->firstOrFail();
 
         $address->delete();
 

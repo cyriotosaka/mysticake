@@ -1,13 +1,15 @@
 <?php
-//Created by Lailatul Fitaliqoh (5026231229)
+
+// Created by Lailatul Fitaliqoh (5026231229)
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Store;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -28,7 +30,7 @@ class ChatController extends Controller
 
         // 3. Ambil data lengkap dari ID chat tersebut + Data Tokonya
         $rawChats = Chat::whereIn('id_chat', $latestChatIds)
-            ->with('store') 
+            ->with('store')
             ->orderBy('date', 'desc')
             ->orderBy('time', 'desc')
             ->get();
@@ -36,25 +38,25 @@ class ChatController extends Controller
         $chats = $rawChats->map(function ($chat) {
             return [
                 'store_id' => $chat->id_store,
-                
+
                 // Nama Toko
-                'name'     => $chat->store->name_store ?? 'Unknown Store',
-                
+                'name' => $chat->store->name_store ?? 'Unknown Store',
+
                 // Foto Toko
-                'avatar'   => $chat->store && $chat->store->photo 
-                                ? asset('images/stores/' . $chat->store->photo) 
-                                : 'https://placehold.co/100/F06A7D/white?text=' . substr($chat->store->name_store ?? 'U', 0, 1),
-                
+                'avatar' => $chat->store && $chat->store->photo
+                                ? asset('images/stores/'.$chat->store->photo)
+                                : 'https://placehold.co/100/F06A7D/white?text='.substr($chat->store->name_store ?? 'U', 0, 1),
+
                 // Isi Pesan Terakhir
-                'message'  => $chat->message,
-                
+                'message' => $chat->message,
+
                 // Format Waktu (Hari ini: Jam, Kemarin: Tanggal)
-                'time'     => Carbon::parse($chat->date)->isToday() 
-                                ? Carbon::parse($chat->time)->format('H:i') 
+                'time' => Carbon::parse($chat->date)->isToday()
+                                ? Carbon::parse($chat->time)->format('H:i')
                                 : Carbon::parse($chat->date)->format('d/m'),
-                
+
                 // Unread (Sementara 0 karena belum ada kolom is_read di database)
-                'unread'   => 0 
+                'unread' => 0,
             ];
         });
 
@@ -67,14 +69,14 @@ class ChatController extends Controller
     public function show($storeId)
     {
         $userId = Auth::user()->id_user;
-        
+
         // Memastikan toko ada
-        $store  = Store::findOrFail($storeId);
+        $store = Store::findOrFail($storeId);
 
         // Ambil semua history chat user dengan toko ini dan urutan ASC
         $messages = Chat::where('id_user', $userId)
             ->where('id_store', $storeId)
-            ->with(['product', 'orders']) 
+            ->with(['product', 'orders'])
             ->orderBy('date', 'asc')
             ->orderBy('time', 'asc')
             ->get();
@@ -88,7 +90,7 @@ class ChatController extends Controller
     public function chatWithProduct($productId)
     {
         $user = Auth::user();
-        
+
         // 1. Cari data produk untuk tahu Toko mana pemiliknya
         $product = \App\Models\Product::findOrFail($productId);
         $storeId = $product->id_store;
@@ -103,15 +105,15 @@ class ChatController extends Controller
 
         // Jika belum ada chat, atau chat terakhir bukan tentang produk ini
         // Maka kita buat bubble baru
-        if (!$lastChat || $lastChat->id_product != $productId) {
+        if (! $lastChat || $lastChat->id_product != $productId) {
             Chat::create([
-                'id_user'     => $user->id_user,
-                'id_store'    => $storeId,
-                'id_product'  => $productId, 
-                'message'     => null,       // Pesan teks kosong, karena cuma kirim attachment produk
-                'date'        => now()->format('Y-m-d'),
-                'time'        => now()->format('H:i:s'),
-                'sender_role' => 'user'
+                'id_user' => $user->id_user,
+                'id_store' => $storeId,
+                'id_product' => $productId,
+                'message' => null,       // Pesan teks kosong, karena cuma kirim attachment produk
+                'date' => now()->format('Y-m-d'),
+                'time' => now()->format('H:i:s'),
+                'sender_role' => 'user',
             ]);
         }
 
@@ -129,12 +131,12 @@ class ChatController extends Controller
 
         // Simpan ke database
         Chat::create([
-            'id_user'     => Auth::user()->id_user,
-            'id_store'    => $storeId,
-            'message'     => $request->message,
-            'date'        => now()->format('Y-m-d'),
-            'time'        => now()->format('H:i:s'),
-            'sender_role' => 'user' 
+            'id_user' => Auth::user()->id_user,
+            'id_store' => $storeId,
+            'message' => $request->message,
+            'date' => now()->format('Y-m-d'),
+            'time' => now()->format('H:i:s'),
+            'sender_role' => 'user',
         ]);
 
         return back();

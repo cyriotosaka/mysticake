@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Updated by Abdul Ghoni (5026231109)
  * - Menambahkan review_photo ke fillable untuk fitur upload foto review
@@ -10,10 +11,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Product;
-use App\Models\Orders;
-use App\Models\OrderItem;
 
 class ReviewProduct extends Model
 {
@@ -45,7 +42,7 @@ class ReviewProduct extends Model
         'like_review',
         'rating',
         'review_photo',
-        'created_at'
+        'created_at',
     ];
 
     /**
@@ -76,7 +73,7 @@ class ReviewProduct extends Model
      */
     public function hasComment()
     {
-        return !empty($this->comment);
+        return ! empty($this->comment);
     }
 
     /**
@@ -94,10 +91,10 @@ class ReviewProduct extends Model
     public static function findByProduct($productId)
     {
         return self::where('id_product', $productId)
-                   ->with('user') // Eager load user data
-                   ->orderByDesc('created_at') // Terbaru dulu berdasarkan timestamp
-                   ->orderByDesc('id_review_product')
-                   ->get();
+            ->with('user') // Eager load user data
+            ->orderByDesc('created_at') // Terbaru dulu berdasarkan timestamp
+            ->orderByDesc('id_review_product')
+            ->get();
     }
 
     /**
@@ -110,10 +107,10 @@ class ReviewProduct extends Model
         // Order harus dalam status yang valid (tidak cancelled)
         return OrderItem::whereHas('orders', function ($query) use ($userId) {
             $query->where('id_user', $userId)
-                  ->whereNotIn('status_order', ['Cancelled', 'Failed']);
+                ->whereNotIn('status_order', ['Cancelled', 'Failed']);
         })
-        ->where('id_product', $productId)
-        ->exists();
+            ->where('id_product', $productId)
+            ->exists();
     }
 
     /**
@@ -123,8 +120,8 @@ class ReviewProduct extends Model
     public static function hasUserReviewed($userId, $productId)
     {
         return self::where('id_user', $userId)
-                   ->where('id_product', $productId)
-                   ->exists();
+            ->where('id_product', $productId)
+            ->exists();
     }
 
     /**
@@ -137,21 +134,21 @@ class ReviewProduct extends Model
         if (self::hasUserReviewed($userId, $productId)) {
             return [
                 'can_review' => false,
-                'message' => 'Anda sudah pernah memberikan review untuk produk ini.'
+                'message' => 'Anda sudah pernah memberikan review untuk produk ini.',
             ];
         }
 
         // Cek apakah pernah membeli
-        if (!self::hasUserPurchased($userId, $productId)) {
+        if (! self::hasUserPurchased($userId, $productId)) {
             return [
                 'can_review' => false,
-                'message' => 'Anda harus membeli produk ini terlebih dahulu sebelum bisa memberikan review.'
+                'message' => 'Anda harus membeli produk ini terlebih dahulu sebelum bisa memberikan review.',
             ];
         }
 
         return [
             'can_review' => true,
-            'message' => ''
+            'message' => '',
         ];
     }
 
@@ -163,6 +160,7 @@ class ReviewProduct extends Model
         if ($this->created_at) {
             return $this->created_at->diffForHumans();
         }
+
         return 'Beberapa waktu lalu';
     }
 
@@ -173,6 +171,7 @@ class ReviewProduct extends Model
     {
         $this->like_review = ($this->like_review ?? 0) + 1;
         $this->save();
+
         return $this->like_review;
     }
 }

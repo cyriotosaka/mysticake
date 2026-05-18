@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::table('address', function (Blueprint $table) {
             // Add id_user column (matching user.id_user type: int(11))
             $table->integer('id_user')->nullable()->after('id_address');
-            
+
             // Add index for performance
             $table->index('id_user');
-            
+
             // Add foreign key constraint
             $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
         });

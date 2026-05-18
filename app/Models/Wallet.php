@@ -1,4 +1,5 @@
 <?php
+
 // Updated by Okky Priscila_168 - Menghubungkan to up dengan wallet
 
 namespace App\Models;
@@ -8,8 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Wallet extends Model
 {
     protected $table = 'wallet';
+
     protected $primaryKey = 'id_user';
+
     public $incrementing = false; // because id_user is not AUTO_INCREMENT
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -43,6 +47,7 @@ class Wallet extends Model
         if ($this->saldo_coin >= $amount) {
             $this->saldo_coin -= $amount;
             $this->save();
+
             return true;
         }
 
@@ -59,7 +64,6 @@ class Wallet extends Model
 
     public function topUps()
     {
-    return $this->hasMany(TopUp::class, 'id_user', 'id_user');
+        return $this->hasMany(TopUp::class, 'id_user', 'id_user');
     }
-
 }
