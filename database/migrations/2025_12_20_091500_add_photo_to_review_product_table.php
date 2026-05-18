@@ -15,9 +15,11 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('review_product', function (Blueprint $table) {
-            $table->string('review_photo', 255)->nullable()->after('comment');
-        });
+        if (! Schema::hasColumn('review_product', 'review_photo')) {
+            Schema::table('review_product', function (Blueprint $table) {
+                $table->string('review_photo', 255)->nullable();
+            });
+        }
     }
 
     /**

@@ -16,9 +16,11 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('review_product', function (Blueprint $table) {
-            $table->timestamp('created_at')->nullable()->after('review_photo');
-        });
+        if (! Schema::hasColumn('review_product', 'created_at')) {
+            Schema::table('review_product', function (Blueprint $table) {
+                $table->timestamp('created_at')->nullable();
+            });
+        }
     }
 
     /**

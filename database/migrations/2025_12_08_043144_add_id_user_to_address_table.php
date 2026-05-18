@@ -12,21 +12,13 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('address', function (Blueprint $table) {
-            // Add id_user column (matching user.id_user type: int(11))
-            $table->integer('id_user')->nullable()->after('id_address');
-
-            // Add index for performance
-            $table->index('id_user');
-
-            // Add foreign key constraint
-            $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
-        });
-
-        // Migrate existing data: populate id_user from user.id_address relationship
-        DB::statement('UPDATE address a 
-                      INNER JOIN user u ON u.id_address = a.id_address 
-                      SET a.id_user = u.id_user');
+        if (! Schema::hasColumn('address', 'id_user')) {
+            Schema::table('address', function (Blueprint $table) {
+                $table->integer('id_user')->nullable()->after('id_address');
+                $table->index('id_user');
+                $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
+            });
+        }
     }
 
     /**

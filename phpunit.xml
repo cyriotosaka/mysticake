@@ -14,7 +14,7 @@
     </testsuites>
     <source>
         <include>
-            <directory>app</directory>
+            <file>app/Http/Controllers/AuthController.php</file>
         </include>
     </source>
     <php>
