@@ -1,8 +1,3 @@
-
-<img width="436" height="178" alt="Screenshot 2025-11-05 at 16 55 38" src="https://github.com/user-attachments/assets/e8f1eb59-2d9c-49f5-bafc-39b3f10b7017" />
-
-# Overall Description Kelompok 8 PPPL C
-
 ## Product Description 
 
 ### 1.1.1	Latar belakang
@@ -110,11 +105,10 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 ### Nick Name Akun Github
 | Nama Akun | Nama Lengkap | NRP    |
 | :--- | :--- | :--- |
-| Ailachayra | Lailatul Fitaliqoh | 5026231229 |
-| arsyanueva | Arsya Nueva Delavera | 5026231099 |
-| AbdulGhoni109 | Abdul Ghoni | 5026231109 | 
+| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 |
+| angelasiuli | Beh Siu Li | 5026231065 |
 | cyriotosaka | Okky Priscila Putri | 5026231168 |
-| FikuriKuri | M. Fikri Khalilullah | 5026231198 | 
+| sahilah | Sahilah Amru Yumnatusta | 5026231182 | 
 
 ---
 
