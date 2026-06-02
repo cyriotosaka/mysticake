@@ -43,7 +43,7 @@ return new class() extends Migration
                   ->references('id_user')
                   ->on('user')
                   ->onDelete('cascade');
-    });
+        });
 
         Schema::create('review_product', function (Blueprint $table) {
             $table->increments('id_review');
@@ -53,15 +53,6 @@ return new class() extends Migration
             $table->tinyInteger('rating')->nullable();
             $table->string('photo', 500)->nullable();
             $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('chat', function (Blueprint $table) {
-            $table->increments('id_chat');
-            $table->unsignedInteger('id_user')->nullable();
-            $table->unsignedInteger('id_store')->nullable();
-            $table->text('message')->nullable();
-            $table->string('sender_role', 50)->nullable();
-            $table->timestamps();
         });
 
         Schema::create('wallet', function (Blueprint $table) {
@@ -78,6 +69,13 @@ return new class() extends Migration
             $table->string('result', 255)->nullable();
             $table->timestamps();
         });
+        
+        Schema::create('store', function (Blueprint $table) {
+            $table->increments('id_store');
+            $table->string('name_store');
+            $table->decimal('rating_store', 3, 2)->nullable();
+            $table->string('store_picture')->nullable();
+        });
 
         Schema::create('product', function (Blueprint $table) {
             $table->increments('id_product');
@@ -88,10 +86,14 @@ return new class() extends Migration
             $table->text('description')->nullable();
 
             $table->decimal('price', 15, 2);
-
             $table->integer('stock')->default(0);
 
             $table->string('product_picture')->nullable();
+
+            $table->foreign('id_store')
+                  ->references('id_store')
+                  ->on('store')
+                  ->onDelete('cascade');
         });
 
         Schema::create('cart', function (Blueprint $table) {
@@ -126,17 +128,37 @@ return new class() extends Migration
                   ->on('product')
                   ->onDelete('cascade');
         });
+
+        Schema::create('chat', function (Blueprint $table) {
+            $table->increments('id_chat');
+
+            $table->unsignedInteger('id_user');
+            $table->unsignedInteger('id_store');
+
+            $table->unsignedInteger('id_product')->nullable();
+            $table->unsignedInteger('id_order')->nullable();
+
+            $table->date('date');
+            $table->time('time');
+
+            $table->text('message')->nullable();
+
+            $table->string('sender_role')->nullable();
+        });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('cart_item');
         Schema::dropIfExists('cart');
+
+        Schema::dropIfExists('chat');
+
         Schema::dropIfExists('product');
-        
+        Schema::dropIfExists('store');
+
         Schema::dropIfExists('mystery_box_history');
         Schema::dropIfExists('wallet');
-        Schema::dropIfExists('chat');
         Schema::dropIfExists('review_product');
         Schema::dropIfExists('address');
         Schema::dropIfExists('user');
