@@ -29,6 +29,25 @@ return new class() extends Migration
             // No timestamps (model has $timestamps = false)
         });
 
+        Schema::create('product', function (Blueprint $table) {
+            $table->increments('id_product'); // Sesuai primary key di HomeTest kamu!
+            $table->string('name_product', 255);
+            $table->integer('price');
+            $table->integer('stock')->default(0)->nullable();
+            $table->text('description')->nullable();
+            $table->string('image', 500)->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('cart_item', function (Blueprint $table) {
+            $table->increments('id_cart_item'); // Primary key
+            $table->unsignedInteger('id_cart');   // Berelasi ke tabel carts
+            $table->unsignedInteger('id_product'); // Berelasi ke tabel product
+            $table->integer('quantity');
+            $table->integer('price')->nullable();
+            $table->timestamps();
+        });
+
         // ── Stub tables required by ALTER migrations ──────────────────────────
         Schema::create('address', function (Blueprint $table) {
             $table->increments('id_address');
@@ -82,5 +101,7 @@ return new class() extends Migration
         Schema::dropIfExists('review_product');
         Schema::dropIfExists('address');
         Schema::dropIfExists('user');
+        Schema::dropIfExists('product');
+        Schema::dropIfExists('cart_item');
     }
 };
