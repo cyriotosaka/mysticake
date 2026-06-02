@@ -17,39 +17,15 @@ return new class() extends Migration
     public function up(): void
     {
         // ── Core auth table (matches App\Models\User) ────────────────────────
-        Schema::create('user', function (Blueprint $table) {
-            $table->increments('id_user');
-            $table->string('username', 255)->unique();
-            $table->string('email', 255)->unique();
-            $table->string('password', 255);
-            $table->string('phone_number', 20)->nullable();
-            $table->string('role', 50)->default('buyer');
-            $table->unsignedInteger('id_address')->nullable();
-            $table->string('profile_picture', 500)->nullable();
-            // No timestamps (model has $timestamps = false)
-        });
+        // users table is created by the primary users migration (0001...); skip here
 
-        Schema::create('product', function (Blueprint $table) {
-            $table->increments('id_product'); // Sesuai primary key di HomeTest kamu!
-            $table->string('name_product', 255);
-            $table->integer('price');
-            $table->integer('stock')->default(0)->nullable();
-            $table->text('description')->nullable();
-            $table->string('image', 500)->nullable();
-            $table->timestamps();
-        });
+        // product table will be created below (after store) to include foreign key
 
-        Schema::create('cart_item', function (Blueprint $table) {
-            $table->increments('id_cart_item'); // Primary key
-            $table->unsignedInteger('id_cart');   // Berelasi ke tabel carts
-            $table->unsignedInteger('id_product'); // Berelasi ke tabel product
-            $table->integer('quantity');
-            $table->integer('price')->nullable();
-            $table->timestamps();
-        });
+        // cart_item will be created later with proper foreign keys
 
         // ── Stub tables required by ALTER migrations ──────────────────────────
-        Schema::create('address', function (Blueprint $table) {
+        if (! Schema::hasTable('address')) {
+            Schema::create('address', function (Blueprint $table) {
             $table->increments('id_address');
 
             $table->unsignedInteger('id_user')->nullable();
@@ -59,12 +35,14 @@ return new class() extends Migration
             $table->string('address_contact_number', 20);
 
             $table->foreign('id_user')
-                  ->references('id_user')
-                  ->on('user')
+                ->references('id_user')
+                ->on('users')
                   ->onDelete('cascade');
-        });
+            });
+        }
 
-        Schema::create('review_product', function (Blueprint $table) {
+        if (! Schema::hasTable('review_product')) {
+            Schema::create('review_product', function (Blueprint $table) {
             $table->increments('id_review');
             $table->unsignedInteger('id_product')->nullable();
             $table->unsignedInteger('id_user')->nullable();
@@ -72,31 +50,39 @@ return new class() extends Migration
             $table->tinyInteger('rating')->nullable();
             $table->string('photo', 500)->nullable();
             $table->timestamp('created_at')->nullable();
-        });
+            });
+        }
 
-        Schema::create('wallet', function (Blueprint $table) {
+        if (! Schema::hasTable('wallet')) {
+            Schema::create('wallet', function (Blueprint $table) {
             $table->increments('id_wallet');
             $table->unsignedInteger('id_user')->nullable();
             $table->decimal('saldo_coin', 15, 2)->default(0);
             $table->decimal('point_gacha', 15, 2)->nullable()->default(0);
-        });
+            });
+        }
 
-        Schema::create('mystery_box_history', function (Blueprint $table) {
+        if (! Schema::hasTable('mystery_box_history')) {
+            Schema::create('mystery_box_history', function (Blueprint $table) {
             $table->increments('id_history');
             $table->unsignedInteger('id_user')->nullable();
             $table->unsignedInteger('id_mystery_box')->nullable();
             $table->string('result', 255)->nullable();
             $table->timestamps();
-        });
-        
-        Schema::create('store', function (Blueprint $table) {
+            });
+        }
+
+        if (! Schema::hasTable('store')) {
+            Schema::create('store', function (Blueprint $table) {
             $table->increments('id_store');
             $table->string('name_store');
             $table->decimal('rating_store', 3, 2)->nullable();
             $table->string('store_picture')->nullable();
-        });
+            });
+        }
 
-        Schema::create('product', function (Blueprint $table) {
+        if (! Schema::hasTable('product')) {
+            Schema::create('product', function (Blueprint $table) {
             $table->increments('id_product');
 
             $table->unsignedInteger('id_store');
@@ -113,9 +99,11 @@ return new class() extends Migration
                   ->references('id_store')
                   ->on('store')
                   ->onDelete('cascade');
-        });
+            });
+        }
 
-        Schema::create('cart', function (Blueprint $table) {
+        if (! Schema::hasTable('cart')) {
+            Schema::create('cart', function (Blueprint $table) {
             $table->increments('id_cart');
 
             $table->unsignedInteger('id_user');
@@ -123,12 +111,14 @@ return new class() extends Migration
             $table->timestamp('created_at')->nullable();
 
             $table->foreign('id_user')
-                  ->references('id_user')
-                  ->on('user')
+                ->references('id_user')
+                ->on('users')
                   ->onDelete('cascade');
-        });
+            });
+        }
 
-        Schema::create('cart_item', function (Blueprint $table) {
+        if (! Schema::hasTable('cart_item')) {
+            Schema::create('cart_item', function (Blueprint $table) {
             $table->increments('id_cart_item');
 
             $table->unsignedInteger('id_cart');
@@ -146,9 +136,11 @@ return new class() extends Migration
                   ->references('id_product')
                   ->on('product')
                   ->onDelete('cascade');
-        });
+            });
+        }
 
-        Schema::create('chat', function (Blueprint $table) {
+        if (! Schema::hasTable('chat')) {
+            Schema::create('chat', function (Blueprint $table) {
             $table->increments('id_chat');
 
             $table->unsignedInteger('id_user');
@@ -163,7 +155,8 @@ return new class() extends Migration
             $table->text('message')->nullable();
 
             $table->string('sender_role')->nullable();
-        });
+            });
+        }
     }
 
     public function down(): void
@@ -180,8 +173,6 @@ return new class() extends Migration
         Schema::dropIfExists('wallet');
         Schema::dropIfExists('review_product');
         Schema::dropIfExists('address');
-        Schema::dropIfExists('user');
-        Schema::dropIfExists('product');
-        Schema::dropIfExists('cart_item');
+        Schema::dropIfExists('users');
     }
 };
