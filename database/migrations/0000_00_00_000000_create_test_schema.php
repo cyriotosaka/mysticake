@@ -32,12 +32,18 @@ return new class() extends Migration
         // ── Stub tables required by ALTER migrations ──────────────────────────
         Schema::create('address', function (Blueprint $table) {
             $table->increments('id_address');
-            $table->string('label', 100)->nullable();
-            $table->text('detail')->nullable();
-            $table->string('city', 100)->nullable();
-            $table->string('province', 100)->nullable();
-            $table->string('postal_code', 10)->nullable();
-        });
+
+            $table->unsignedInteger('id_user')->nullable();
+
+            $table->text('full_address');
+            $table->string('map_point')->nullable();
+            $table->string('address_contact_number', 20);
+
+            $table->foreign('id_user')
+                  ->references('id_user')
+                  ->on('user')
+                  ->onDelete('cascade');
+    });
 
         Schema::create('review_product', function (Blueprint $table) {
             $table->increments('id_review');
