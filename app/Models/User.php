@@ -16,7 +16,7 @@ class User extends Authenticatable
     /**
      * Nama tabel di database
      */
-    protected $table = 'user';
+    protected $table = 'users';//aku ganti user jadi users
 
     /**
      * Primary key
