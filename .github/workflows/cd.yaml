@@ -1,0 +1,88 @@
+name: Laravel CD
+
+on:
+  workflow_run:
+    workflows: ["Laravel CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    # 🔒 Only run if CI succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Create ZIP of project
+      - name: Create deployment package
+        run: |
+          zip -r mysticake.zip . -x "vendor/*" ".git/*" ".github/*"
+
+      # 2. Setup SSH key
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+      # 3. Upload ZIP to VM
+      - name: Upload ZIP to VM
+        run: |
+          scp mysticake.zip ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/mysticake.zip
+
+      # 4. Execute deployment on VM
+      - name: Deploy on VM
+        run: |
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+
+          set -e
+
+          APP_DIR="/var/www"
+          CURRENT="running-mysticake"
+          OLD="old-mysticake"
+          ARCHIVE="$APP_DIR/archive"
+          ZIP_FILE="/tmp/mysticake.zip"
+          NEW_DIR="$APP_DIR/new-mysticake"
+
+          mkdir -p $ARCHIVE
+
+          echo "📦 Backing up current running version..."
+
+          if [ -d "$APP_DIR/$CURRENT" ]; then
+            rm -rf $APP_DIR/$OLD
+            mv $APP_DIR/$CURRENT $APP_DIR/$OLD
+          fi
+
+          echo "📂 Extracting new version..."
+          rm -rf $NEW_DIR
+          mkdir -p $NEW_DIR
+          unzip -o $ZIP_FILE -d $NEW_DIR
+
+          echo "🔁 Switching deployment..."
+          mv $NEW_DIR $APP_DIR/$CURRENT
+
+          echo "🧹 Archiving old version..."
+          if [ -d "$APP_DIR/$OLD" ]; then
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            tar -czf $ARCHIVE/mysticake_$TIMESTAMP.tar.gz -C $APP_DIR old-mysticake
+            rm -rf $APP_DIR/$OLD
+          fi
+
+          echo "⚙️ Installing dependencies & optimizing Laravel..."
+          cd $APP_DIR/$CURRENT
+          composer install --no-dev --optimize-autoloader
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan route:cache || true
+          php artisan view:cache || true
+
+          echo "🔄 Restart PHP-FPM (if needed)"
+          sudo systemctl restart php8.2-fpm || true
+          sudo systemctl restart nginx
+
+          echo "✅ Deployment completed!"
+          EOF
