@@ -78,10 +78,62 @@ return new class() extends Migration
             $table->string('result', 255)->nullable();
             $table->timestamps();
         });
+
+        Schema::create('product', function (Blueprint $table) {
+            $table->increments('id_product');
+
+            $table->unsignedInteger('id_store');
+
+            $table->string('name_product');
+            $table->text('description')->nullable();
+
+            $table->decimal('price', 15, 2);
+
+            $table->integer('stock')->default(0);
+
+            $table->string('product_picture')->nullable();
+        });
+
+        Schema::create('cart', function (Blueprint $table) {
+            $table->increments('id_cart');
+
+            $table->unsignedInteger('id_user');
+
+            $table->timestamp('created_at')->nullable();
+
+            $table->foreign('id_user')
+                  ->references('id_user')
+                  ->on('user')
+                  ->onDelete('cascade');
+        });
+
+        Schema::create('cart_item', function (Blueprint $table) {
+            $table->increments('id_cart_item');
+
+            $table->unsignedInteger('id_cart');
+
+            $table->unsignedInteger('id_product');
+
+            $table->integer('quantity')->default(1);
+
+            $table->foreign('id_cart')
+                  ->references('id_cart')
+                  ->on('cart')
+                  ->onDelete('cascade');
+
+            $table->foreign('id_product')
+                  ->references('id_product')
+                  ->on('product')
+                  ->onDelete('cascade');
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('cart_item');
+        Schema::dropIfExists('cart');
+        Schema::dropIfExists('product');
+        
         Schema::dropIfExists('mystery_box_history');
         Schema::dropIfExists('wallet');
         Schema::dropIfExists('chat');
