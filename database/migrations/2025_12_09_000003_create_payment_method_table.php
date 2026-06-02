@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // This migration is skipped as id_user is now part of the address table creation
-        // See migration 2025_12_09_000001_create_address_table
+        Schema::create('payment_method', function (Blueprint $table) {
+            $table->integer('id_payment_method')->autoIncrement()->primary();
+            $table->string('name_method', 255)->nullable();
+            $table->string('payment_barcode', 255)->nullable();
+        });
     }
 
     /**
@@ -20,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // No-op
+        Schema::dropIfExists('payment_method');
     }
 };

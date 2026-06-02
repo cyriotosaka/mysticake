@@ -20,8 +20,16 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
+            'phone_number' => '08123456789',
+            'role' => 'buyer',
+        ]);
+
+        // Run other seeders
+        $this->call([
+            GachaProductSeeder::class,
+            GachaArsyaSeeder::class,
         ]);
     }
 }

@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // This migration is skipped as id_user is now part of the address table creation
-        // See migration 2025_12_09_000001_create_address_table
+        Schema::create('delivery', function (Blueprint $table) {
+            $table->integer('id_delivery')->autoIncrement()->primary();
+            $table->string('type', 255)->nullable();
+            $table->double('delivery_charges')->nullable();
+        });
     }
 
     /**
@@ -20,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // No-op
+        Schema::dropIfExists('delivery');
     }
 };

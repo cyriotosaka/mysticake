@@ -11,13 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
-            // $table->id();
-            // $table->timestamps();
-            $table->id('id_cart');
-            $table->unsignedBigInteger('id_user');
-            $table->timestamps();
-        });
+        // This migration is skipped as cart table is created by migration 2025_12_09_000006_create_cart_table
     }
 
     /**
@@ -25,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        // No-op
     }
 };

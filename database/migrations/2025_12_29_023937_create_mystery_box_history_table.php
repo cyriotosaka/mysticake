@@ -15,14 +15,9 @@ return new class() extends Migration
         if (! Schema::hasTable('mystery_box_history')) {
             Schema::create('mystery_box_history', function (Blueprint $table) {
                 $table->integer('id_gacha_history')->autoIncrement();
-
-                $table->integer('id_user');
+                $table->unsignedBigInteger('id_user');
                 $table->integer('id_product');
-
                 $table->timestamps();
-
-                $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
-                $table->foreign('id_product')->references('id_product')->on('product')->onDelete('cascade');
             });
         }
     }

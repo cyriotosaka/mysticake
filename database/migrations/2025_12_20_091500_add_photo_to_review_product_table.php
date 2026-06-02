@@ -3,6 +3,7 @@
 /**
  * Created by Abdul Ghoni (5026231109)
  * Migration untuk menambahkan kolom review_photo ke tabel review_product
+ * Now skipped as review_photo is included in table creation
  */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +16,8 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn('review_product', 'review_photo')) {
-            Schema::table('review_product', function (Blueprint $table) {
-                $table->string('review_photo', 255)->nullable();
-            });
-        }
+        // review_photo is now included in the review_product table creation
+        // See migration 2025_12_09_000014_create_review_product_table
     }
 
     /**
@@ -27,8 +25,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::table('review_product', function (Blueprint $table) {
-            $table->dropColumn('review_photo');
-        });
+        // No-op
     }
 };

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // This migration is skipped as id_user is now part of the address table creation
-        // See migration 2025_12_09_000001_create_address_table
+        Schema::create('cart_item', function (Blueprint $table) {
+            $table->integer('id_cart_item')->autoIncrement()->primary();
+            $table->integer('id_cart')->nullable();
+            $table->integer('id_product')->nullable();
+            $table->integer('quantity')->nullable();
+        });
     }
 
     /**
@@ -20,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // No-op
+        Schema::dropIfExists('cart_item');
     }
 };
