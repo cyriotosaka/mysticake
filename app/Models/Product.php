@@ -13,11 +13,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- ADD THIS IMPORT
 
 // pastikan ini ada ya
 
 class Product extends Model
 {
+    use HasFactory; // <-- ADD THIS LINE INSIDE THE CLASS
     /**
      * Tabel yang digunakan
      */

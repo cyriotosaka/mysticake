@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    protected $table = 'cart';
+    protected $table = 'carts';
 
     protected $primaryKey = 'id_cart';
 
