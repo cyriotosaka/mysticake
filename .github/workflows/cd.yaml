@@ -78,6 +78,11 @@ jobs:
           echo "⚙️ Installing dependencies & optimizing Laravel..."
           cd $APP_DIR/$CURRENT
           composer install --no-dev --optimize-autoloader
+
+          echo "🔐 Setting permissions..."
+          chmod -R 755 storage bootstrap/cache
+          chmod -R 775 storage/logs storage/app storage/framework
+
           php artisan config:clear
           php artisan cache:clear
           php artisan route:cache || true
