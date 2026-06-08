@@ -111,12 +111,12 @@ class Orders extends Model
         // This ensures Gacha items (price 0) and normal items (standard price) are both correct.
         $subtotal = $cartItems->sum(fn ($item) => $item->price * $item->quantity);
 
-        $delivery = Delivery::find($deliveryId);
+        $delivery = static::resolveDelivery($deliveryId);
         $deliveryCharges = $delivery ? $delivery->delivery_charges : 0;
         $totalPayment = $subtotal + $deliveryCharges + $extraCharges;
 
         // Create the Order Record
-        $order = self::create([
+        $order = static::create([
             'id_user' => $userId,
             'id_address' => $addressId,
             'id_delivery' => $deliveryId,
@@ -129,7 +129,7 @@ class Orders extends Model
 
         // Move items from Cart to OrderItems
         foreach ($cartItems as $cartItem) {
-            OrderItem::create([
+            static::createOrderItem([
                 'id_order' => $order->id_order,
                 'id_product' => $cartItem->id_product,
                 'quantity' => $cartItem->quantity,
@@ -143,12 +143,22 @@ class Orders extends Model
         return $order;
     }
 
+    protected static function resolveDelivery($deliveryId)
+    {
+        return Delivery::find($deliveryId);
+    }
+
+    protected static function createOrderItem(array $data)
+    {
+        return OrderItem::create($data);
+    }
+
     /**
      * Get all orders for a user
      */
     public static function findByUser($userId)
     {
-        return self::where('id_user', $userId)
+        return static::where('id_user', $userId)
             ->with(['items.product', 'address', 'delivery', 'paymentMethod'])
             ->orderBy('order_date', 'desc')
             ->get();
