@@ -2,6 +2,7 @@
 
 use App\Models\Orders;
 use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
 
 // Fillable attribute tests
 
@@ -99,4 +100,16 @@ it('getAllMethods returns all payment methods without hitting DB', function () {
     expect($methods)->toHaveCount(1);
     expect($methods->first()->name_method)->toBe('Mock Method');
     expect($methods->first()->payment_barcode)->toBe('barcodes/mock.png');
+});
+
+// resolveAllMethods() — DB::pretend() intercepts self::all() so no real query runs.
+// Calling PaymentMethod::getAllMethods() directly makes static:: resolve to PaymentMethod,
+// so the real resolveAllMethods() body executes and coverage is recorded.
+
+it('resolveAllMethods returns a collection via getAllMethods', function () {
+    DB::pretend(function () {
+        $result = PaymentMethod::getAllMethods();
+
+        expect($result)->toBeInstanceOf(\Illuminate\Database\Eloquent\Collection::class);
+    });
 });
