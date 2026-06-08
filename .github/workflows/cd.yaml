@@ -65,9 +65,8 @@ jobs:
           echo "🔁 Switching deployment..."
           mv $NEW_DIR $APP_DIR/$CURRENT
 
-          # Store .env outside the deployment folder
-nano /var/www/.env.production
-
+          echo "🔑 Copying .env..."
+          cp $APP_DIR/.env $APP_DIR/$CURRENT/.env
 
           echo "🧹 Archiving old version..."
           if [ -d "$APP_DIR/$OLD" ]; then
