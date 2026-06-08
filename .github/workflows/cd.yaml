@@ -80,7 +80,11 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
           echo "🔐 Setting permissions..."
-          sudo chown -R www-data:www-data /var/www/running-mysticake
+          sudo chown -R $USER:www-data /var/www/running-mysticake
+
+          sudo chown -R www-data:www-data /var/www/running-mysticake/storage
+          sudo chown -R www-data:www-data /var/www/running-mysticake/bootstrap/cache
+
           sudo chmod -R 775 /var/www/running-mysticake/storage
           sudo chmod -R 775 /var/www/running-mysticake/bootstrap/cache
 
