@@ -9,11 +9,11 @@ use App\Models\User;
 
 it('stores message and sender_role correctly', function () {
     $chat = new Chat([
-        'id_user'     => 1,
-        'id_store'    => 2,
-        'message'     => 'Hello, is this available?',
-        'date'        => '2026-06-08',
-        'time'        => '14:30:00',
+        'id_user' => 1,
+        'id_store' => 2,
+        'message' => 'Hello, is this available?',
+        'date' => '2026-06-08',
+        'time' => '14:30:00',
         'sender_role' => 'user',
     ]);
 
@@ -23,9 +23,9 @@ it('stores message and sender_role correctly', function () {
 
 it('stores store sender_role correctly', function () {
     $chat = new Chat([
-        'id_user'     => 1,
-        'id_store'    => 2,
-        'message'     => 'Yes, still available!',
+        'id_user' => 1,
+        'id_store' => 2,
+        'message' => 'Yes, still available!',
         'sender_role' => 'store',
     ]);
 
@@ -34,10 +34,10 @@ it('stores store sender_role correctly', function () {
 
 it('allows null message for product inquiry chats', function () {
     $chat = new Chat([
-        'id_user'     => 1,
-        'id_store'    => 2,
-        'id_product'  => 5,
-        'message'     => null,
+        'id_user' => 1,
+        'id_store' => 2,
+        'id_product' => 5,
+        'message' => null,
         'sender_role' => 'user',
     ]);
 
@@ -47,10 +47,10 @@ it('allows null message for product inquiry chats', function () {
 
 it('allows null id_order when chat is not related to an order', function () {
     $chat = new Chat([
-        'id_user'  => 1,
+        'id_user' => 1,
         'id_store' => 2,
         'id_order' => null,
-        'message'  => 'Just browsing!',
+        'message' => 'Just browsing!',
     ]);
 
     expect($chat->id_order)->toBeNull();
@@ -58,10 +58,10 @@ it('allows null id_order when chat is not related to an order', function () {
 
 it('allows null id_product when chat is not related to a product', function () {
     $chat = new Chat([
-        'id_user'    => 1,
-        'id_store'   => 2,
+        'id_user' => 1,
+        'id_store' => 2,
         'id_product' => null,
-        'message'    => 'General inquiry.',
+        'message' => 'General inquiry.',
     ]);
 
     expect($chat->id_product)->toBeNull();

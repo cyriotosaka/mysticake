@@ -53,9 +53,9 @@ it('returns null map_url when map_point is null', function () {
 
 it('stores all fillable fields correctly', function () {
     $address = new Address([
-        'id_user'                => 1,
-        'full_address'           => '123 Cake Street, Jakarta',
-        'map_point'              => '-6.200,106.816',
+        'id_user' => 1,
+        'full_address' => '123 Cake Street, Jakarta',
+        'map_point' => '-6.200,106.816',
         'address_contact_number' => '081234567890',
     ]);
 
@@ -66,9 +66,9 @@ it('stores all fillable fields correctly', function () {
 
 it('stores null map_point when address has no coordinates', function () {
     $address = new Address([
-        'id_user'      => 2,
+        'id_user' => 2,
         'full_address' => 'No coordinates address',
-        'map_point'    => null,
+        'map_point' => null,
     ]);
 
     expect($address->map_point)->toBeNull();

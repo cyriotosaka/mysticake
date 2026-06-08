@@ -146,12 +146,14 @@ it('adds stock and saves the product', function () {
 });
 
 it('scopeSearch returns same builder when keyword is empty', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function where($column, $operator = null, $value = null)
         {
             $this->calls[] = func_get_args();
+
             return $this;
         }
     };
@@ -165,7 +167,8 @@ it('scopeSearch returns same builder when keyword is empty', function () {
 });
 
 it('scopeSearch applies search conditions when keyword is provided', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function where($column, $operator = null, $value = null)
@@ -173,16 +176,19 @@ it('scopeSearch applies search conditions when keyword is provided', function ()
             if ($column instanceof Closure) {
                 $this->calls[] = ['method' => 'where', 'args' => ['closure']];
                 $column($this);
+
                 return $this;
             }
 
             $this->calls[] = ['method' => 'where', 'args' => func_get_args()];
+
             return $this;
         }
 
         public function orWhere($column, $operator = null, $value = null)
         {
             $this->calls[] = ['method' => 'orWhere', 'args' => func_get_args()];
+
             return $this;
         }
     };
@@ -206,30 +212,35 @@ it('scopeSearch applies search conditions when keyword is provided', function ()
 });
 
 it('scopeHighestRated applies the correct query chain without database access', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function withAvg($relation, $column)
         {
             $this->calls[] = ['method' => 'withAvg', 'args' => [$relation, $column]];
+
             return $this;
         }
 
         public function withCount($relation)
         {
             $this->calls[] = ['method' => 'withCount', 'args' => [$relation]];
+
             return $this;
         }
 
         public function orderByDesc($column)
         {
             $this->calls[] = ['method' => 'orderByDesc', 'args' => [$column]];
+
             return $this;
         }
 
         public function take($limit)
         {
             $this->calls[] = ['method' => 'take', 'args' => [$limit]];
+
             return $this;
         }
     };

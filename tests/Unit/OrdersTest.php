@@ -1,12 +1,7 @@
 <?php
 
-use App\Models\Orders;
 use App\Models\OrderItem;
-use App\Models\User;
-use App\Models\PaymentMethod;
-use App\Models\Address;
-use App\Models\Delivery;
-use App\Models\History;
+use App\Models\Orders;
 
 afterEach(fn () => Mockery::close());
 
@@ -97,7 +92,8 @@ it('findByUser builds the correct query chain without database access', function
     $query->shouldReceive('get')
         ->andReturn(collect(['order-a']));
 
-    $stub = new class($query) extends Orders {
+    $stub = new class($query) extends Orders
+    {
         private static $query;
 
         public function __construct($query)
@@ -134,9 +130,12 @@ it('createFromCart creates order and order items without database access', funct
     $createdOrder->id_order = 111;
     $createdItems = [];
 
-    $stub = new class($deliveryMock, $createdOrder, $createdItems) extends Orders {
+    $stub = new class($deliveryMock, $createdOrder, $createdItems) extends Orders
+    {
         private static $delivery;
+
         private static $createdOrder;
+
         private static $createdItems;
 
         public function __construct($delivery, $createdOrder, &$createdItems)
@@ -171,4 +170,3 @@ it('createFromCart creates order and order items without database access', funct
         ['id_order' => 111, 'id_product' => 6, 'quantity' => 1, 'subtotal' => 0],
     ]);
 });
-

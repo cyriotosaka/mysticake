@@ -8,8 +8,8 @@ use App\Models\Orders;
 it('stores id_order, date, and time correctly', function () {
     $history = new History([
         'id_order' => 10,
-        'date'     => '2026-06-08',
-        'time'     => '14:30:00',
+        'date' => '2026-06-08',
+        'time' => '14:30:00',
     ]);
 
     expect($history->id_order)->toBe(10);
@@ -20,8 +20,8 @@ it('stores id_order, date, and time correctly', function () {
 it('stores different date and time values correctly', function () {
     $history = new History([
         'id_order' => 5,
-        'date'     => '2025-12-25',
-        'time'     => '08:00:00',
+        'date' => '2025-12-25',
+        'time' => '08:00:00',
     ]);
 
     expect($history->id_order)->toBe(5);
@@ -62,9 +62,9 @@ it('orders() is related to the Orders model', function () {
 
 it('accesses order data through orders relation', function () {
     $order = new Orders([
-        'status_order'  => 'completed',
+        'status_order' => 'completed',
         'total_payment' => 120000,
-        'order_date'    => '2026-06-08',
+        'order_date' => '2026-06-08',
     ]);
 
     $history = new History(['id_order' => 10, 'date' => '2026-06-08']);
@@ -76,7 +76,7 @@ it('accesses order data through orders relation', function () {
 
 it('accesses pending order data through orders relation', function () {
     $order = new Orders([
-        'status_order'  => 'Pending',
+        'status_order' => 'Pending',
         'total_payment' => 50000,
     ]);
 

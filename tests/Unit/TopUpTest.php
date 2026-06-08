@@ -3,7 +3,6 @@
 use App\Models\PaymentMethod;
 use App\Models\TopUp;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 afterEach(fn () => \Mockery::close());
@@ -86,12 +85,14 @@ it('returns dash when formatted_datetime is missing date or time', function () {
 });
 
 it('scopes for a specific user without database access', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function where($column, $value)
         {
             $this->calls[] = ['column' => $column, 'value' => $value];
+
             return $this;
         }
     };
@@ -104,12 +105,14 @@ it('scopes for a specific user without database access', function () {
 });
 
 it('scopes by payment method without database access', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function where($column, $value)
         {
             $this->calls[] = ['column' => $column, 'value' => $value];
+
             return $this;
         }
     };
@@ -122,12 +125,14 @@ it('scopes by payment method without database access', function () {
 });
 
 it('scopes between dates without database access', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function whereBetween($column, array $values)
         {
             $this->calls[] = ['column' => $column, 'values' => $values];
+
             return $this;
         }
     };
@@ -140,12 +145,14 @@ it('scopes between dates without database access', function () {
 });
 
 it('scopes recent ordering without database access', function () {
-    $builder = new class {
+    $builder = new class()
+    {
         public array $calls = [];
 
         public function orderBy($column, $direction)
         {
             $this->calls[] = ['column' => $column, 'direction' => $direction];
+
             return $this;
         }
     };

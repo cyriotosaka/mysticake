@@ -55,7 +55,8 @@ it('increments like_review and saves the model', function () {
 });
 
 it('prevents review when user already reviewed the product', function () {
-    $proxy = new class extends ReviewProduct {
+    $proxy = new class() extends ReviewProduct
+    {
         public static function hasUserReviewed($userId, $productId)
         {
             return true;
@@ -76,7 +77,8 @@ it('prevents review when user already reviewed the product', function () {
 });
 
 it('requires purchase before review when user has not reviewed yet', function () {
-    $proxy = new class extends ReviewProduct {
+    $proxy = new class() extends ReviewProduct
+    {
         public static function hasUserReviewed($userId, $productId)
         {
             return false;
@@ -97,7 +99,8 @@ it('requires purchase before review when user has not reviewed yet', function ()
 });
 
 it('allows review when user purchased and has not reviewed yet', function () {
-    $proxy = new class extends ReviewProduct {
+    $proxy = new class() extends ReviewProduct
+    {
         public static function hasUserReviewed($userId, $productId)
         {
             return false;
@@ -127,7 +130,8 @@ it('checks whether a user has already reviewed a product without touching the da
         ->once()
         ->andReturnTrue();
 
-    $proxy = new class($builder) extends ReviewProduct {
+    $proxy = new class($builder) extends ReviewProduct
+    {
         private static function builderStore($builder = null)
         {
             static $current;
@@ -177,7 +181,8 @@ it('finds reviews by product with eager loaded user and ordering', function () {
         ->once()
         ->andReturn(collect(['review-data']));
 
-    $proxy = new class($builder) extends ReviewProduct {
+    $proxy = new class($builder) extends ReviewProduct
+    {
         private static function builderStore($builder = null)
         {
             static $current;

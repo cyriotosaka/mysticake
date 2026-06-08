@@ -155,13 +155,13 @@ it('MysteryBoxHistory returns null when product relation is not set', function (
 it('MysteryBoxProduct stores all fillable fields correctly', function () {
     $item = new MysteryBoxProduct([
         'id_mystery_box' => 1,
-        'id_product'     => 3,
-        'price'          => 25000,
-        'point_gacha'    => 10,
-        'history_gacha'  => 0,
-        'type_gacha'     => 'premium',
-        'drop_rate'      => 0.3,
-        'cashback'       => 500,
+        'id_product' => 3,
+        'price' => 25000,
+        'point_gacha' => 10,
+        'history_gacha' => 0,
+        'type_gacha' => 'premium',
+        'drop_rate' => 0.3,
+        'cashback' => 500,
     ]);
 
     expect($item->id_mystery_box)->toBe(1);

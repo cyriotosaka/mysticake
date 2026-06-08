@@ -2,7 +2,6 @@
 
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Orders;
 use Mockery;
 
 afterEach(fn () => Mockery::close());

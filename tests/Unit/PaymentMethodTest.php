@@ -7,7 +7,7 @@ use App\Models\PaymentMethod;
 
 it('stores name_method and payment_barcode correctly', function () {
     $method = new PaymentMethod([
-        'name_method'     => 'Bank Transfer',
+        'name_method' => 'Bank Transfer',
         'payment_barcode' => 'barcodes/bca.png',
     ]);
 
@@ -17,7 +17,7 @@ it('stores name_method and payment_barcode correctly', function () {
 
 it('stores a different payment method correctly', function () {
     $method = new PaymentMethod([
-        'name_method'     => 'GoPay',
+        'name_method' => 'GoPay',
         'payment_barcode' => 'barcodes/gopay.png',
     ]);
 
@@ -27,7 +27,7 @@ it('stores a different payment method correctly', function () {
 
 it('stores null payment_barcode when method has no barcode', function () {
     $method = new PaymentMethod([
-        'name_method'     => 'Cash on Delivery',
+        'name_method' => 'Cash on Delivery',
         'payment_barcode' => null,
     ]);
 
@@ -77,7 +77,7 @@ it('accesses empty orders relation correctly', function () {
     expect(collect($method->orders)->isEmpty())->toBeTrue();
 });
 
-if (!class_exists(\PaymentMethodGetAllMethodsTestStub::class)) {
+if (! class_exists(\PaymentMethodGetAllMethodsTestStub::class)) {
     class PaymentMethodGetAllMethodsTestStub extends PaymentMethod
     {
         protected static function resolveAllMethods()
