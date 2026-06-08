@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: 8.2
           extensions: mbstring, intl, pdo, sqlite, pdo_sqlite, bcmath
-          coverage: none
+          coverage: pcov
 
       # 3. Cache Composer dependencies
       - name: Cache Composer dependencies
@@ -44,9 +44,9 @@ jobs:
       - name: Run Laravel Pint
         run: ./vendor/bin/pint --test
 
-      # 8. Run Pest tests
+      # 8. Run Pest tests with coverage
       - name: Run Pest tests
-        run: ./vendor/bin/pest
+        run: ./vendor/bin/pest --coverage --coverage-clover=coverage.xml
 
       # ---------------------------------------------------
       # 🔒 SONARQUBE (COMMENTED FOR NOW)
