@@ -45,6 +45,10 @@ jobs:
 
           set -e
 
+          echo "👤 Current user: $(whoami)"
+          echo "🔍 Sudo test:"
+          sudo -n -l 2>&1 || echo "⚠️  Sudo check failed - sudoers may not be configured correctly"
+
           APP_DIR="/var/www"
           CURRENT="running-mysticake"
           OLD="old-mysticake"
