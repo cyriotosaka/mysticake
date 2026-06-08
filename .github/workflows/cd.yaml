@@ -1,10 +1,14 @@
 name: Laravel CD
 
+# on:
+#   workflow_run:
+#     workflows: ["Laravel CI"]
+#     types:
+#       - completed
+
 on:
-  workflow_run:
-    workflows: ["Laravel CI"]
-    types:
-      - completed
+  push:
+    branches: [ "main"]
 
 jobs:
   deploy:
@@ -80,24 +84,16 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
           echo "🔐 Setting permissions..."
-          sudo chown -R $USER:www-data /var/www/running-mysticake
-
-          sudo chown -R www-data:www-data /var/www/running-mysticake/storage
-          sudo chown -R www-data:www-data /var/www/running-mysticake/bootstrap/cache
-
+          sudo chown -R www-data:www-data /var/www/running-mysticake
           sudo chmod -R 775 /var/www/running-mysticake/storage
           sudo chmod -R 775 /var/www/running-mysticake/bootstrap/cache
 
           cd /var/www/running-mysticake
           php artisan optimize:clear
+          php artisan key:generate
 
+          echo "🔄 Restarting services..."
           sudo systemctl restart php8.2-fpm
-          sudo systemctl restart nginx
-
-          sudo php artisan key:generate
-
-          echo "🔄 Restart PHP-FPM (if needed)"
-          sudo systemctl restart php8.2-fpm || true
           sudo systemctl restart nginx
 
           echo "✅ Deployment completed!"
