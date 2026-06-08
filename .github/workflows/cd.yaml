@@ -80,27 +80,17 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
           echo "🔐 Setting permissions..."
-          # Remove old cache/compiled files
-          rm -rf storage/framework/cache/* storage/framework/views/*
-          mkdir -p storage/logs storage/app storage/framework/cache storage/framework/views
-          
-          # Set proper permissions
-          chmod -R 755 bootstrap storage
-          chmod -R 775 storage/logs storage/app storage/framework
-          
-          # Change ownership to www-data (PHP-FPM user)
-          sudo chown -R www-data:www-data $APP_DIR/$CURRENT/storage
-          sudo chown -R www-data:www-data $APP_DIR/$CURRENT/bootstrap/cache
+          sudo chown -R www-data:www-data /var/www/running-mysticake
+          sudo chmod -R 775 /var/www/running-mysticake/storage
+          sudo chmod -R 775 /var/www/running-mysticake/bootstrap/cache
 
-          # Clear Laravel caches
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan view:clear
-          
-          # Recache with proper permissions
-          php artisan config:cache
-          php artisan route:cache || true
-          php artisan view:cache || true
+          cd /var/www/running-mysticake
+          php artisan optimize:clear
+
+          sudo systemctl restart php8.2-fpm
+          sudo systemctl restart nginx
+
+          sudo php artisan key:generate
 
           echo "🔄 Restart PHP-FPM (if needed)"
           sudo systemctl restart php8.2-fpm || true
