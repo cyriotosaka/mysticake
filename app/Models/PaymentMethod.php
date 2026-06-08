@@ -27,6 +27,11 @@ class PaymentMethod extends Model
      */
     public static function getAllMethods()
     {
+        return static::resolveAllMethods();
+    }
+
+    protected static function resolveAllMethods()
+    {
         return self::all();
     }
 }
