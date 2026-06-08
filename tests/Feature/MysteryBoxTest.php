@@ -15,11 +15,10 @@ it('returns drop rates for normal type', function () {
 
     $response->assertStatus(200)
         ->assertJsonPath('type', 'normal')
-        ->assertJson(fn (AssertableJson $json) =>
-            $json->where('total_products', 3)
-                 ->where('total_stock', 100)
-                 ->has('rewards', 3)
-                 ->etc()
+        ->assertJson(fn (AssertableJson $json) => $json->where('total_products', 3)
+            ->where('total_stock', 100)
+            ->has('rewards', 3)
+            ->etc()
         );
 });
 
@@ -33,10 +32,9 @@ it('returns drop rates for premium type', function () {
 
     $response->assertStatus(200)
         ->assertJsonPath('type', 'premium')
-        ->assertJson(fn (AssertableJson $json) =>
-            $json->where('total_products', 2)
-                 ->where('total_stock', 20)
-                 ->has('rewards', 2)
-                 ->etc()
+        ->assertJson(fn (AssertableJson $json) => $json->where('total_products', 2)
+            ->where('total_stock', 20)
+            ->has('rewards', 2)
+            ->etc()
         );
 });

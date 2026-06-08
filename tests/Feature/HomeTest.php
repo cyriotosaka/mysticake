@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase; // <-- ADD THIS
 
 uses(RefreshDatabase::class);
@@ -35,23 +35,23 @@ it('passes the correct data to the home view', function () {
         'id_cart' => $cart->id_cart,
         'id_product' => Product::first()->id_product,
         'quantity' => 1,
-        'price' => 10000
+        'price' => 10000,
     ]);
     CartItem::create([
         'id_cart' => $cart->id_cart,
         'id_product' => Product::latest()->first()->id_product,
         'quantity' => 2,
-        'price' => 20000
+        'price' => 20000,
     ]);
 
     $response = $this->actingAs($user)->get('/home');
 
     $response->assertStatus(200);
     $response->assertViewHasAll(['user', 'cartCount', 'recommendations']);
-    
+
     // Assert cart count is exactly 2 types of items (since we added 2 CartItems)
     expect($response->viewData('cartCount'))->toBe(2);
-    
+
     // Assert it recommends at most 2 products (as per controller logic)
     expect($response->viewData('recommendations'))->toHaveCount(2);
 });
