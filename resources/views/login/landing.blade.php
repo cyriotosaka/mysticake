@@ -89,7 +89,7 @@
 
     <div class="mobile-container text-center">
 
-        <h1 class="brand-title">MysTicake</h1>
+        <h1 class="brand-title">MySticake</h1>
         <p class="subtitle">Dessert for all happiness</p>
 
         <div class="image-box">
