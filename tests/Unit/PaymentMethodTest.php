@@ -76,3 +76,27 @@ it('accesses empty orders relation correctly', function () {
 
     expect(collect($method->orders)->isEmpty())->toBeTrue();
 });
+
+if (!class_exists(\PaymentMethodGetAllMethodsTestStub::class)) {
+    class PaymentMethodGetAllMethodsTestStub extends PaymentMethod
+    {
+        protected static function resolveAllMethods()
+        {
+            return collect([
+                new self([
+                    'name_method' => 'Mock Method',
+                    'payment_barcode' => 'barcodes/mock.png',
+                ]),
+            ]);
+        }
+    }
+}
+
+it('getAllMethods returns all payment methods without hitting DB', function () {
+    $methods = PaymentMethodGetAllMethodsTestStub::getAllMethods();
+
+    expect($methods)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+    expect($methods)->toHaveCount(1);
+    expect($methods->first()->name_method)->toBe('Mock Method');
+    expect($methods->first()->payment_barcode)->toBe('barcodes/mock.png');
+});
