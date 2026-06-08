@@ -48,13 +48,13 @@ jobs:
           ZIP_FILE="/tmp/mysticake.zip"
           NEW_DIR="$APP_DIR/new-mysticake"
 
-          mkdir -p $ARCHIVE
+          sudo mkdir -p $ARCHIVE
 
           echo "📦 Backing up current running version..."
 
           if [ -d "$APP_DIR/$CURRENT" ]; then
-            rm -rf $APP_DIR/$OLD
-            mv $APP_DIR/$CURRENT $APP_DIR/$OLD
+            sudo rm -rf $APP_DIR/$OLD
+            sudo mv $APP_DIR/$CURRENT $APP_DIR/$OLD
           fi
 
           echo "📂 Extracting new version..."
@@ -71,8 +71,8 @@ jobs:
           echo "🧹 Archiving old version..."
           if [ -d "$APP_DIR/$OLD" ]; then
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-            tar -czf $ARCHIVE/mysticake_$TIMESTAMP.tar.gz -C $APP_DIR old-mysticake
-            rm -rf $APP_DIR/$OLD
+            sudo tar -czf $ARCHIVE/mysticake_$TIMESTAMP.tar.gz -C $APP_DIR old-mysticake
+            sudo rm -rf $APP_DIR/$OLD
           fi
 
           echo "⚙️ Installing dependencies & optimizing Laravel..."
