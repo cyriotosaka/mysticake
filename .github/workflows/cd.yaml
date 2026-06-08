@@ -57,8 +57,8 @@ jobs:
           echo "📦 Backing up current running version..."
 
           if [ -d "$APP_DIR/$CURRENT" ]; then
-            sudo rm -rf $APP_DIR/$OLD
-            sudo mv $APP_DIR/$CURRENT $APP_DIR/$OLD
+            sudo -n rm -rf $APP_DIR/$OLD
+            sudo -n mv $APP_DIR/$CURRENT $APP_DIR/$OLD
           fi
 
           echo "📂 Extracting new version..."
@@ -67,16 +67,16 @@ jobs:
           unzip -o $ZIP_FILE -d $NEW_DIR
 
           echo "🔁 Switching deployment..."
-          mv $NEW_DIR $APP_DIR/$CURRENT
+          sudo -n mv $NEW_DIR $APP_DIR/$CURRENT
 
           echo "🔑 Copying .env..."
-          cp $APP_DIR/.env $APP_DIR/$CURRENT/.env
+          sudo -n cp $APP_DIR/.env $APP_DIR/$CURRENT/.env
 
           echo "🧹 Archiving old version..."
           if [ -d "$APP_DIR/$OLD" ]; then
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-            sudo tar -czf $ARCHIVE/mysticake_$TIMESTAMP.tar.gz -C $APP_DIR old-mysticake
-            sudo rm -rf $APP_DIR/$OLD
+            sudo -n tar -czf $ARCHIVE/mysticake_$TIMESTAMP.tar.gz -C $APP_DIR old-mysticake
+            sudo -n rm -rf $APP_DIR/$OLD
           fi
 
           echo "⚙️ Installing dependencies & optimizing Laravel..."
@@ -84,17 +84,17 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
           echo "🔐 Setting permissions..."
-          sudo chown -R www-data:www-data /var/www/running-mysticake
-          sudo chmod -R 775 /var/www/running-mysticake/storage
-          sudo chmod -R 775 /var/www/running-mysticake/bootstrap/cache
+          sudo -n chown -R www-data:www-data /var/www/running-mysticake
+          sudo -n chmod -R 775 /var/www/running-mysticake/storage
+          sudo -n chmod -R 775 /var/www/running-mysticake/bootstrap/cache
 
           cd /var/www/running-mysticake
           php artisan optimize:clear
           php artisan key:generate
 
           echo "🔄 Restarting services..."
-          sudo systemctl restart php8.2-fpm
-          sudo systemctl restart nginx
+          sudo -n systemctl restart php8.2-fpm
+          sudo -n systemctl restart nginx
 
           echo "✅ Deployment completed!"
           EOF
