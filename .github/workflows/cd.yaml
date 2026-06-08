@@ -65,6 +65,10 @@ jobs:
           echo "🔁 Switching deployment..."
           mv $NEW_DIR $APP_DIR/$CURRENT
 
+          # Store .env outside the deployment folder
+nano /var/www/.env.production
+
+
           echo "🧹 Archiving old version..."
           if [ -d "$APP_DIR/$OLD" ]; then
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
