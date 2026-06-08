@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
+      # 1. Checkout code (fetch-depth: 0 required for SonarCloud blame data)
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 2. Setup PHP
       - name: Setup PHP
@@ -48,18 +50,8 @@ jobs:
       - name: Run Pest tests
         run: ./vendor/bin/pest --coverage --coverage-clover=coverage.xml
 
-      # ---------------------------------------------------
-      # 🔒 SONARQUBE (COMMENTED FOR NOW)
-      # ---------------------------------------------------
-      # - name: SonarQube Scan
-      #   uses: SonarSource/sonarqube-scan-action@v3
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      #   with:
-      #     args: >
-      #       -Dsonar.projectKey=your-project-key
-      #       -Dsonar.sources=app
-      #       -Dsonar.tests=tests
-      #       -Dsonar.php.coverage.reportPaths=coverage.xm
-      
+      # 9. SonarCloud Scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
