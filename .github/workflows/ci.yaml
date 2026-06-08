@@ -61,4 +61,5 @@ jobs:
       #       -Dsonar.projectKey=your-project-key
       #       -Dsonar.sources=app
       #       -Dsonar.tests=tests
-      #       -Dsonar.php.coverage.reportPaths=coverage.xml
+      #       -Dsonar.php.coverage.reportPaths=coverage.xm
+      
