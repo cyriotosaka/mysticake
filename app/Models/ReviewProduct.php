@@ -90,7 +90,7 @@ class ReviewProduct extends Model
      */
     public static function findByProduct($productId)
     {
-        return self::where('id_product', $productId)
+        return static::where('id_product', $productId)
             ->with('user') // Eager load user data
             ->orderByDesc('created_at') // Terbaru dulu berdasarkan timestamp
             ->orderByDesc('id_review_product')
@@ -119,7 +119,7 @@ class ReviewProduct extends Model
      */
     public static function hasUserReviewed($userId, $productId)
     {
-        return self::where('id_user', $userId)
+        return static::where('id_user', $userId)
             ->where('id_product', $productId)
             ->exists();
     }
@@ -131,7 +131,7 @@ class ReviewProduct extends Model
     public static function canUserReview($userId, $productId)
     {
         // Cek apakah sudah pernah review
-        if (self::hasUserReviewed($userId, $productId)) {
+        if (static::hasUserReviewed($userId, $productId)) {
             return [
                 'can_review' => false,
                 'message' => 'Anda sudah pernah memberikan review untuk produk ini.',
@@ -139,7 +139,7 @@ class ReviewProduct extends Model
         }
 
         // Cek apakah pernah membeli
-        if (! self::hasUserPurchased($userId, $productId)) {
+        if (! static::hasUserPurchased($userId, $productId)) {
             return [
                 'can_review' => false,
                 'message' => 'Anda harus membeli produk ini terlebih dahulu sebelum bisa memberikan review.',
