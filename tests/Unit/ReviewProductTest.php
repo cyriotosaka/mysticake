@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Product;
 use App\Models\ReviewProduct;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 afterEach(fn () => \Mockery::close());
 
@@ -161,6 +164,86 @@ it('checks whether a user has already reviewed a product without touching the da
     $className = get_class($proxy);
 
     expect($className::hasUserReviewed(11, 22))->toBeTrue();
+});
+
+// ── product() relation ─────────────────────────────────────────────────────
+
+it('product() returns a BelongsTo relation', function () {
+    $review = new ReviewProduct(['id_product' => 1]);
+
+    expect($review->product())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
+
+it('product() uses id_product as the foreign key', function () {
+    expect((new ReviewProduct())->product()->getForeignKeyName())->toBe('id_product');
+});
+
+it('product() is related to the Product model', function () {
+    expect((new ReviewProduct())->product()->getRelated())->toBeInstanceOf(Product::class);
+});
+
+// ── user() relation ────────────────────────────────────────────────────────
+
+it('user() returns a BelongsTo relation', function () {
+    $review = new ReviewProduct(['id_user' => 1]);
+
+    expect($review->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
+
+it('user() uses id_user as the foreign key', function () {
+    expect((new ReviewProduct())->user()->getForeignKeyName())->toBe('id_user');
+});
+
+it('user() is related to the User model', function () {
+    expect((new ReviewProduct())->user()->getRelated())->toBeInstanceOf(User::class);
+});
+
+// ── setRelation: product and user ──────────────────────────────────────────
+
+it('accesses product relation data correctly', function () {
+    $product = new Product(['name_product' => 'Chocolate Cake', 'price' => 75000]);
+
+    $review = new ReviewProduct(['id_product' => 1, 'rating' => 5]);
+    $review->setRelation('product', $product);
+
+    expect($review->product->name_product)->toBe('Chocolate Cake');
+    expect($review->product->price)->toBe(75000);
+});
+
+it('accesses user relation data correctly', function () {
+    $user = new User(['username' => 'johndoe', 'email' => 'john@example.com']);
+
+    $review = new ReviewProduct(['id_user' => 1, 'comment' => 'Delicious!']);
+    $review->setRelation('user', $user);
+
+    expect($review->user->username)->toBe('johndoe');
+    expect($review->user->email)->toBe('john@example.com');
+});
+
+// ── incrementLike() null branch ────────────────────────────────────────────
+
+it('starts like count from one when like_review is null', function () {
+    /** @var ReviewProduct $review */
+    $review = \Mockery::mock(ReviewProduct::class)->makePartial();
+    $review->like_review = null;
+    $review->shouldReceive('save')->once()->andReturnTrue();
+
+    $result = $review->incrementLike();
+
+    expect($result)->toBe(1); // null ?? 0 = 0, + 1 = 1
+    expect($review->like_review)->toBe(1);
+});
+
+// ── hasUserPurchased() ─────────────────────────────────────────────────────
+// DB::pretend() intercepts the EXISTS query — whereHas() still executes the
+// closure to build the subquery (covering those lines), but no SQL hits SQLite.
+
+it('hasUserPurchased returns false when no matching orders exist', function () {
+    DB::pretend(function () {
+        $result = ReviewProduct::hasUserPurchased(1, 1);
+
+        expect($result)->toBeFalse(); // pretend mode: exists() → false
+    });
 });
 
 it('finds reviews by product with eager loaded user and ordering', function () {
