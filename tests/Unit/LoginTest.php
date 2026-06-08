@@ -57,7 +57,7 @@ it('returns default avatar url when profile picture is null', function () {
 
 it('returns saldo_coin from wallet as balance', function () {
     $wallet = new Wallet(['saldo_coin' => 150]);
-    $user   = new User();
+    $user = new User();
     $user->setRelation('wallet', $wallet);
 
     expect($user->balance)->toBe(150);
@@ -74,7 +74,7 @@ it('returns zero balance when user has no wallet', function () {
 
 it('hashes password so plain text is not stored', function () {
     $password = 'secret123';
-    $hash     = Hash::make($password);
+    $hash = Hash::make($password);
 
     expect($hash)->not->toBe($password);
     expect(Hash::check($password, $hash))->toBeTrue();

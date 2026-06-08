@@ -25,7 +25,7 @@ it('gives equal drop rate to all products when total stock is zero', function ()
     ]);
 
     $totalStock = $products->sum('stock');
-    $equalRate  = ($totalStock == 0 && count($products) > 0)
+    $equalRate = ($totalStock == 0 && count($products) > 0)
         ? 100 / count($products)
         : 0;
 
@@ -33,9 +33,9 @@ it('gives equal drop rate to all products when total stock is zero', function ()
 });
 
 it('returns zero rate when product list is empty', function () {
-    $products  = collect([]);
+    $products = collect([]);
     $totalStock = $products->sum('stock');
-    $equalRate  = ($totalStock == 0 && count($products) > 0)
+    $equalRate = ($totalStock == 0 && count($products) > 0)
         ? 100 / count($products)
         : 0;
 
@@ -63,8 +63,8 @@ it('selects first item when random falls within its drop weight', function () {
     $item2 = new MysteryBoxProduct(['drop_rate' => 0.7]);
     $candidates = collect([$item1, $item2]);
 
-    $random        = 0.2; // within item1's range (0 – 0.3)
-    $wonItem       = null;
+    $random = 0.2; // within item1's range (0 – 0.3)
+    $wonItem = null;
     $currentWeight = 0;
 
     foreach ($candidates as $candidate) {
@@ -83,8 +83,8 @@ it('selects second item when random exceeds first item drop weight', function ()
     $item2 = new MysteryBoxProduct(['drop_rate' => 0.7]);
     $candidates = collect([$item1, $item2]);
 
-    $random        = 0.5; // within item2's range (0.3 – 1.0)
-    $wonItem       = null;
+    $random = 0.5; // within item2's range (0.3 – 1.0)
+    $wonItem = null;
     $currentWeight = 0;
 
     foreach ($candidates as $candidate) {
@@ -103,9 +103,9 @@ it('selects second item when random exceeds first item drop weight', function ()
 it('assigns correct gacha cost for normal type', function () {
     $type = 'normal';
     $gachaCost = match ($type) {
-        'normal'  => 15000,
+        'normal' => 15000,
         'premium' => 25000,
-        default   => 0,
+        default => 0,
     };
 
     expect($gachaCost)->toBe(15000);
@@ -114,9 +114,9 @@ it('assigns correct gacha cost for normal type', function () {
 it('assigns correct gacha cost for premium type', function () {
     $type = 'premium';
     $gachaCost = match ($type) {
-        'normal'  => 15000,
+        'normal' => 15000,
         'premium' => 25000,
-        default   => 0,
+        default => 0,
     };
 
     expect($gachaCost)->toBe(25000);
@@ -125,9 +125,9 @@ it('assigns correct gacha cost for premium type', function () {
 it('assigns zero cost for unknown gacha type', function () {
     $type = 'bonus';
     $gachaCost = match ($type) {
-        'normal'  => 15000,
+        'normal' => 15000,
         'premium' => 25000,
-        default   => 0,
+        default => 0,
     };
 
     expect($gachaCost)->toBe(0);

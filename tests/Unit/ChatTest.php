@@ -7,11 +7,11 @@ use Carbon\Carbon;
 
 it('can instantiate a chat with all fields', function () {
     $chat = new Chat([
-        'id_user'     => 1,
-        'id_store'    => 2,
-        'message'     => 'Hello, is this available?',
-        'date'        => '2026-06-08',
-        'time'        => '14:30:00',
+        'id_user' => 1,
+        'id_store' => 2,
+        'message' => 'Hello, is this available?',
+        'date' => '2026-06-08',
+        'time' => '14:30:00',
         'sender_role' => 'user',
     ]);
 
@@ -21,10 +21,10 @@ it('can instantiate a chat with all fields', function () {
 
 it('allows null message for product inquiry chats', function () {
     $chat = new Chat([
-        'id_user'    => 1,
-        'id_store'   => 2,
+        'id_user' => 1,
+        'id_store' => 2,
         'id_product' => 5,
-        'message'    => null,
+        'message' => null,
         'sender_role' => 'user',
     ]);
 
@@ -35,7 +35,7 @@ it('allows null message for product inquiry chats', function () {
 // Duplicate product chat detection logic (from ChatController::chatWithProduct)
 
 it('should create new chat bubble when no previous chat exists', function () {
-    $lastChat  = null;
+    $lastChat = null;
     $productId = 5;
 
     $shouldCreate = ! $lastChat || $lastChat->id_product != $productId;
@@ -44,7 +44,7 @@ it('should create new chat bubble when no previous chat exists', function () {
 });
 
 it('should create new chat bubble when last chat is for a different product', function () {
-    $lastChat  = new Chat(['id_product' => 3]);
+    $lastChat = new Chat(['id_product' => 3]);
     $productId = 5;
 
     $shouldCreate = ! $lastChat || $lastChat->id_product != $productId;
@@ -53,7 +53,7 @@ it('should create new chat bubble when last chat is for a different product', fu
 });
 
 it('should not create duplicate chat bubble for the same product', function () {
-    $lastChat  = new Chat(['id_product' => 5]);
+    $lastChat = new Chat(['id_product' => 5]);
     $productId = 5;
 
     $shouldCreate = ! $lastChat || $lastChat->id_product != $productId;
