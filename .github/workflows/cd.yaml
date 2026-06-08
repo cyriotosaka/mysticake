@@ -80,11 +80,25 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
           echo "🔐 Setting permissions..."
-          chmod -R 755 storage bootstrap/cache
+          # Remove old cache/compiled files
+          rm -rf storage/framework/cache/* storage/framework/views/*
+          mkdir -p storage/logs storage/app storage/framework/cache storage/framework/views
+          
+          # Set proper permissions
+          chmod -R 755 bootstrap storage
           chmod -R 775 storage/logs storage/app storage/framework
+          
+          # Change ownership to www-data (PHP-FPM user)
+          sudo chown -R www-data:www-data $APP_DIR/$CURRENT/storage
+          sudo chown -R www-data:www-data $APP_DIR/$CURRENT/bootstrap/cache
 
+          # Clear Laravel caches
           php artisan config:clear
           php artisan cache:clear
+          php artisan view:clear
+          
+          # Recache with proper permissions
+          php artisan config:cache
           php artisan route:cache || true
           php artisan view:cache || true
 
