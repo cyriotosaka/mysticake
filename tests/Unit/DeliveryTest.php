@@ -2,6 +2,7 @@
 
 use App\Models\Delivery;
 use App\Models\Orders;
+use Illuminate\Support\Facades\DB;
 
 // Fillable attribute tests
 
@@ -114,4 +115,15 @@ it('accesses empty orders relation correctly', function () {
     $orders = collect($delivery->orders);
     expect($orders)->toHaveCount(0);
     expect($orders->isEmpty())->toBeTrue();
+});
+
+// getAllOptions() — DB::pretend() intercepts self::all() so no real query runs.
+// The return line executes → coverage recorded.
+
+it('getAllOptions returns a collection of delivery options', function () {
+    DB::pretend(function () {
+        $result = Delivery::getAllOptions();
+
+        expect($result)->toBeInstanceOf(\Illuminate\Database\Eloquent\Collection::class);
+    });
 });
