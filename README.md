@@ -1,3 +1,10 @@
+## Deskripsi Proyek
+Mysticake adalah aplikasi web berbasis Laravel 12 yang dirancang untuk mengakomodasi sistem jual-beli dessert dengan sistem Pre-Order (PO) yang dikombinasikan dengan fitur gamifikasi. Repositori ini dikembangkan dan digunakan sebagai studi kasus implementasi praktik DevOps pada mata kuliah Pengembangan Sistem Orientasi (PSO). Fokus utama pengerjaan pada fase ini adalah pembangunan infrastruktur otomatisasi terintegrasi yang mencakup standardisasi penulisan kode (linting), pengujian fungsional otomatis (automated testing), dan analisis kualitas serta keamanan kode statis melalui pipeline terpusat.
+
+## Live Preview
+Aplikasi Mysticake saat ini telah di-deploy secara mandiri dan dapat diakses secara publik melalui tautan berikut:
+🔗 http://35.240.168.64/
+
 ## Product Description 
 
 ### 1.1.1	Latar belakang
@@ -38,56 +45,56 @@ Aplikasi MystiCake memiliki beberapa fitur utama sebagai berikut
 Fitur pembelian produk secara acak sesuai kategori masing-masing. Produk-produk terbagi ke berbagai kategori kelangkaan dengan persentase yang berbeda-beda. 
 
 **Recommendation Page**
-Halaman yang berisi produk-produk yang dipersonalisasi sesuai kebiasaan pengguna. Toko dan produk sejenis yang sering dikunjungi akan muncul lebih sering di halaman ini.
+Halaman yang menampilkan produk-produk yang dipersonalisasi berdasarkan algoritma kebiasaan penjelajahan pengguna.
 
 **Search Page**
-Halaman pencarian untuk produk atau toko dengan kata kunci yang dimasukkan oleh pengguna melalui masukan keyboard. Daftar produk dengan nama yang paling mendekati kata kunci akan ditampilkan pada hasil pencarian.
+Fitur pencarian produk atau toko menggunakan kata kunci tekstual masukan pengguna dengan hasil berbasis relevansi penamaan terdekat.
 
 **Chat with Seller**
-Halaman untuk mengirim pesan kepada pelanggan. Halaman ini berisi daftar seller yang pernah dihubungi. Pengguna dapat mengirim gambar dan file kepada seller.
+Fasilitas komunikasi langsung dua arah antara pembeli dan penjual yang mendukung pengiriman pesan teks, gambar, serta file lampiran.
 
 **Cashback Bonus Page (After Mystery Box purchase)**
-Setelah melakukan pembelian mystery box, pengguna mendapatkan cashback untuk produk yang didapatkan. Cashback dapat diambil langsung atau disimpan untuk digunakan nanti.
+Halaman klaim reward berupa insentif cashback setelah pengguna berhasil melakukan transaksi pada Mystery Box.
 
 **Profile & Setting Page**
-Halaman untuk mengatur dan menyesuaikan pengaturan menurut kenyamanan pengguna. Mulai dari sistem hingga profil pengguna.
+Panel konfigurasi akun, data personal, preferensi aplikasi, dan pelacakan pencapaian gamifikasi pengguna.
 
 **Product Page**
-Halaman produk beserta detail dan deskripsinya.
+Halaman representasi detail produk, deskripsi komponen kue, harga, serta informasi sisa kuota PO.
 
 **Shopping Cart Page**
-Halaman yang menunjukkan barang-barang dan total harga barang yang akan dibeli.
+Fasilitas penampungan produk sementara sebelum dilakukan proses checkout massal atau per unit.
 
 **Topup Page**
-Halaman pembelian mata uang pada aplikasi dari transaksi tunai
+Halaman transaksi untuk mengonversi dana tunai menjadi saldo mata uang internal aplikasi.
 
 **Payment Page**
-Halaman pembayaran barang di shopping cart atau barang per unit dengan mata uang aplikasi.
+Gerbang pembayaran utama untuk menyelesaikan transaksi belanjaan menggunakan saldo akun pengguna.
 
 **Gacha History Page**
-Histori pembelian mystery box dan hasil yang didapat pengguna.
+Halaman log riwayat komprehensif atas pembelian Mystery Box dan hasil item yang didapatkan.
 
 **Shopping History Page**
-Histori transaksi pembelian shopping cart milik pengguna
+Dokumen riwayat pelacakan transaksi belanja konvensional dari pesanan yang pernah diproses.
 
 **Rating Page**
-Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
+Fitur umpan balik pasca-transaksi bagi pelanggan untuk memberikan penilaian berupa bintang dan ulasan tekstual pada produk.
 
 ## High-Level Functional Requirements
 
 | Code | Fitur | Deskripsi |
 | :--- | :--- | :--- |
-| FR01 |  | Sistem harus memungkinkan pengguna untuk membuat akun dan melakukan autentikasi (registrasi, login, logout). |
-| FR02 |  | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
-| FR03 |  | Sistem harus memfasilitasi pengelolaan profil pengguna, termasuk riwayat pembelian dan pencapaian gamifikasi. |
-| FR04 |  | Sistem harus memungkinkan pengguna untuk mengelola keranjang belanja sebelum melakukan checkout. |
-| FR05 |  | Sistem harus menyediakan fitur gamifikasi gacha yang memberikan dessert spesial, diskon, atau hadiah virtual sebagai bentuk reward. |
-| FR06 |  | Sistem harus memungkinkan pengguna untuk menukarkan hadiah gacha dengan produk atau voucher sesuai ketentuan. |
-| FR07 |  | Sistem harus menyediakan notifikasi terkait status pesanan, promosi, atau hasil gacha. |
-| FR08 |  | Sistem harus memberikan akses bagi admin untuk mengelola produk dessert, termasuk stok, harga, dan deskripsi. |
-| FR09 |  | Sistem harus menyediakan laporan penjualan dan aktivitas gacha bagi admin untuk mendukung pengambilan keputusan. |
-| FR10 |  | Sistem harus mendukung ulasan dan rating pengguna terhadap dessert untuk meningkatkan kepercayaan dan pengalaman pengguna. |
-| FR11 |  | Sistem harus menjamin keamanan transaksi dan data pengguna melalui enkripsi dan manajemen hak akses. |
+| FR01 | Autentikasi | Sistem harus memungkinkan pengguna untuk membuat akun dan melakukan autentikasi (registrasi, login, logout). |
+| FR02 | Katalog Produk | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
+| FR03 | Manajemen Profil | Sistem harus memfasilitasi pengelolaan profil pengguna, termasuk riwayat pembelian dan pencapaian gamifikasi. |
+| FR04 | Keranjang belanja | Sistem harus memungkinkan pengguna untuk mengelola keranjang belanja sebelum melakukan checkout. |
+| FR05 | Gamifikasi Gacha | Sistem harus menyediakan fitur gamifikasi gacha yang memberikan dessert spesial, diskon, atau hadiah virtual sebagai bentuk reward. |
+| FR06 | Penukaran Hadiah | Sistem harus memungkinkan pengguna untuk menukarkan hadiah gacha dengan produk atau voucher sesuai ketentuan. |
+| FR07 | Sistem Notifikasi | Sistem harus menyediakan notifikasi terkait status pesanan, promosi, atau hasil gacha. |
+| FR08 | Panel Admin | Sistem harus memberikan akses bagi admin untuk mengelola produk dessert, termasuk stok, harga, dan deskripsi. |
+| FR09 | Laporan Penjualan | Sistem harus menyediakan laporan penjualan dan aktivitas gacha bagi admin untuk mendukung pengambilan keputusan. |
+| FR10 | Ulasan dan Rating | Sistem harus mendukung ulasan dan rating pengguna terhadap dessert untuk meningkatkan kepercayaan dan pengalaman pengguna. |
+| FR11 | Keamanan Data | Sistem harus menjamin keamanan transaksi dan data pengguna melalui enkripsi dan manajemen hak akses. |
 | FR12 | Mystery Box Page (Regular & Premium) | Sistem harus menyediakan halaman Mystery Box (Regular dan Premium) yang memungkinkan pengguna melakukan pembelian dengan mudah. |
 | FR13 | Recommendation Page | Sistem harus menampilkan rekomendasi produk yang relevan untuk meningkatkan keterlibatan dan penjualan. |
 | FR14 | Search Page | Sistem harus memungkinkan pengguna mencari produk berdasarkan kata kunci atau kategori agar memudahkan pencarian. |
@@ -103,25 +110,61 @@ Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
 | FR24 | Rating Page | Sistem harus menyediakan fitur penilaian dan ulasan agar pengguna dapat memberikan feedback terhadap produk. |
 
 ### Nick Name Akun Github
-| Nama Akun | Nama Lengkap | NRP    |
-| :--- | :--- | :--- |
-| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 |
-| angelasiuli | Beh Siu Li | 5026231065 |
-| cyriotosaka | Okky Priscila Putri | 5026231168 |
-| sahilah | Sahilah Amru Yumnatusta | 5026231182 | 
+| Nama Akun | Nama Lengkap | NRP    | Tanggung Jawab |
+| :--- | :--- | :--- | :--- |
+| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 | Documentation & Logic: Penyusunan log laporan pasca-insiden (post-mortem), pembuatan manual panduan pengguna, dan audit logika integrasi |
+| angelasiuli | Beh Siu Li | 5026231065 | Lead Infrastructure (CI): Konfigurasi pipeline utama pada GitHub Actions dan penyusunan integrasi otomasi pengujian linting |
+| cyriotosaka | Okky Priscila Putri | 5026231168 | Quality Assurance (QA): Setup proyek di SonarQube Cloud, perbaikan code smell, dan analisis kerentanan statis |
+| sahilah | Sahilah Amru Yumnatusta | 5026231182 | Deployment & Env: Manajemen sinkronisasi variabel, penataan Continuous Deployment (CD), dan optimalisasi server |
 
 ---
 
 ## Tech Stack
 
-| Technology | Version |
+| Tech Stack | Technology | Version |
 |------------|---------|
-| PHP | 8.4+ |
-| Laravel | 12.x |
-| MySQL | 8.0+ |
-| Bootstrap | 5.3 |
-| Node.js | 18+ (untuk assets) |
-| Composer | 2.x |
+| Language | PHP | 8.4+ |
+| Framework | Laravel | 12.x |
+| Database | MySQL | 8.0+ |
+| Frontend | Bootstrap | 5.3 |
+| Frontend | Node.js | 18+ (untuk assets) |
+| Dependency Manager | Composer | 2.x |
+
+---
+
+## Dokumentasi Proyek DevOps (7 Tahapan):
+Proyek ini diselesaikan melalui tujuh tahapan seperti berikut:
+
+**1. Migrasi Repositori**
+Memindahkan basis kode dari repositori lama (berstatus forking yang membatasi hak visibilitas publik) menuju repositori mandiri baru agar proses asesmen oleh tim Asisten Laboratorium dapat diakses secara terbuka.
+
+**2. Linting Check and Automation**
+Mengintegrasikan sistem pengecekan standardisasi kode. Pada inisialisasi awal, pipa integrasi mengalami kegagalan (failed), yang kemudian berhasil distabilkan secara permanen memanfaatkan perintah otomatisasi laravel lint:fix (Laravel Pint).
+
+**3. Pest Testing Integration**
+Menyusun kerangka kerja unit pengujian fungsional berbasis Pest. Skrip pengujian dikonfigurasi  ketat untuk mengabaikan/bypass database migration demi menjaga integritas data dan kecepatan eksekusi integrasi di server.
+
+**4. Optimasi Code Coverage**
+Melakukan pelacakan persentase cakupan kode (code coverage) lokal untuk memastikan unit logika kritis pada komponen Model telah teruji dengan baik.
+
+**5. Koneksi SonarQube Cloud**
+Mengintegrasikan repositori proyek dengan ekosistem SonarQube Cloud via OAuth GitHub guna memantau indeks keamanan, duplikasi kode (DRY principle), dan keandalan kode secara berkala.
+
+**6. Penyusunan Ulang Alur CI/CD**
+Merestrukturisasi berkas deklarasi alur kerja .github/workflows/*.yml agar fungsionalitas otomasi pengujian terisolasi dapat berjalan tanpa hambatan database fisik.
+
+**7. Uji Validasi Akhir (Pipeline Test)**
+Melakukan simulasi siklus hidup rilis (push dan pull request) untuk memverifikasi kelulusan status (Passed) di seluruh indikator gerbang kualitas (Quality Gate).
+
+---
+
+## Log Masalah dan Solusi (Post-Mortem Log)
+
+**1. SonarQube CI Automation Clash**
+Fitur analisis otomatis bawaan (Automatic Analysis) pada platform SonarQube Cloud bertabrakan dengan skrip analisis manual yang dideklarasikan pada GitHub Actions kelompok. Solusinya adalah dengan menonaktifkan (toggle off) opsi Automatic Analysis dari dashboard proyek SonarQube Cloud, sehingga kontrol eksekusi sepenuhnya diberikan ke GitHub Actions.
+
+**2. Pest Migration Dependency Failures**
+Automated testing gagal berjalan di server CI karena mencoba memanggil berkas migrasi database memori secara default. Dengan menyesuaikan file konfigurasi testing dan mematikan fungsi instruksi RefreshDatabase pada berkas tes fungsional, memastikan proses pengujian murni memvalidasi fungsionalitas logika internal model tanpa menyentuh database eksternal.
 
 ---
 
@@ -164,6 +207,12 @@ DB_PORT=3306
 DB_DATABASE=mysticakedb
 DB_USERNAME=root
 DB_PASSWORD=your_password
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
 ```
 
 **5. Setup Database**
@@ -183,7 +232,7 @@ php artisan migrate
 php artisan serve
 ```
 
-Akses aplikasi di: **http://127.0.0.1:8000**
+Akses aplikasi di: **http://35.240.168.64/**
 
 ---
 
@@ -260,4 +309,4 @@ final-project-mysticake-PPPL8-C/
 
 ## License
 
-This project is developed for educational purposes as part of PPPL (Pengembangan Perangkat Lunak Profesional) course at Institut Teknologi Sepuluh Nopember (ITS).
+This project is developed for educational purposes as part of PSO (Pengembangan Sistem Orientasi) and PPPL (Pengembangan Perangkat Lunak Profesional) courses at Institut Teknologi Sepuluh Nopember (ITS) Surabaya. All core frameworks are covered under the open-source MIT License.
