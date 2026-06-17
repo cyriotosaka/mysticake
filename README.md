@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 ## Product Description 
 
 ### 1.1.1	Latar belakang
@@ -728,4 +727,3 @@ final-project-mysticake-PPPL8-C/
 This project is developed for educational purposes as part of PPPL (Pengembangan Perangkat Lunak Profesional) course at Institut Teknologi Sepuluh Nopember (ITS).
 =======
 Developed for educational purposes as part of PSO / PPPL coursework at Institut Teknologi Sepuluh Nopember (ITS) Surabaya. Core frameworks are covered under the MIT License.
->>>>>>> Stashed changes
