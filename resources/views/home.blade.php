@@ -63,12 +63,17 @@
                 </div>
             </div>
 
-            <a href="{{ route('cart.index') }}" class="cart-right text-decoration-none">
-                <i class="bi bi-cart-fill cart-icon"></i>
-                @if($cartCount > 0)
-                    <div class="cart-badge">{{ $cartCount }}</div>
-                @endif
-            </a>
+            <div style="display:flex;align-items:center;gap:14px;">
+                <a href="{{ route('wishlist.index') }}" class="text-decoration-none" style="position:relative;">
+                    <i class="bi bi-heart-fill" style="font-size:22px;color:#E66A7F;"></i>
+                </a>
+                <a href="{{ route('cart.index') }}" class="cart-right text-decoration-none">
+                    <i class="bi bi-cart-fill cart-icon"></i>
+                    @if($cartCount > 0)
+                        <div class="cart-badge">{{ $cartCount }}</div>
+                    @endif
+                </a>
+            </div>
         </div>
 
         <a href="{{ route('search') }}" class="search-container text-decoration-none">
