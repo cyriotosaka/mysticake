@@ -97,6 +97,11 @@ class Product extends Model
         ]);
     }
 
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'id_product', 'id_product');
+    }
+
     /**
      * URL gambar produk
      */

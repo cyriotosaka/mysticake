@@ -22,6 +22,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\ReviewProduct;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -141,11 +142,15 @@ class ProductController extends Controller
             $totalReviews = round($totalReviews / 1000, 1).'k';
         }
 
-        // Tampilkan view (Pastikan folder view-nya benar)
+        $isWishlisted = Auth::check()
+            ? Wishlist::where('id_user', Auth::id())->where('id_product', $id)->exists()
+            : false;
+
         return view('product.detail', [
             'product' => $product,
             'avgRating' => $avgRating,
             'totalReviews' => $totalReviews,
+            'isWishlisted' => $isWishlisted,
         ]);
     }
 
