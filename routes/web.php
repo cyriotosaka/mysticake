@@ -28,6 +28,9 @@
  * - Auth Action sampai adrees management
  * - Chat
  * Updated by Muhammad Fikri Khalilullah/5026231198
+ *
+ * FIXED:
+ * - Route chat.product dipindah SEBELUM chat.show agar tidak di-match sebagai store_id
  */
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
@@ -82,8 +85,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); // Fallback jika diakses via URL
-
     // Switch Account
     Route::post('/switch-account', [AuthController::class, 'switchAccount'])->name('auth.switch');
 
@@ -124,7 +125,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/gacha/droprate/premium', [MysteryBoxController::class, 'showPremiumDropRatePage'])->name('gacha.droprate.premium');
 
     // CART ROUTES
-    // --- CART ---
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
@@ -162,93 +162,50 @@ Route::middleware('auth')->group(function () {
     // DEBIT CARD ROUTES - Created by Okky Priscila_168
     // ============================================
 
-    // Add Debit Card Page
     Route::get('/topup/debitcard/add', [TopUpController::class, 'redirectToAddDebitCard'])->name('topup.debitcard.add');
-
-    // Store Debit Card and show VA
     Route::post('/topup/debitcard/store', [TopUpController::class, 'storeDebitCard'])->name('topup.debitcard.store');
-
-    // Confirm Debit Card Payment
     Route::post('/topup/debitcard/confirm', [TopUpController::class, 'confirmDebitCardPayment'])->name('topup.debitcard.confirm');
-
-    // Dropdown AJAX Routes
     Route::get('/topup/debitcard/dropdown', [TopUpController::class, 'showCreditCardDropDown'])->name('topup.debitcard.dropdown');
     Route::get('/topup/banktransfer/dropdown', [TopUpController::class, 'showBankTransferDropDown'])->name('topup.banktransfer.dropdown');
-
-    // Process Top Up Routes
     Route::post('/topup/debitcard', [TopUpController::class, 'processDebitCard'])->name('topup.debitcard.process');
     Route::post('/topup/banktransfer', [TopUpController::class, 'processBankTransfer'])->name('topup.banktransfer.process');
     Route::post('/topup/ewallet', [TopUpController::class, 'processEwallet'])->name('topup.ewallet.process');
 
     // ============================================
-    // BANK TRANSFER NEW FLOW ROUTES - Created by Okky Priscila_168
+    // BANK TRANSFER NEW FLOW ROUTES
     // ============================================
-
-    // Bank Transfer - Page untuk input amount (Step 1)
     Route::get('/topup/banktransfer', [TopUpController::class, 'showBankTransferPage'])->name('topup.banktransfer.page');
-
-    // Bank Transfer - Process dan redirect ke VA page (Step 2)
     Route::post('/topup/banktransfer/process-new', [TopUpController::class, 'processBankTransferPayment'])->name('topup.banktransfer.process.payment');
 
     // ============================================
-    // E-WALLET NEW FLOW ROUTES - Created by Okky Priscila_168
+    // E-WALLET NEW FLOW ROUTES - FIX: view name was 'topup.topUpEwallet' (lowercase w)
     // ============================================
-
-    // E-wallet - Page untuk input amount (Step 1)
     Route::get('/topup/ewallet', [TopUpController::class, 'showEwalletPage'])->name('topup.ewallet.page');
-
-    // E-wallet - Process dan redirect ke VA page (Step 2)
     Route::post('/topup/ewallet/process-new', [TopUpController::class, 'processEwalletPayment'])->name('topup.ewallet.process.payment');
 
     // ============================================
-    // INDOMARET NEW FLOW ROUTES - Created by Okky Priscila_168
+    // INDOMARET NEW FLOW ROUTES
     // ============================================
-
-    // Indomaret - Page untuk input amount (Step 1 & 2)
     Route::get('/topup/indomaret', [TopUpController::class, 'showTopUpCoinIndomaret12'])->name('topup.indomaret.page');
-
-    // Indomaret - Process payment dan redirect ke barcode page
     Route::post('/topup/indomaret/process', [TopUpController::class, 'processIndomaretPayment'])->name('topup.indomaret.process.payment');
-
-    // Indomaret - Barcode page (Step 3)
     Route::get('/topup/indomaret/barcode', [TopUpController::class, 'showTopUpCoinIndomaret3'])->name('topup.indomaret.barcode');
 
     // ============================================
-    // ALFAMART NEW FLOW ROUTES - Created by Okky Priscila_168
+    // ALFAMART NEW FLOW ROUTES
     // ============================================
-
-    // Alfamart - Page untuk input amount (Step 1 & 2)
     Route::get('/topup/alfamart', [TopUpController::class, 'showTopUpCoinAlfamart12'])->name('topup.alfamart.page');
-
-    // Alfamart - Process payment dan redirect ke barcode page
     Route::post('/topup/alfamart/process', [TopUpController::class, 'processAlfamartPayment'])->name('topup.alfamart.process.payment');
-
-    // Alfamart - Barcode page (Step 3)
     Route::get('/topup/alfamart/barcode', [TopUpController::class, 'showTopUpCoinAlfamart3'])->name('topup.alfamart.barcode');
 
     // ============================================
-    // LEGACY ROUTES (Backward Compatibility)
+    // LEGACY ROUTES
     // ============================================
-
-    // Legacy Indomaret process (dari modal)
     Route::post('/topup/indomaret/legacy', [TopUpController::class, 'processIndomaret'])->name('topup.indomaret.process');
-
-    // Legacy Alfamart process (dari modal)
     Route::post('/topup/alfamart/legacy', [TopUpController::class, 'processAlfamart'])->name('topup.alfamart.process');
-
-    // Confirm Payment (for bank transfer, indomaret, alfamart)
     Route::post('/topup/confirm', [TopUpController::class, 'confirmPayment'])->name('topup.confirm');
-
-    // Cancel Payment
     Route::get('/topup/cancel', [TopUpController::class, 'cancelPayment'])->name('topup.cancel');
-
-    // Add Debit Card Route
-    Route::post('/topup/debitcard/add', [TopUpController::class, 'addDebitCard'])->name('topup.debitcard.add');
-
-    // Success Page
+    Route::post('/topup/debitcard/add', [TopUpController::class, 'addDebitCard'])->name('topup.debitcard.add.process');
     Route::get('/topup/success', [TopUpController::class, 'showSuccess'])->name('topup.success');
-
-    // Top Up History
     Route::get('/topup/history', [TopUpController::class, 'history'])->name('topup.history');
 
     // Processing & Confirmation
@@ -260,15 +217,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
 
     // CHAT ROUTES
+    // FIX: chat.product harus SEBELUM chat.show, karena /chat/{store_id} akan
+    // menangkap "product" sebagai nilai store_id jika urutannya terbalik.
     Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
-
-    // ... route chat lainnya ...
-    Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
     Route::get('/chat/product/{id}', [ChatController::class, 'chatWithProduct'])->name('chat.product');
+    Route::get('/chat/{store_id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{store_id}', [ChatController::class, 'send'])->name('chat.send');
 
 });
 

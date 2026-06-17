@@ -128,13 +128,14 @@ class TopUpController extends Controller
 
     /**
      * Show E-wallet Page (Step 1 - Input Amount)
+     * FIX: nama view diperbaiki ke 'topup.topUpEWallet' (huruf besar W)
      */
     public function showEwalletPage()
     {
         $user = Auth::user();
         $adminFee = $this->calculateAdminFee('ewallet', 0);
 
-        return view('topup.topUpEwallet', [
+        return view('topup.topUpEWallet', [
             'user' => $user,
             'adminFee' => $adminFee,
         ]);
@@ -176,7 +177,6 @@ class TopUpController extends Controller
 
     /**
      * Redirect to Payment VA page untuk Bank Transfer dan E-Wallet
-     * Method ini dipanggil ketika user klik bank atau e-wallet di topUp.blade.php
      */
     public function redirectToPayment(Request $request)
     {
@@ -190,13 +190,11 @@ class TopUpController extends Controller
         $bank = $request->input('bank', null);
         $amount = (float) $request->input('amount');
 
-        // Determine admin fee and payment method based on type
         if ($paymentType === 'bank_transfer') {
             $adminFee = $this->calculateAdminFee('bank_transfer', $amount);
             $paymentMethodId = self::PAYMENT_METHOD_BANK_TRANSFER;
             $paymentLabel = 'Bank Transfer'.($bank ? ' - '.strtoupper($bank) : '');
         } else {
-            // E-wallet
             $adminFee = $this->calculateAdminFee('ewallet', $amount);
             $paymentMethodId = self::PAYMENT_METHOD_EWALLET;
             $paymentLabel = 'E-Wallet';
@@ -204,7 +202,6 @@ class TopUpController extends Controller
 
         $virtualAccount = $this->generateVirtualAccount($bank ?? 'default');
 
-        // Store pending payment in session
         session([
             'pending_payment' => [
                 'type' => $paymentType,
@@ -323,7 +320,6 @@ class TopUpController extends Controller
             ],
         ]);
 
-        // Create TopUp record
         TopUp::create([
             'id_payment_method' => self::PAYMENT_METHOD_INDOMARET,
             'id_user' => $user->id_user,
@@ -333,7 +329,6 @@ class TopUpController extends Controller
             'admin_fee' => $adminFee,
         ]);
 
-        // Update wallet dengan amount (tanpa admin fee)
         $this->updateWallet($user, $amount);
 
         return view('topup.topUpCoinIndomaret3', [
@@ -564,10 +559,14 @@ class TopUpController extends Controller
             ],
         ]);
 
-        return view('topup.topUpIndomaret', [
+        return view('topup.topUpCoinIndomaret3', [
             'amount' => $amount,
             'adminFee' => $adminFee,
+            'totalPayment' => $amount + $adminFee,
             'paymentCode' => $paymentCode,
+            'expiresAt' => now()->addHours(24)->toIso8601String(),
+            'dueDate' => now()->addHours(24)->format('d M Y'),
+            'dueTime' => now()->addHours(24)->format('H:i'),
         ]);
     }
 
@@ -592,10 +591,14 @@ class TopUpController extends Controller
             ],
         ]);
 
-        return view('topup.topUpAlfamart', [
+        return view('topup.topUpCoinAlfamart3', [
             'amount' => $amount,
             'adminFee' => $adminFee,
+            'totalPayment' => $amount + $adminFee,
             'paymentCode' => $paymentCode,
+            'expiresAt' => now()->addHours(24)->toIso8601String(),
+            'dueDate' => now()->addHours(24)->format('d M Y'),
+            'dueTime' => now()->addHours(24)->format('H:i'),
         ]);
     }
 
@@ -667,7 +670,6 @@ class TopUpController extends Controller
 
     /**
      * Update user's wallet balance
-     * Menambahkan top up amount ke saldo_coin di tabel wallet
      */
     private function updateWallet($user, $amount)
     {
@@ -737,7 +739,6 @@ class TopUpController extends Controller
         $debitCard = session('debit_card');
         $pendingPayment = session('pending_payment');
 
-        // Jika ada pending payment (dari bank transfer atau e-wallet)
         if ($pendingPayment) {
             $amount = (float) $pendingPayment['amount'];
             $adminFee = (float) $pendingPayment['admin_fee'];
@@ -752,7 +753,6 @@ class TopUpController extends Controller
                 'admin_fee' => $adminFee,
             ]);
 
-            // Update wallet dengan amount (tanpa admin fee)
             $this->updateWallet($user, $amount);
 
             session()->forget('pending_payment');
@@ -761,7 +761,6 @@ class TopUpController extends Controller
             return redirect()->route('topup.success')->with('message', 'Top up successful! Rp '.number_format($amount, 0, ',', '.').' has been added to your wallet.');
         }
 
-        // Jika dari add debit card flow (tanpa amount)
         if ($debitCard) {
             session()->forget('debit_card');
 

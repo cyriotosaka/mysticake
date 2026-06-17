@@ -1,6 +1,8 @@
 <?php
 
 // Created by Lailatul Fitaliqoh (5026231229)
+// FIXED: Tambahkan DeliverySeeder dan PaymentMethodSeeder agar
+//        tabel delivery dan payment_method tidak kosong saat checkout.
 
 namespace Database\Seeders;
 
@@ -17,19 +19,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
-            'username' => 'testuser',
-            'email' => 'test@example.com',
+            'username'     => 'testuser',
+            'email'        => 'test@example.com',
             'phone_number' => '08123456789',
-            'role' => 'buyer',
+            'role'         => 'buyer',
         ]);
 
-        // Run other seeders
         $this->call([
-            GachaProductSeeder::class,
-            GachaArsyaSeeder::class,
+            PaymentMethodSeeder::class, // FIX: isi tabel payment_method
+            DeliverySeeder::class,      // FIX: isi tabel delivery
+            GachaProductSeeder::class,  // insert produk-produk ke tabel product
+            GachaArsyaSeeder::class,    // mapping produk ke mystery_box_product
         ]);
     }
 }

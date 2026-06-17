@@ -8,37 +8,29 @@
  * Use Case 1 - Pencarian Produk:
  * - scopeSearch(): Query scope untuk memfilter produk berdasarkan keyword pencarian
  * - scopeHighestRated(): Query scope untuk mengambil produk dengan rating tertinggi
+ *
+ * FIXED:
+ * - getProductPictureUrlAttribute() sebelumnya memanggil asset($this->product_picture)
+ *   tanpa prefix 'images/products/', sehingga gambar tidak ditemukan.
+ *   Sekarang di-prefix dengan 'images/products/' agar sesuai dengan path
+ *   yang dipakai di home.blade.php dan product/detail.blade.php.
  */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; // <-- ADD THIS IMPORT
-
-// pastikan ini ada ya
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory; // <-- ADD THIS LINE INSIDE THE CLASS
+    use HasFactory;
 
-    /**
-     * Tabel yang digunakan
-     */
     protected $table = 'product';
 
-    /**
-     * Primary key
-     */
     protected $primaryKey = 'id_product';
 
-    /**
-     * Tidak memakai timestamps
-     */
     public $timestamps = false;
 
-    /**
-     * Kolom yang bisa di-mass assign
-     */
     protected $fillable = [
         'id_store',
         'name_product',
@@ -48,41 +40,26 @@ class Product extends Model
         'product_picture',
     ];
 
-    /**
-     * Relasi ke Store (Many to One)
-     */
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store', 'id_store');
     }
 
-    /**
-     * Relasi ke CartItem
-     */
     public function cartItems()
     {
         return $this->hasMany(CartItem::class, 'id_product', 'id_product');
     }
 
-    /**
-     * Relasi ke OrderItem
-     */
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'id_product', 'id_product');
     }
 
-    /**
-     * Relasi ke ReviewProduct
-     */
     public function reviews()
     {
         return $this->hasMany(ReviewProduct::class, 'id_product', 'id_product');
     }
 
-    /**
-     * Relasi Many-to-Many ke Mystery Box (via pivot table mystery_box_product)
-     */
     public function mysteryBoxes()
     {
         return $this->belongsToMany(
@@ -102,25 +79,23 @@ class Product extends Model
 
     /**
      * URL gambar produk
+     * FIX: Tambahkan prefix 'images/products/' agar path sesuai dengan
+     *      struktur folder public/images/products/ yang ada di project.
+     *      Sebelumnya: asset($this->product_picture) → path salah
+     *      Sesudahnya: asset('images/products/' . $this->product_picture) → path benar
      */
     public function getProductPictureUrlAttribute()
     {
         return $this->product_picture
-            ? asset($this->product_picture)
+            ? asset('images/products/' . $this->product_picture)
             : asset('images/default-product.png');
     }
 
-    /**
-     * Cek stok habis
-     */
     public function isOutOfStock()
     {
         return $this->stock <= 0;
     }
 
-    /**
-     * Kurangi stok (dipanggil setelah checkout)
-     */
     public function reduceStock($qty)
     {
         if ($this->stock >= $qty) {
@@ -129,30 +104,12 @@ class Product extends Model
         }
     }
 
-    /**
-     * Tambah stok (opsional)
-     */
     public function addStock($qty)
     {
         $this->stock += $qty;
         $this->save();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Tambahan: Query Scope untuk Use Case Pencarian Dessert
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * scopeSearch
-     *
-     * Memfilter produk berdasarkan keyword yang diketik user.
-     * Digunakan di ProductController::searchProduct().
-     *
-     * Pemanggilan:
-     * Product::search($keyword)->get();
-     */
     public function scopeSearch($query, ?string $keyword)
     {
         if (empty($keyword)) {
@@ -165,12 +122,6 @@ class Product extends Model
         });
     }
 
-    /**
-     * scopeHighestRated
-     *
-     * Mengambil produk dengan rating tertinggi, dibatasi $limit.
-     * Digunakan di ProductController::showSearchPage().
-     */
     public function scopeHighestRated($query, int $limit = 6)
     {
         return $query->withAvg('reviews', 'rating')
