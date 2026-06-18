@@ -128,7 +128,6 @@ Fitur umpan balik pasca-transaksi bagi pelanggan untuk memberikan penilaian beru
 
 ## Table of Contents
 
-<<<<<<< Updated upstream
 | Technology | Version |
 |------------|---------|
 | PHP | 8.4+ |
@@ -137,186 +136,6 @@ Fitur umpan balik pasca-transaksi bagi pelanggan untuk memberikan penilaian beru
 | Bootstrap | 5.3 |
 | Node.js | 18+ (untuk assets) |
 | Composer | 2.x |
-=======
-1. [Project Overview](#1-project-overview)
-2. [Tech Stack](#2-tech-stack)
-3. [Team](#3-team)
-4. [CI/CD Pipeline](#4-cicd-pipeline)
-5. [Known Errors & Solutions](#5-known-errors--solutions)
-6. [Local Setup — Step by Step](#6-local-setup--step-by-step)
-7. [Running the Application](#7-running-the-application)
-8. [Running Tests](#8-running-tests)
-9. [Feature Overview](#9-feature-overview)
-10. [Project Structure](#10-project-structure)
-
----
-
-## 1. Project Overview
-
-MystiCake is a web-based dessert marketplace with Pre-Order (PO) support and gamification mechanics (gacha/mystery box). The repository doubles as a DevOps case study, covering:
-
-- Automated linting via **Laravel Pint**
-- Unit testing via **Pest PHP**
-- Static analysis & security scanning via **SonarQube Cloud**
-- Continuous Integration via **GitHub Actions**
-- Continuous Deployment to a **GCP VM** (Ubuntu)
-
-### Functional Highlights
-
-| Code | Feature |
-|------|---------|
-| FR01 | Authentication (register, login, logout) |
-| FR02 | Product catalogue with search & filter |
-| FR04 | Shopping cart & checkout |
-| FR05 | Gacha / Mystery Box (Normal & Premium) |
-| FR10 | Product ratings & reviews |
-| FR15 | Buyer–seller chat |
-| FR20 | Coin top-up |
-| FR22 | Gacha history |
-| FR23 | Shopping history |
-| **NEW** | **Wishlist** — save & manage favourite products |
-
----
-
-## 2. Tech Stack
-
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Language | PHP | 8.2 (CI) / 8.4+ (local) |
-| Framework | Laravel | 12.x |
-| Database | MySQL | 8.0+ |
-| Frontend | Bootstrap | 5.3 |
-| Testing | Pest PHP | 3.x |
-| Linting | Laravel Pint | latest |
-| Static Analysis | SonarQube Cloud | — |
-| CI Platform | GitHub Actions | — |
-| Server | GCP VM / Apache (XAMPP local) | — |
-| Asset Build | Node.js | 18+ |
-
----
-
-## 3. Team
-
-| GitHub | Name | NRP | DevOps Role |
-|--------|------|-----|-------------|
-| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 | Documentation & post-mortem log |
-| angelasiuli | Beh Siu Li | 5026231065 | CI lead — GitHub Actions & linting |
-| cyriotosaka | Okky Priscila Putri | 5026231168 | QA — SonarQube setup & code smell fixes |
-| sahilah | Sahilah Amru Yumnatusta | 5026231182 | Deployment & environment management |
-
----
-
-## 4. CI/CD Pipeline
-
-### Overview
-
-```
-Push to main
-     │
-     ▼
-┌─────────────────────────────────────────────────────┐
-│                  GitHub Actions                      │
-│                                                     │
-│  1. Checkout code (fetch-depth: 0)                  │
-│  2. Setup PHP 8.2 + extensions                      │
-│  3. Cache Composer vendor/                          │
-│  4. composer install                                │
-│  5. cp .env.example .env                            │
-│  6. php artisan key:generate                        │
-│  7. Laravel Pint (lint check)          ──► FAIL/PASS│
-│  8. Pest --testsuite=Unit --coverage   ──► FAIL/PASS│
-│  9. SonarCloud Scan                    ──► Quality  │
-│                                             Gate    │
-└─────────────────────────────────────────────────────┘
-```
-
-### Workflow File: `.github/workflows/ci.yaml`
-
-```yaml
-name: Laravel CI
-
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0          # Required for SonarCloud blame data
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-          extensions: mbstring, intl, pdo, sqlite, pdo_sqlite, bcmath
-          coverage: pcov          # Code coverage driver
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Prepare environment
-        run: cp .env.example .env
-
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Run Laravel Pint        # Linting — fails pipeline on style errors
-        run: ./vendor/bin/pint --test
-
-      - name: Run Pest tests          # Unit tests + coverage report
-        run: ./vendor/bin/pest --testsuite=Unit --coverage --coverage-clover=coverage.xml
-
-      - name: SonarCloud Scan         # Static analysis & security gate
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-```
-
-### What Each Step Does
-
-| Step | Tool | Purpose | Fails pipeline? |
-|------|------|---------|-----------------|
-| Checkout | `actions/checkout@v4` | Fetches full git history for SonarCloud blame | No |
-| Setup PHP | `setup-php@v2` | Installs PHP 8.2 with SQLite and PCOV for coverage | No |
-| Cache vendor | `actions/cache@v4` | Skips `composer install` if `composer.lock` unchanged | No |
-| Install deps | Composer | Installs all PHP dependencies | Yes |
-| Prepare env | Shell | Copies `.env.example` → `.env` | No |
-| Key generate | Artisan | Generates `APP_KEY` required by Laravel encryption | Yes |
-| Laravel Pint | `pint --test` | Checks code style; any violation = pipeline failure | **Yes** |
-| Pest tests | `pest --testsuite=Unit` | Runs all unit tests; no real DB required | **Yes** |
-| SonarCloud | SonarSource action | Sends code + coverage XML to SonarQube Cloud | No (advisory) |
-
-### Triggering the Pipeline
-
-The pipeline fires automatically on every **push to `main`**:
-
-```bash
-git add .
-git commit -m "your message"
-git push origin main
-```
-
-### SonarQube Quality Gate
-
-Connected via `SONAR_TOKEN` in GitHub repository secrets. Evaluates:
-- Code coverage threshold
-- Code duplications (DRY principle)
-- Security vulnerabilities
-- Code smells
-
-**Important:** SonarQube Cloud's *Automatic Analysis* must be **disabled** in the SonarQube dashboard — otherwise it clashes with the GitHub Actions scan. See [Error #1](#error-1-sonarqube-automatic-analysis-conflict).
->>>>>>> Stashed changes
 
 ---
 
@@ -482,7 +301,6 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=mysticakedb
 DB_USERNAME=root
-<<<<<<< Updated upstream
 DB_PASSWORD=your_password
 
 SESSION_DRIVER=file
@@ -510,15 +328,6 @@ php artisan serve
 ```
 
 Akses aplikasi di: **http://127.0.0.1:8000**
-=======
-DB_PASSWORD=              # leave blank for XAMPP default
-
-SESSION_DRIVER=file       # IMPORTANT: change from 'database' to 'file'
-SESSION_LIFETIME=120
-```
-
-> **Why `SESSION_DRIVER=file`?** The default `.env.example` sets `SESSION_DRIVER=database`, which requires a `sessions` table. That table is not included in the migrations. Switching to `file` avoids a session error on first load.
->>>>>>> Stashed changes
 
 ---
 
