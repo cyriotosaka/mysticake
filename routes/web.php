@@ -261,8 +261,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
 
     // --- WISHLIST ---
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/wishlist/{id_product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    // Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    // Route::post('/wishlist/{id_product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     // CHAT ROUTES
     Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
