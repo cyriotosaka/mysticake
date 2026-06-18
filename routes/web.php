@@ -40,6 +40,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TopUpController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'showLandingPage'])->name('landing');
@@ -258,6 +259,10 @@ Route::middleware('auth')->group(function () {
     // Order History
     Route::get('/order/history', [OrderController::class, 'orderHistory'])->name('order.history');
     Route::get('/order/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
+
+    // --- WISHLIST ---
+    // Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    // Route::post('/wishlist/{id_product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     // CHAT ROUTES
     Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');

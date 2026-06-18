@@ -110,97 +110,192 @@ Fitur umpan balik pasca-transaksi bagi pelanggan untuk memberikan penilaian beru
 | FR24 | Rating Page | Sistem harus menyediakan fitur penilaian dan ulasan agar pengguna dapat memberikan feedback terhadap produk. |
 
 ### Nick Name Akun Github
-| Nama Akun | Nama Lengkap | NRP    | Tanggung Jawab |
-| :--- | :--- | :--- | :--- |
-| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 | Documentation & Logic: Penyusunan log laporan pasca-insiden (post-mortem), pembuatan manual panduan pengguna, dan audit logika integrasi |
-| angelasiuli | Beh Siu Li | 5026231065 | Lead Infrastructure (CI): Konfigurasi pipeline utama pada GitHub Actions dan penyusunan integrasi otomasi pengujian linting |
-| cyriotosaka | Okky Priscila Putri | 5026231168 | Quality Assurance (QA): Setup proyek di SonarQube Cloud, perbaikan code smell, dan analisis kerentanan statis |
-| sahilah | Sahilah Amru Yumnatusta | 5026231182 | Deployment & Env: Manajemen sinkronisasi variabel, penataan Continuous Deployment (CD), dan optimalisasi server |
+| Nama Akun | Nama Lengkap | NRP    |
+| :--- | :--- | :--- |
+| zahrarfin27 | Azzahra Amalia Arfin | 5026231026 |
+| angelasiuli | Beh Siu Li | 5026231065 |
+| cyriotosaka | Okky Priscila Putri | 5026231168 |
+| sahilah | Sahilah Amru Yumnatusta | 5026231182 | 
+=======
+# MystiCake — DevOps Documentation
+
+> Laravel 12 dessert pre-order platform with gamification, built as a DevOps case study for PSO/PPPL coursework at Institut Teknologi Sepuluh Nopember (ITS) Surabaya.
+
+**Live:** http://35.240.168.64/
+>>>>>>> Stashed changes
 
 ---
 
-## Tech Stack
+## Table of Contents
 
-| Tech Stack | Technology | Version |
+| Technology | Version |
 |------------|---------|
-| Language | PHP | 8.4+ |
-| Framework | Laravel | 12.x |
-| Database | MySQL | 8.0+ |
-| Frontend | Bootstrap | 5.3 |
-| Frontend | Node.js | 18+ (untuk assets) |
-| Dependency Manager | Composer | 2.x |
+| PHP | 8.4+ |
+| Laravel | 12.x |
+| MySQL | 8.0+ |
+| Bootstrap | 5.3 |
+| Node.js | 18+ (untuk assets) |
+| Composer | 2.x |
 
 ---
 
-## Dokumentasi Proyek DevOps (7 Tahapan):
-Proyek ini diselesaikan melalui tujuh tahapan seperti berikut:
+## 5. Known Errors & Solutions
 
-**1. Migrasi Repositori**
-Memindahkan basis kode dari repositori lama (berstatus forking yang membatasi hak visibilitas publik) menuju repositori mandiri baru agar proses asesmen oleh tim Asisten Laboratorium dapat diakses secara terbuka.
+### Error 1: SonarQube Automatic Analysis Conflict
 
-**2. Linting Check and Automation**
-Mengintegrasikan sistem pengecekan standardisasi kode. Pada inisialisasi awal, pipa integrasi mengalami kegagalan (failed), yang kemudian berhasil distabilkan secara permanen memanfaatkan perintah otomatisasi laravel lint:fix (Laravel Pint).
+**Symptom:** SonarCloud scan in GitHub Actions fails or produces duplicate analysis results.
 
-**3. Pest Testing Integration**
-Menyusun kerangka kerja unit pengujian fungsional berbasis Pest. Skrip pengujian dikonfigurasi  ketat untuk mengabaikan/bypass database migration demi menjaga integritas data dan kecepatan eksekusi integrasi di server.
+**Root Cause:** SonarQube Cloud's built-in *Automatic Analysis* fires on its own when it detects a GitHub push. When GitHub Actions also runs a scan, the two conflict.
 
-**4. Optimasi Code Coverage**
-Melakukan pelacakan persentase cakupan kode (code coverage) lokal untuk memastikan unit logika kritis pada komponen Model telah teruji dengan baik.
-
-**5. Koneksi SonarQube Cloud**
-Mengintegrasikan repositori proyek dengan ekosistem SonarQube Cloud via OAuth GitHub guna memantau indeks keamanan, duplikasi kode (DRY principle), dan keandalan kode secara berkala.
-
-**6. Penyusunan Ulang Alur CI/CD**
-Merestrukturisasi berkas deklarasi alur kerja .github/workflows/*.yml agar fungsionalitas otomasi pengujian terisolasi dapat berjalan tanpa hambatan database fisik.
-
-**7. Uji Validasi Akhir (Pipeline Test)**
-Melakukan simulasi siklus hidup rilis (push dan pull request) untuk memverifikasi kelulusan status (Passed) di seluruh indikator gerbang kualitas (Quality Gate).
+**Solution:** SonarQube Cloud dashboard → *Administration* → *Analysis Method* → toggle **Automatic Analysis OFF**.
 
 ---
 
-## Log Masalah dan Solusi (Post-Mortem Log)
+### Error 2: Pest Tests Failing Due to Database Migration
 
-**1. SonarQube CI Automation Clash**
-Fitur analisis otomatis bawaan (Automatic Analysis) pada platform SonarQube Cloud bertabrakan dengan skrip analisis manual yang dideklarasikan pada GitHub Actions kelompok. Solusinya adalah dengan menonaktifkan (toggle off) opsi Automatic Analysis dari dashboard proyek SonarQube Cloud, sehingga kontrol eksekusi sepenuhnya diberikan ke GitHub Actions.
+**Symptom:** Pipeline fails at the Pest step with errors about missing tables or failed migrations.
 
-**2. Pest Migration Dependency Failures**
-Automated testing gagal berjalan di server CI karena mencoba memanggil berkas migrasi database memori secara default. Dengan menyesuaikan file konfigurasi testing dan mematikan fungsi instruksi RefreshDatabase pada berkas tes fungsional, memastikan proses pengujian murni memvalidasi fungsionalitas logika internal model tanpa menyentuh database eksternal.
+**Root Cause:** Default Laravel test config tries to call `RefreshDatabase`, which requires a real MySQL database. The CI runner only has SQLite.
+
+**Solution:** All unit tests in this project are written as pure model/logic tests — no `RefreshDatabase` trait, no real DB queries. DB-dependent calls are mocked with Mockery. The tests never touch a database connection.
 
 ---
 
-## Installation / Setup Guide
+### Error 3: Mystery Box Always Returns the Same Product
 
-### System Requirements
-- PHP >= 8.4
-- Composer >= 2.0
-- MySQL >= 8.0
-- Node.js >= 18 (optional, untuk compile assets)
-- Git
+**Symptom:** Rolling the Normal Mystery Box always gives *Lemon Zest Cupcake*. Rolling Premium always gives *Maple Bacon Donut*, regardless of how many times you spin.
 
-### Langkah Instalasi
+**Root Cause:** `DatabaseSeeder` was calling seeders in this order:
 
-**1. Clone Repository**
+```php
+$this->call([
+    GachaProductSeeder::class,   // inserts 40 products + fills mystery_box_product
+    GachaArsyaSeeder::class,     // TRUNCATES mystery_box_product, then inserts only 2 rows
+]);
+```
+
+`GachaArsyaSeeder` runs second and truncates `mystery_box_product`, leaving exactly 1 product per box. With one candidate, the RNG result is always the same item.
+
+**Solution:** Swap the order so boxes are created first, then products fill them:
+
+```php
+// database/seeders/DatabaseSeeder.php
+$this->call([
+    GachaArsyaSeeder::class,     // creates Normal & Premium mystery box records
+    GachaProductSeeder::class,   // inserts all 40 products into mystery_box_product
+]);
+```
+
+---
+
+### Error 4: `php artisan` Commands Are Extremely Slow
+
+**Symptom:** Any `php artisan` command takes 5–20 seconds before producing output.
+
+**Root Cause (1):** Xdebug is loaded on every PHP startup even when not debugging. On Windows + XAMPP, `Xdebug v3.5.1` adds several seconds of overhead per invocation.
+
+**Root Cause (2):** Git Bash on Windows performs POSIX-to-Windows path translation for every command, adding extra overhead on top of Xdebug.
+
+**Solutions:**
+
+**Option A — Disable Xdebug for a single command:**
+```bash
+php -d xdebug.mode=off artisan serve
+```
+
+**Option B — Disable Xdebug permanently (recommended):**
+Open `C:\xampp\php\php.ini`, find and comment out:
+```ini
+; zend_extension=xdebug
+```
+Save and restart PHP. No more `-d xdebug.mode=off` needed.
+
+**Option C — Use PowerShell or CMD instead of Git Bash:**
+```powershell
+cd C:\XAMPP\htdocs\final-project-mysticake-PPPL8-C
+php artisan serve
+```
+Path translation overhead disappears entirely.
+
+---
+
+### Error 5: Product Images Not Showing
+
+**Symptom:** All product cards show broken images or the placeholder fallback (`https://placehold.co/...`).
+
+**Root Cause:** The seeder references 40 specific image filenames (e.g. `cupcake_lemon.png`, `donut_maple.png`) but none of them exist in `public/images/products/`. The folder only has 11 unrelated files with different names.
+
+**Solution:** Add all 40 product image files to `public/images/products/` with exactly these filenames:
+
+```
+Normal Box:
+  cupcake_lemon.png     cupcake_choco.png     cupcake_vanilla.png
+  muffin_blueberry.png  muffin_banana.png     donut_strawberry.png
+  donut_cinnamon.png    donut_maple.png       donut_oreo.png
+  croissant_cheese.png  croissant_choco.png   puff_custard.png
+  puff_taro.png         cookie_choco.png      cookie_matcha.png
+  cookie_redvelvet.png  brownie_classic.png   brownie_caramel.png
+  icecream_vanilla.png  parfait_berry.png
+
+Premium Box:
+  cake_tiramisu.png     cake_mango.png        cake_blackforest.png
+  tart_lemon.png        cake_passion.png      cake_wine.png
+  cake_earlgrey.png     cake_opera.png        crepes_vanilla.png
+  crepes_hazelnut.png   crepes_strawberry.png crepes_durian.png
+  tart_fruit.png        tart_truffle.png      tart_apple.png
+  galette_berry.png     cake_pistachio.png    cake_souffle.png
+  cake_celebration.png  box_grand.png
+```
+
+---
+
+## 6. Local Setup — Step by Step
+
+### Prerequisites
+
+| Tool | Minimum Version | Notes |
+|------|----------------|-------|
+| PHP | 8.2+ | With `mbstring`, `pdo_mysql`, `pdo_sqlite`, `bcmath`, `intl` |
+| Composer | 2.x | [getcomposer.org](https://getcomposer.org) |
+| MySQL | 8.0+ | Via XAMPP, Laragon, or native install |
+| Git | any | |
+| Node.js | 18+ | Only needed to recompile frontend assets |
+
+> **Windows users:** XAMPP is recommended. Start both **Apache** and **MySQL** from the XAMPP Control Panel before running any commands.
+
+---
+
+### Step 1 — Clone the Repository
+
 ```bash
 git clone https://github.com/AbdulGhoni109/final-project-mysticake-PPPL8-C.git
 cd final-project-mysticake-PPPL8-C
 ```
 
-**2. Install Dependencies**
+---
+
+### Step 2 — Install PHP Dependencies
+
 ```bash
 composer install
-npm install
 ```
 
-**3. Setup Environment**
+---
+
+### Step 3 — Create the Environment File
+
 ```bash
 cp .env.example .env
-php artisan key:generate
 ```
 
-**4. Konfigurasi Database**
+Open `.env` and update these values:
 
-Edit file `.env` dan sesuaikan konfigurasi database:
 ```env
+APP_NAME=MystiCake
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -232,81 +327,225 @@ php artisan migrate
 php artisan serve
 ```
 
-Akses aplikasi di: **http://35.240.168.64/**
+Akses aplikasi di: **http://127.0.0.1:8000**
 
 ---
 
-## Folder Structure
+### Step 4 — Generate the Application Key
+
+```bash
+php artisan key:generate
+```
+
+---
+
+### Step 5 — Create the Database
+
+```bash
+mysql -u root -p -e "CREATE DATABASE mysticakedb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+Or create it via **phpMyAdmin** → New → name it `mysticakedb`.
+
+---
+
+### Step 6 — Run Migrations and Seed
+
+```bash
+php -d xdebug.mode=off artisan migrate:fresh --seed --force
+```
+
+This will:
+1. Drop and recreate all tables (including `wishlist`)
+2. Run `GachaArsyaSeeder` → creates the Normal and Premium mystery box records
+3. Run `GachaProductSeeder` → inserts 40 products and links them to both boxes
+4. Create the default test user account
+
+---
+
+### Step 7 — Storage Permissions (Linux / macOS only)
+
+```bash
+chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+```
+
+---
+
+### Step 8 — (Optional) Compile Frontend Assets
+
+Only needed if you edit CSS or JS files:
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 7. Running the Application
+
+```bash
+php -d xdebug.mode=off artisan serve
+```
+
+Open: **http://127.0.0.1:8000**
+
+### Default Test Account
+
+| Field | Value |
+|-------|-------|
+| Email | `test@example.com` |
+| Username | `testuser` |
+| Password | `password` |
+| Role | buyer |
+
+---
+
+## 8. Running Tests
+
+### All Unit Tests
+
+```bash
+php -d xdebug.mode=off vendor/bin/pest --testsuite=Unit
+```
+
+### With Coverage Report
+
+```bash
+php -d xdebug.mode=off vendor/bin/pest --testsuite=Unit --coverage
+```
+
+### Single Test File
+
+```bash
+php -d xdebug.mode=off vendor/bin/pest tests/Unit/ProductTest.php
+```
+
+### Linter
+
+```bash
+# Check only — no file changes (same as CI)
+./vendor/bin/pint --test
+
+# Auto-fix all violations
+./vendor/bin/pint
+```
+
+### Test Architecture
+
+The 22 test files under `tests/Unit/` are all **database-free**. They test model configuration, relationships, attribute accessors, and business logic via plain model instantiation and Mockery mocks. This design is what allows the CI pipeline to pass Pest without a MySQL connection.
+
+| Test File | Covers |
+|-----------|--------|
+| `ProductTest.php` | Table config, fillable, all relationships, scopes, stock logic |
+| `UserTest.php` | Auth model, relationships |
+| `CartTest.php` | Cart & item relationships |
+| `OrdersTest.php` | Order model & relationships |
+| `OrderItemTest.php` | Order item model |
+| `MysteryBoxTest.php` | Mystery box model & pivot relations |
+| `MysteryBoxModelsTest.php` | MysteryBoxProduct pivot |
+| `WalletTest.php` | Wallet balance logic |
+| `ReviewProductTest.php` | Review model & canUserReview logic |
+| `ReviewStoreTest.php` | Store review model |
+| `LoginTest.php` | Auth flow |
+| `AddressTest.php` | Address model |
+| `ChatTest.php` | Chat model |
+| `DeliveryTest.php` | Delivery model |
+| `HistoryTest.php` | History model |
+| `HomeTest.php` | Home page logic |
+| `PaymentMethodTest.php` | Payment method model |
+| `StoreTest.php` | Store model |
+| `TopUpTest.php` | Top-up model |
+
+---
+
+## 9. Feature Overview
+
+### Wishlist (New — added for CI/CD pipeline validation)
+
+Users can heart-save products from the product detail page and manage them on a dedicated wishlist page.
+
+| Element | Path |
+|---------|------|
+| Migration | `database/migrations/2026_06_17_000001_create_wishlist_table.php` |
+| Model | `app/Models/Wishlist.php` |
+| Controller | `app/Http/Controllers/WishlistController.php` |
+| View | `resources/views/wishlist/index.blade.php` |
+| Routes | `GET /wishlist` · `POST /wishlist/{id_product}` |
+
+The heart icon in the product detail header is filled pink when wishlisted; tap to toggle.
+
+### Mystery Box / Gacha
+
+Two tiers — Normal (Rp 15,000/spin) and Premium (Rp 25,000/spin). Drop rates are computed dynamically from stock levels: `drop_rate = (product_stock / total_stock) × 100%`. Users earn 10 gacha points per paid spin and redeem a free spin at 100 points.
+
+### Coin Top-Up
+
+Supports Debit Card (Virtual Account), Bank Transfer, E-Wallet, Indomaret, and Alfamart. All payment flows are UI simulations — no real payment gateway is integrated.
+
+---
+
+## 10. Project Structure
 
 ```
 final-project-mysticake-PPPL8-C/
-├── app/                          # Core Application
-│   ├── Http/
-│   │   ├── Controllers/          # Controllers (ProductController, CartController, dll)
-│   │   └── Middleware/           # HTTP Middlewares
-│   ├── Models/                   # Eloquent Models (Product, User, Orders, dll)
-│   └── Providers/                # Service Providers
+├── .github/
+│   └── workflows/
+│       └── ci.yaml                        # GitHub Actions CI pipeline
 │
-├── bootstrap/                    # Framework Bootstrap Files
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── AuthController.php
+│   │   ├── CartController.php
+│   │   ├── ChatController.php
+│   │   ├── HomeController.php
+│   │   ├── MysteryBoxController.php
+│   │   ├── OrderController.php
+│   │   ├── ProductController.php
+│   │   ├── ReviewController.php
+│   │   ├── SettingsController.php
+│   │   ├── TopUpController.php
+│   │   ├── WalletController.php
+│   │   └── WishlistController.php         ← new
+│   └── Models/
+│       ├── Product.php
+│       ├── User.php
+│       ├── Wishlist.php                   ← new
+│       └── ...
 │
-├── config/                       # Configuration Files
-│   ├── app.php                   # Application Config
-│   ├── database.php              # Database Config
+├── database/
+│   ├── migrations/
+│   │   └── 2026_06_17_000001_create_wishlist_table.php  ← new
+│   └── seeders/
+│       ├── DatabaseSeeder.php             # Seeder order matters — see Error #3
+│       ├── GachaArsyaSeeder.php           # Runs FIRST: creates mystery box records
+│       └── GachaProductSeeder.php         # Runs SECOND: inserts 40 products
+│
+├── public/
+│   ├── css/
+│   └── images/
+│       └── products/                      # 40 product images must be placed here
+│
+├── resources/views/
+│   ├── home.blade.php
+│   ├── product/detail.blade.php           # Heart icon for wishlist toggle
+│   ├── wishlist/index.blade.php           ← new
 │   └── ...
 │
-├── database/                     # Database Files
-│   ├── migrations/               # Database Migrations
-│   ├── seeders/                  # Database Seeders
-│   └── mysticakedb (1).sql       # SQL Dump File
-│
-├── docs/                         # Documentation
-│   ├── SCRIPT_DEMO_3_USE_CASE.md # Demo Script
-│   ├── SCRIPT_VIDEO_PRESENTASI.md
-│   └── USE_CASE_PENCARIAN_PRODUK.md
-│
-├── public/                       # Public Assets
-│   ├── css/                      # Stylesheets
-│   │   ├── home.css
-│   │   ├── search.css
-│   │   ├── rating.css
-│   │   ├── product.css
-│   │   └── ...
-│   ├── images/                   # Image Assets
-│   │   ├── products/             # Product Images
-│   │   └── reviews/              # Review Photos
-│   └── index.php                 # Entry Point
-│
-├── resources/                    # Resources
-│   └── views/                    # Blade Templates
-│       ├── home.blade.php        # Home Page
-│       ├── cart/                 # Cart Views
-│       ├── order/                # Order/Checkout Views
-│       ├── product/              # Product Views
-│       ├── rating/               # Rating Views
-│       ├── search/               # Search Views
-│       ├── settings/             # Settings Views
-│       └── partials/             # Partial Components
-│
-├── routes/                       # Route Definitions
-│   ├── web.php                   # Web Routes
-│   └── console.php               # Console Routes
-│
-├── storage/                      # Storage Files
-│   ├── app/                      # Application Storage
-│   ├── framework/                # Framework Storage
-│   └── logs/                     # Log Files
-│
-├── tests/                        # Test Files
-│
-├── .env                          # Environment Variables
-├── .env.example                  # Environment Example
-├── composer.json                 # PHP Dependencies
-├── package.json                  # Node Dependencies
-└── README.md                     # This File
+├── routes/web.php
+├── tests/Unit/                            # 22 Pest unit test files
+├── sonar-project.properties               # SonarQube Cloud config
+├── .env.example
+├── composer.json
+└── README.md
 ```
 
 ---
 
 ## License
 
-This project is developed for educational purposes as part of PSO (Pengembangan Sistem Orientasi) and PPPL (Pengembangan Perangkat Lunak Profesional) courses at Institut Teknologi Sepuluh Nopember (ITS) Surabaya. All core frameworks are covered under the open-source MIT License.
+<<<<<<< Updated upstream
+This project is developed for educational purposes as part of PPPL (Pengembangan Perangkat Lunak Profesional) course at Institut Teknologi Sepuluh Nopember (ITS).
+=======
+Developed for educational purposes as part of PSO / PPPL coursework at Institut Teknologi Sepuluh Nopember (ITS) Surabaya. Core frameworks are covered under the MIT License.

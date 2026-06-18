@@ -87,6 +87,8 @@ jobs:
           cd /var/www/running-mysticake
           php artisan optimize:clear
           php artisan key:generate
+          php artisan migrate --force
+          php artisan db:seed
 
           echo "🔄 Restarting services..."
           sudo -n systemctl restart php8.2-fpm

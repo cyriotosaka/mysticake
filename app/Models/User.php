@@ -148,4 +148,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TopUp::class, 'id_user', 'id_user');
     }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'id_user', 'id_user');
+    }
 }
