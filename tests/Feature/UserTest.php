@@ -37,7 +37,7 @@ it('redirects guests trying to delete an address', function () {
 // ============================================================
 
 it('renders address index and shows only the authenticated users addresses', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $other = User::factory()->create();
 
     Address::factory()->create(['id_user' => $user->id_user,  'full_address' => 'My Address']);
@@ -99,17 +99,17 @@ it('stores a new address and persists it to the database', function () {
 
     $this->actingAs($user)
         ->post(route('address.store'), [
-            'full_address'           => 'Jl. Raya Darmo No. 50, Surabaya',
-            'map_point'              => '-7.2887,112.7370',
+            'full_address' => 'Jl. Raya Darmo No. 50, Surabaya',
+            'map_point' => '-7.2887,112.7370',
             'address_contact_number' => '081234567890',
         ])
         ->assertRedirect(route('address.index'))
         ->assertSessionHas('success');
 
     $this->assertDatabaseHas('address', [
-        'id_user'      => $user->id_user,
+        'id_user' => $user->id_user,
         'full_address' => 'Jl. Raya Darmo No. 50, Surabaya',
-        'map_point'    => '-7.2887,112.7370',
+        'map_point' => '-7.2887,112.7370',
     ]);
 });
 
@@ -118,15 +118,15 @@ it('stores address with null map_point when not provided', function () {
 
     $this->actingAs($user)
         ->post(route('address.store'), [
-            'full_address'           => 'Jl. Pemuda No. 1',
+            'full_address' => 'Jl. Pemuda No. 1',
             'address_contact_number' => '089900001111',
         ])
         ->assertRedirect(route('address.index'));
 
     $this->assertDatabaseHas('address', [
-        'id_user'      => $user->id_user,
+        'id_user' => $user->id_user,
         'full_address' => 'Jl. Pemuda No. 1',
-        'map_point'    => null,
+        'map_point' => null,
     ]);
 });
 
@@ -136,7 +136,7 @@ it('allows storing up to 3 addresses in sequence', function () {
     foreach (['First Street', 'Second Street', 'Third Street'] as $street) {
         $this->actingAs($user)
             ->post(route('address.store'), [
-                'full_address'           => $street,
+                'full_address' => $street,
                 'address_contact_number' => '081234567890',
             ]);
     }
@@ -186,7 +186,7 @@ it('enforces three-address limit and flashes an error session', function () {
 
     $this->actingAs($user)
         ->post(route('address.store'), [
-            'full_address'           => 'Fourth Address Attempt',
+            'full_address' => 'Fourth Address Attempt',
             'address_contact_number' => '081234567890',
         ])
         ->assertRedirect(route('address.index'))
@@ -196,7 +196,7 @@ it('enforces three-address limit and flashes an error session', function () {
 });
 
 it('does not affect the address count of other users when limit is reached', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $other = User::factory()->create();
 
     Address::factory()->count(3)->create(['id_user' => $user->id_user]);
@@ -204,7 +204,7 @@ it('does not affect the address count of other users when limit is reached', fun
 
     $this->actingAs($user)
         ->post(route('address.store'), [
-            'full_address'           => 'Overflow Address',
+            'full_address' => 'Overflow Address',
             'address_contact_number' => '081234567890',
         ]);
 
@@ -216,7 +216,7 @@ it('does not affect the address count of other users when limit is reached', fun
 // ============================================================
 
 it('renders the edit form for an address belonging to the authenticated user', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
@@ -227,8 +227,8 @@ it('renders the edit form for an address belonging to the authenticated user', f
 });
 
 it('returns 404 when editing another users address', function () {
-    $user    = User::factory()->create();
-    $other   = User::factory()->create();
+    $user = User::factory()->create();
+    $other = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $other->id_user]);
 
     $this->actingAs($user)
@@ -249,38 +249,38 @@ it('returns 404 when editing a non-existent address id', function () {
 // ============================================================
 
 it('updates address fields and persists changes to the database', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
         ->put(route('address.update', $address->id_address), [
-            'full_address'           => 'Updated Street No. 99',
+            'full_address' => 'Updated Street No. 99',
             'address_contact_number' => '089999999999',
         ])
         ->assertRedirect(route('address.index'))
         ->assertSessionHas('success');
 
     $this->assertDatabaseHas('address', [
-        'id_address'             => $address->id_address,
-        'full_address'           => 'Updated Street No. 99',
+        'id_address' => $address->id_address,
+        'full_address' => 'Updated Street No. 99',
         'address_contact_number' => '089999999999',
     ]);
 });
 
 it('updates map_point when supplied on update', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
         ->put(route('address.update', $address->id_address), [
-            'full_address'           => 'Somewhere New',
+            'full_address' => 'Somewhere New',
             'address_contact_number' => '081234567890',
-            'map_point'              => '-6.2000,106.8166',
+            'map_point' => '-6.2000,106.8166',
         ]);
 
     $this->assertDatabaseHas('address', [
         'id_address' => $address->id_address,
-        'map_point'  => '-6.2000,106.8166',
+        'map_point' => '-6.2000,106.8166',
     ]);
 });
 
@@ -289,22 +289,22 @@ it('updates map_point when supplied on update', function () {
 // ============================================================
 
 it('returns 404 when updating another users address', function () {
-    $user    = User::factory()->create();
-    $other   = User::factory()->create();
+    $user = User::factory()->create();
+    $other = User::factory()->create();
     $address = Address::factory()->create([
-        'id_user'      => $other->id_user,
+        'id_user' => $other->id_user,
         'full_address' => 'Original Address',
     ]);
 
     $this->actingAs($user)
         ->put(route('address.update', $address->id_address), [
-            'full_address'           => 'Hacked Address',
+            'full_address' => 'Hacked Address',
             'address_contact_number' => '081234567890',
         ])
         ->assertNotFound();
 
     $this->assertDatabaseMissing('address', [
-        'id_address'   => $address->id_address,
+        'id_address' => $address->id_address,
         'full_address' => 'Hacked Address',
     ]);
 });
@@ -314,7 +314,7 @@ it('returns 404 when updating another users address', function () {
 // ============================================================
 
 it('rejects update when full_address is absent', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
@@ -325,7 +325,7 @@ it('rejects update when full_address is absent', function () {
 });
 
 it('rejects update when address_contact_number is absent', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
@@ -340,7 +340,7 @@ it('rejects update when address_contact_number is absent', function () {
 // ============================================================
 
 it('deletes an address belonging to the authenticated user', function () {
-    $user    = User::factory()->create();
+    $user = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $user->id_user]);
 
     $this->actingAs($user)
@@ -367,8 +367,8 @@ it('decrements the users address count by one after deletion', function () {
 // ============================================================
 
 it('returns 404 when deleting another users address', function () {
-    $user    = User::factory()->create();
-    $other   = User::factory()->create();
+    $user = User::factory()->create();
+    $other = User::factory()->create();
     $address = Address::factory()->create(['id_user' => $other->id_user]);
 
     $this->actingAs($user)
@@ -379,10 +379,10 @@ it('returns 404 when deleting another users address', function () {
 });
 
 it('does not remove the authenticated users own addresses when targeting another users record', function () {
-    $user  = User::factory()->create();
+    $user = User::factory()->create();
     $other = User::factory()->create();
 
-    $ownAddress   = Address::factory()->create(['id_user' => $user->id_user]);
+    $ownAddress = Address::factory()->create(['id_user' => $user->id_user]);
     $otherAddress = Address::factory()->create(['id_user' => $other->id_user]);
 
     $this->actingAs($user)
@@ -413,13 +413,13 @@ it('two users addresses never interfere with each other', function () {
     // User A updates their own address
     $this->actingAs($userA)
         ->put(route('address.update', $addrA->id_address), [
-            'full_address'           => 'Address A Updated',
+            'full_address' => 'Address A Updated',
             'address_contact_number' => '081111111111',
         ]);
 
     // User B's address must remain unchanged
     $this->assertDatabaseHas('address', [
-        'id_address'   => $addrB->id_address,
+        'id_address' => $addrB->id_address,
         'full_address' => 'Address B',
     ]);
 });

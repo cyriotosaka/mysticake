@@ -53,27 +53,27 @@ it('renders the profile edit page with the authenticated user', function () {
 
 it('updates profile fields and redirects with success flash', function () {
     $user = User::factory()->create([
-        'username'     => 'oldname',
-        'email'        => 'old@test.com',
+        'username' => 'oldname',
+        'email' => 'old@test.com',
         'phone_number' => '081000000000',
-        'role'         => 'buyer',
+        'role' => 'buyer',
     ]);
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => 'newname',
-            'email'        => 'new@test.com',
+            'username' => 'newname',
+            'email' => 'new@test.com',
             'phone_number' => '089900001111',
-            'role'         => 'seller',
+            'role' => 'seller',
         ])
         ->assertRedirect(route('settings.profile'))
         ->assertSessionHas('success');
 
     $this->assertDatabaseHas('user', [
-        'id_user'  => $user->id_user,
+        'id_user' => $user->id_user,
         'username' => 'newname',
-        'email'    => 'new@test.com',
-        'role'     => 'seller',
+        'email' => 'new@test.com',
+        'role' => 'seller',
     ]);
 });
 
@@ -82,10 +82,10 @@ it('allows the user to retain their own email when updating profile', function (
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => $user->username,
-            'email'        => 'mine@test.com',
+            'username' => $user->username,
+            'email' => 'mine@test.com',
             'phone_number' => $user->phone_number,
-            'role'         => $user->role,
+            'role' => $user->role,
         ])
         ->assertRedirect(route('settings.profile'));
 });
@@ -99,9 +99,9 @@ it('fails profile update when username is missing', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'email'        => $user->email,
+            'email' => $user->email,
             'phone_number' => $user->phone_number,
-            'role'         => $user->role,
+            'role' => $user->role,
         ])
         ->assertSessionHasErrors('username');
 });
@@ -112,10 +112,10 @@ it('fails profile update when email is already taken by another user', function 
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => 'testuser',
-            'email'        => 'taken@test.com',
+            'username' => 'testuser',
+            'email' => 'taken@test.com',
             'phone_number' => '081234567890',
-            'role'         => 'buyer',
+            'role' => 'buyer',
         ])
         ->assertSessionHasErrors('email');
 });
@@ -125,10 +125,10 @@ it('fails profile update when role is not buyer or seller', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => 'testuser',
-            'email'        => $user->email,
+            'username' => 'testuser',
+            'email' => $user->email,
             'phone_number' => '081234567890',
-            'role'         => 'admin',
+            'role' => 'admin',
         ])
         ->assertSessionHasErrors('role');
 });
@@ -138,10 +138,10 @@ it('fails profile update when phone_number contains non-numeric characters', fun
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => 'testuser',
-            'email'        => $user->email,
+            'username' => 'testuser',
+            'email' => $user->email,
             'phone_number' => '+62-812-xxx',
-            'role'         => 'buyer',
+            'role' => 'buyer',
         ])
         ->assertSessionHasErrors('phone_number');
 });
@@ -151,10 +151,10 @@ it('fails profile update when email format is invalid', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => 'testuser',
-            'email'        => 'not-an-email',
+            'username' => 'testuser',
+            'email' => 'not-an-email',
             'phone_number' => '081234567890',
-            'role'         => 'buyer',
+            'role' => 'buyer',
         ])
         ->assertSessionHasErrors('email');
 });
@@ -164,10 +164,10 @@ it('fails profile update when username exceeds 255 characters', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updateProfile'), [
-            'username'     => str_repeat('a', 256),
-            'email'        => $user->email,
+            'username' => str_repeat('a', 256),
+            'email' => $user->email,
             'phone_number' => '081234567890',
-            'role'         => 'buyer',
+            'role' => 'buyer',
         ])
         ->assertSessionHasErrors('username');
 });
@@ -209,8 +209,8 @@ it('updates password with correct current password and stores the new hash', fun
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'current_password'          => 'OldPass123',
-            'new_password'              => 'NewPass456',
+            'current_password' => 'OldPass123',
+            'new_password' => 'NewPass456',
             'new_password_confirmation' => 'NewPass456',
         ])
         ->assertRedirect()
@@ -230,8 +230,8 @@ it('fails password change when current password is wrong', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'current_password'          => 'WrongPass',
-            'new_password'              => 'NewPass456',
+            'current_password' => 'WrongPass',
+            'new_password' => 'NewPass456',
             'new_password_confirmation' => 'NewPass456',
         ])
         ->assertSessionHasErrors('current_password');
@@ -244,8 +244,8 @@ it('fails password change when new password is fewer than 6 characters', functio
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'current_password'          => 'password',
-            'new_password'              => 'abc',
+            'current_password' => 'password',
+            'new_password' => 'abc',
             'new_password_confirmation' => 'abc',
         ])
         ->assertSessionHasErrors('new_password');
@@ -258,8 +258,8 @@ it('fails password change when confirmation does not match', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'current_password'          => 'password',
-            'new_password'              => 'NewPass123',
+            'current_password' => 'password',
+            'new_password' => 'NewPass123',
             'new_password_confirmation' => 'DifferentPass',
         ])
         ->assertSessionHasErrors('new_password');
@@ -272,8 +272,8 @@ it('fails password change when new password is identical to current password', f
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'current_password'          => 'SamePassword1',
-            'new_password'              => 'SamePassword1',
+            'current_password' => 'SamePassword1',
+            'new_password' => 'SamePassword1',
             'new_password_confirmation' => 'SamePassword1',
         ])
         ->assertSessionHasErrors('new_password');
@@ -284,7 +284,7 @@ it('fails password change when current_password field is absent', function () {
 
     $this->actingAs($user)
         ->post(route('settings.updatePassword'), [
-            'new_password'              => 'NewPass123',
+            'new_password' => 'NewPass123',
             'new_password_confirmation' => 'NewPass123',
         ])
         ->assertSessionHasErrors('current_password');
@@ -297,10 +297,10 @@ it('fails password change when current_password field is absent', function () {
 it('renders login history page with geo-location data on successful API response', function () {
     Http::fake([
         'http://ip-api.com/json/' => Http::response([
-            'status'  => 'success',
-            'city'    => 'Surabaya',
+            'status' => 'success',
+            'city' => 'Surabaya',
             'country' => 'Indonesia',
-            'query'   => '103.148.0.1',
+            'query' => '103.148.0.1',
         ], 200),
     ]);
 
@@ -349,7 +349,7 @@ it('renders login history page gracefully when geo-location API is unreachable',
 // ============================================================
 
 it('deletes the authenticated users account and redirects to landing page', function () {
-    $user   = User::factory()->create();
+    $user = User::factory()->create();
     $userId = $user->id_user;
 
     $this->actingAs($user)

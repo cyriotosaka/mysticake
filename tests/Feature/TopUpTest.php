@@ -131,7 +131,7 @@ it('processes bank transfer and stores pending payment in session', function () 
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process.payment'), [
             'amount' => 50000,
-            'bank'   => 'bca',
+            'bank' => 'bca',
         ])
         ->assertOk()
         ->assertViewIs('topup.topUpDebitCardVA');
@@ -147,7 +147,7 @@ it('generates a virtual account number when processing bank transfer', function 
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process.payment'), [
             'amount' => 100000,
-            'bank'   => 'bni',
+            'bank' => 'bni',
         ]);
 
     expect(session('pending_payment.virtual_account'))->not->toBeNull();
@@ -159,7 +159,7 @@ it('rejects bank transfer when amount is below 10 000', function () {
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process.payment'), [
             'amount' => 9999,
-            'bank'   => 'bca',
+            'bank' => 'bca',
         ])
         ->assertSessionHasErrors('amount');
 });
@@ -183,7 +183,7 @@ it('legacy bank transfer accepts a valid bank and stores session data', function
 
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process'), [
-            'bank'   => 'mandiri',
+            'bank' => 'mandiri',
             'amount' => 75000,
         ])
         ->assertOk()
@@ -197,7 +197,7 @@ it('legacy bank transfer rejects an unknown bank name', function () {
 
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process'), [
-            'bank'   => 'unknownbank',
+            'bank' => 'unknownbank',
             'amount' => 50000,
         ])
         ->assertSessionHasErrors('bank');
@@ -208,7 +208,7 @@ it('legacy bank transfer accepts all allowed bank values', function (string $ban
 
     $this->actingAs($user)
         ->post(route('topup.banktransfer.process'), [
-            'bank'   => $bank,
+            'bank' => $bank,
             'amount' => 50000,
         ])
         ->assertOk();
@@ -264,9 +264,9 @@ it('processes debit card topup, writes TopUp record, and credits wallet', functi
         ->assertSessionHas('message');
 
     $this->assertDatabaseHas('top_up', [
-        'id_user'           => $user->id_user,
+        'id_user' => $user->id_user,
         'id_payment_method' => 1,
-        'total_top_up'      => 100000,
+        'total_top_up' => 100000,
     ]);
 
     expect((float) Wallet::where('id_user', $user->id_user)->value('saldo_coin'))
@@ -291,7 +291,7 @@ it('creates a new wallet when none exists on debit card topup', function () {
         ->post(route('topup.debitcard.process'), ['amount' => 50000]);
 
     $this->assertDatabaseHas('wallet', [
-        'id_user'    => $user->id_user,
+        'id_user' => $user->id_user,
         'saldo_coin' => 50000,
     ]);
 });
@@ -313,12 +313,12 @@ it('stores debit card in session and renders VA page', function () {
 
     $this->actingAs($user)
         ->post(route('topup.debitcard.store'), [
-            'card_number'  => '4111 1111 1111 1111',
-            'expiry_date'  => '12/26',
-            'cvv'          => '123',
+            'card_number' => '4111 1111 1111 1111',
+            'expiry_date' => '12/26',
+            'cvv' => '123',
             'name_on_card' => 'Budi Santoso',
-            'address'      => 'Jl. Pemuda No. 10 Surabaya',
-            'postal_code'  => '60271',
+            'address' => 'Jl. Pemuda No. 10 Surabaya',
+            'postal_code' => '60271',
         ])
         ->assertOk()
         ->assertViewIs('topup.topUpDebitCardVA');
@@ -332,12 +332,12 @@ it('masks the card number stored in session', function () {
 
     $this->actingAs($user)
         ->post(route('topup.debitcard.store'), [
-            'card_number'  => '4111 1111 1111 1234',
-            'expiry_date'  => '12/26',
-            'cvv'          => '123',
+            'card_number' => '4111 1111 1111 1234',
+            'expiry_date' => '12/26',
+            'cvv' => '123',
             'name_on_card' => 'Test User',
-            'address'      => 'Jl. Test',
-            'postal_code'  => '60111',
+            'address' => 'Jl. Test',
+            'postal_code' => '60111',
         ]);
 
     expect(session('debit_card.card_number_masked'))->toContain('1234');
@@ -348,12 +348,12 @@ it('rejects store debit card when card number is shorter than 19 characters', fu
 
     $this->actingAs($user)
         ->post(route('topup.debitcard.store'), [
-            'card_number'  => '4111 1111',
-            'expiry_date'  => '12/26',
-            'cvv'          => '123',
+            'card_number' => '4111 1111',
+            'expiry_date' => '12/26',
+            'cvv' => '123',
             'name_on_card' => 'Budi Santoso',
-            'address'      => 'Jl. Test',
-            'postal_code'  => '60271',
+            'address' => 'Jl. Test',
+            'postal_code' => '60271',
         ])
         ->assertSessionHasErrors('card_number');
 });
@@ -375,10 +375,10 @@ it('add debit card JSON endpoint returns success true', function () {
 
     $this->actingAs($user)
         ->post(route('topup.debitcard.add'), [
-            'card_number'  => '4111111111111111',
-            'card_holder'  => 'Budi Santoso',
-            'expiry_date'  => '12/26',
-            'cvv'          => '123',
+            'card_number' => '4111111111111111',
+            'card_holder' => 'Budi Santoso',
+            'expiry_date' => '12/26',
+            'cvv' => '123',
         ])
         ->assertOk()
         ->assertJson(['success' => true]);
@@ -389,10 +389,10 @@ it('rejects add debit card when card number is too short', function () {
 
     $this->actingAs($user)
         ->post(route('topup.debitcard.add'), [
-            'card_number'  => '4111',
-            'card_holder'  => 'Budi',
-            'expiry_date'  => '12/26',
-            'cvv'          => '123',
+            'card_number' => '4111',
+            'card_holder' => 'Budi',
+            'expiry_date' => '12/26',
+            'cvv' => '123',
         ])
         ->assertSessionHasErrors('card_number');
 });
@@ -411,9 +411,9 @@ it('processes indomaret payment, writes TopUp record, and credits wallet', funct
         ->assertViewIs('topup.topUpCoinIndomaret3');
 
     $this->assertDatabaseHas('top_up', [
-        'id_user'           => $user->id_user,
+        'id_user' => $user->id_user,
         'id_payment_method' => 4,
-        'total_top_up'      => 50000,
+        'total_top_up' => 50000,
     ]);
 
     expect((float) Wallet::where('id_user', $user->id_user)->value('saldo_coin'))
@@ -445,14 +445,14 @@ it('shows indomaret barcode page when valid session is present', function () {
     $this->actingAs($user)
         ->withSession([
             'pending_topup' => [
-                'type'          => 'indomaret',
-                'amount'        => 50000,
-                'admin_fee'     => 2000,
+                'type' => 'indomaret',
+                'amount' => 50000,
+                'admin_fee' => 2000,
                 'total_payment' => 52000,
-                'payment_code'  => 'IDM20260101120000001',
-                'expires_at'    => now()->addHours(24)->toIso8601String(),
-                'due_date'      => '01 Jan 2026',
-                'due_time'      => '12:00',
+                'payment_code' => 'IDM20260101120000001',
+                'expires_at' => now()->addHours(24)->toIso8601String(),
+                'due_date' => '01 Jan 2026',
+                'due_time' => '12:00',
             ],
         ])
         ->get(route('topup.indomaret.barcode'))
@@ -491,9 +491,9 @@ it('processes alfamart payment, writes TopUp record, and credits wallet', functi
         ->assertViewIs('topup.topUpCoinAlfamart3');
 
     $this->assertDatabaseHas('top_up', [
-        'id_user'           => $user->id_user,
+        'id_user' => $user->id_user,
         'id_payment_method' => 5,
-        'total_top_up'      => 75000,
+        'total_top_up' => 75000,
     ]);
 
     expect((float) Wallet::where('id_user', $user->id_user)->value('saldo_coin'))
@@ -529,8 +529,8 @@ it('confirms pending topup from session and credits wallet', function () {
     $this->actingAs($user)
         ->withSession([
             'pending_topup' => [
-                'type'      => 'bank_transfer',
-                'amount'    => 50000,
+                'type' => 'bank_transfer',
+                'amount' => 50000,
                 'admin_fee' => 2000,
             ],
         ])
@@ -547,15 +547,15 @@ it('creates wallet when none exists on confirm payment', function () {
     $this->actingAs($user)
         ->withSession([
             'pending_topup' => [
-                'type'      => 'indomaret',
-                'amount'    => 30000,
+                'type' => 'indomaret',
+                'amount' => 30000,
                 'admin_fee' => 2000,
             ],
         ])
         ->post(route('topup.confirm'));
 
     $this->assertDatabaseHas('wallet', [
-        'id_user'    => $user->id_user,
+        'id_user' => $user->id_user,
         'saldo_coin' => 30000,
     ]);
 });
@@ -567,8 +567,8 @@ it('clears pending_topup session key after successful confirmation', function ()
     $this->actingAs($user)
         ->withSession([
             'pending_topup' => [
-                'type'      => 'alfamart',
-                'amount'    => 50000,
+                'type' => 'alfamart',
+                'amount' => 50000,
                 'admin_fee' => 2000,
             ],
         ])
@@ -592,17 +592,17 @@ it('writes a TopUp record with the correct payment method id on confirm', functi
     $this->actingAs($user)
         ->withSession([
             'pending_topup' => [
-                'type'      => 'alfamart',
-                'amount'    => 40000,
+                'type' => 'alfamart',
+                'amount' => 40000,
                 'admin_fee' => 2000,
             ],
         ])
         ->post(route('topup.confirm'));
 
     $this->assertDatabaseHas('top_up', [
-        'id_user'           => $user->id_user,
+        'id_user' => $user->id_user,
         'id_payment_method' => 5,
-        'total_top_up'      => 40000,
+        'total_top_up' => 40000,
     ]);
 });
 
@@ -617,9 +617,9 @@ it('confirms bank-transfer pending_payment and credits wallet', function () {
     $this->actingAs($user)
         ->withSession([
             'pending_payment' => [
-                'type'              => 'bank_transfer',
-                'amount'            => 100000,
-                'admin_fee'         => 2000,
+                'type' => 'bank_transfer',
+                'amount' => 100000,
+                'admin_fee' => 2000,
                 'payment_method_id' => 2,
             ],
         ])
@@ -637,9 +637,9 @@ it('clears both session keys after confirming debit card payment', function () {
     $this->actingAs($user)
         ->withSession([
             'pending_payment' => [
-                'type'              => 'ewallet',
-                'amount'            => 50000,
-                'admin_fee'         => 1500,
+                'type' => 'ewallet',
+                'amount' => 50000,
+                'admin_fee' => 1500,
                 'payment_method_id' => 3,
             ],
             'debit_card' => ['card_number' => '4111111111111111'],
@@ -667,7 +667,7 @@ it('cancel clears pending_topup and pending_payment sessions', function () {
 
     $this->actingAs($user)
         ->withSession([
-            'pending_topup'   => ['type' => 'indomaret', 'amount' => 50000],
+            'pending_topup' => ['type' => 'indomaret', 'amount' => 50000],
             'pending_payment' => ['type' => 'bank_transfer', 'amount' => 50000],
         ])
         ->get(route('topup.cancel'))
@@ -694,11 +694,11 @@ it('renders topup history page with the users paginated records', function () {
 
     TopUp::create([
         'id_payment_method' => 1,
-        'id_user'           => $user->id_user,
-        'total_top_up'      => 50000,
-        'date'              => now()->toDateString(),
-        'time'              => now()->toTimeString(),
-        'admin_fee'         => 2000,
+        'id_user' => $user->id_user,
+        'total_top_up' => 50000,
+        'date' => now()->toDateString(),
+        'time' => now()->toTimeString(),
+        'admin_fee' => 2000,
     ]);
 
     $this->actingAs($user)
@@ -714,11 +714,11 @@ it('shows only the authenticated users records in topup history', function () {
 
     TopUp::create([
         'id_payment_method' => 1,
-        'id_user'           => $userA->id_user,
-        'total_top_up'      => 50000,
-        'date'              => now()->toDateString(),
-        'time'              => now()->toTimeString(),
-        'admin_fee'         => 2000,
+        'id_user' => $userA->id_user,
+        'total_top_up' => 50000,
+        'date' => now()->toDateString(),
+        'time' => now()->toTimeString(),
+        'admin_fee' => 2000,
     ]);
 
     $response = $this->actingAs($userB)->get(route('topup.history'));

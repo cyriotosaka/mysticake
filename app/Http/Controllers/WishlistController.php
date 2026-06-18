@@ -30,7 +30,7 @@ class WishlistController extends Controller
             $wishlisted = false;
         } else {
             Wishlist::create([
-                'id_user'    => $user->id_user,
+                'id_user' => $user->id_user,
                 'id_product' => $id_product,
                 'created_at' => now(),
             ]);
