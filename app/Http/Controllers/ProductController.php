@@ -142,9 +142,13 @@ class ProductController extends Controller
             $totalReviews = round($totalReviews / 1000, 1).'k';
         }
 
-        $isWishlisted = Auth::check()
-            ? Wishlist::where('id_user', Auth::id())->where('id_product', $id)->exists()
-            : false;
+        $isWishlisted = false;
+
+        if (\Schema::hasTable('wishlist') && Auth::check()) {
+            $isWishlisted = Wishlist::where('id_user', Auth::id())
+                ->where('id_product', $id)
+                ->exists();
+        }
 
         return view('product.detail', [
             'product' => $product,
