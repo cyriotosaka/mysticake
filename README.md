@@ -1,3 +1,10 @@
+## Deskripsi Proyek
+Mysticake adalah aplikasi web berbasis Laravel 12 yang dirancang untuk mengakomodasi sistem jual-beli dessert dengan sistem Pre-Order (PO) yang dikombinasikan dengan fitur gamifikasi. Repositori ini dikembangkan dan digunakan sebagai studi kasus implementasi praktik DevOps pada mata kuliah Pengembangan Sistem Orientasi (PSO). Fokus utama pengerjaan pada fase ini adalah pembangunan infrastruktur otomatisasi terintegrasi yang mencakup standardisasi penulisan kode (linting), pengujian fungsional otomatis (automated testing), dan analisis kualitas serta keamanan kode statis melalui pipeline terpusat.
+
+## Live Preview
+Aplikasi Mysticake saat ini telah di-deploy secara mandiri dan dapat diakses secara publik melalui tautan berikut:
+🔗 http://35.240.168.64/
+
 ## Product Description 
 
 ### 1.1.1	Latar belakang
@@ -38,56 +45,56 @@ Aplikasi MystiCake memiliki beberapa fitur utama sebagai berikut
 Fitur pembelian produk secara acak sesuai kategori masing-masing. Produk-produk terbagi ke berbagai kategori kelangkaan dengan persentase yang berbeda-beda. 
 
 **Recommendation Page**
-Halaman yang berisi produk-produk yang dipersonalisasi sesuai kebiasaan pengguna. Toko dan produk sejenis yang sering dikunjungi akan muncul lebih sering di halaman ini.
+Halaman yang menampilkan produk-produk yang dipersonalisasi berdasarkan algoritma kebiasaan penjelajahan pengguna.
 
 **Search Page**
-Halaman pencarian untuk produk atau toko dengan kata kunci yang dimasukkan oleh pengguna melalui masukan keyboard. Daftar produk dengan nama yang paling mendekati kata kunci akan ditampilkan pada hasil pencarian.
+Fitur pencarian produk atau toko menggunakan kata kunci tekstual masukan pengguna dengan hasil berbasis relevansi penamaan terdekat.
 
 **Chat with Seller**
-Halaman untuk mengirim pesan kepada pelanggan. Halaman ini berisi daftar seller yang pernah dihubungi. Pengguna dapat mengirim gambar dan file kepada seller.
+Fasilitas komunikasi langsung dua arah antara pembeli dan penjual yang mendukung pengiriman pesan teks, gambar, serta file lampiran.
 
 **Cashback Bonus Page (After Mystery Box purchase)**
-Setelah melakukan pembelian mystery box, pengguna mendapatkan cashback untuk produk yang didapatkan. Cashback dapat diambil langsung atau disimpan untuk digunakan nanti.
+Halaman klaim reward berupa insentif cashback setelah pengguna berhasil melakukan transaksi pada Mystery Box.
 
 **Profile & Setting Page**
-Halaman untuk mengatur dan menyesuaikan pengaturan menurut kenyamanan pengguna. Mulai dari sistem hingga profil pengguna.
+Panel konfigurasi akun, data personal, preferensi aplikasi, dan pelacakan pencapaian gamifikasi pengguna.
 
 **Product Page**
-Halaman produk beserta detail dan deskripsinya.
+Halaman representasi detail produk, deskripsi komponen kue, harga, serta informasi sisa kuota PO.
 
 **Shopping Cart Page**
-Halaman yang menunjukkan barang-barang dan total harga barang yang akan dibeli.
+Fasilitas penampungan produk sementara sebelum dilakukan proses checkout massal atau per unit.
 
 **Topup Page**
-Halaman pembelian mata uang pada aplikasi dari transaksi tunai
+Halaman transaksi untuk mengonversi dana tunai menjadi saldo mata uang internal aplikasi.
 
 **Payment Page**
-Halaman pembayaran barang di shopping cart atau barang per unit dengan mata uang aplikasi.
+Gerbang pembayaran utama untuk menyelesaikan transaksi belanjaan menggunakan saldo akun pengguna.
 
 **Gacha History Page**
-Histori pembelian mystery box dan hasil yang didapat pengguna.
+Halaman log riwayat komprehensif atas pembelian Mystery Box dan hasil item yang didapatkan.
 
 **Shopping History Page**
-Histori transaksi pembelian shopping cart milik pengguna
+Dokumen riwayat pelacakan transaksi belanja konvensional dari pesanan yang pernah diproses.
 
 **Rating Page**
-Halaman pemberian rating terhadap barang/produk yang dijual oleh toko
+Fitur umpan balik pasca-transaksi bagi pelanggan untuk memberikan penilaian berupa bintang dan ulasan tekstual pada produk.
 
 ## High-Level Functional Requirements
 
 | Code | Fitur | Deskripsi |
 | :--- | :--- | :--- |
-| FR01 |  | Sistem harus memungkinkan pengguna untuk membuat akun dan melakukan autentikasi (registrasi, login, logout). |
-| FR02 |  | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
-| FR03 |  | Sistem harus memfasilitasi pengelolaan profil pengguna, termasuk riwayat pembelian dan pencapaian gamifikasi. |
-| FR04 |  | Sistem harus memungkinkan pengguna untuk mengelola keranjang belanja sebelum melakukan checkout. |
-| FR05 |  | Sistem harus menyediakan fitur gamifikasi gacha yang memberikan dessert spesial, diskon, atau hadiah virtual sebagai bentuk reward. |
-| FR06 |  | Sistem harus memungkinkan pengguna untuk menukarkan hadiah gacha dengan produk atau voucher sesuai ketentuan. |
-| FR07 |  | Sistem harus menyediakan notifikasi terkait status pesanan, promosi, atau hasil gacha. |
-| FR08 |  | Sistem harus memberikan akses bagi admin untuk mengelola produk dessert, termasuk stok, harga, dan deskripsi. |
-| FR09 |  | Sistem harus menyediakan laporan penjualan dan aktivitas gacha bagi admin untuk mendukung pengambilan keputusan. |
-| FR10 |  | Sistem harus mendukung ulasan dan rating pengguna terhadap dessert untuk meningkatkan kepercayaan dan pengalaman pengguna. |
-| FR11 |  | Sistem harus menjamin keamanan transaksi dan data pengguna melalui enkripsi dan manajemen hak akses. |
+| FR01 | Autentikasi | Sistem harus memungkinkan pengguna untuk membuat akun dan melakukan autentikasi (registrasi, login, logout). |
+| FR02 | Katalog Produk | Sistem harus menyediakan katalog produk dessert yang dapat dilihat, dicari, dan difilter oleh pengguna. |
+| FR03 | Manajemen Profil | Sistem harus memfasilitasi pengelolaan profil pengguna, termasuk riwayat pembelian dan pencapaian gamifikasi. |
+| FR04 | Keranjang belanja | Sistem harus memungkinkan pengguna untuk mengelola keranjang belanja sebelum melakukan checkout. |
+| FR05 | Gamifikasi Gacha | Sistem harus menyediakan fitur gamifikasi gacha yang memberikan dessert spesial, diskon, atau hadiah virtual sebagai bentuk reward. |
+| FR06 | Penukaran Hadiah | Sistem harus memungkinkan pengguna untuk menukarkan hadiah gacha dengan produk atau voucher sesuai ketentuan. |
+| FR07 | Sistem Notifikasi | Sistem harus menyediakan notifikasi terkait status pesanan, promosi, atau hasil gacha. |
+| FR08 | Panel Admin | Sistem harus memberikan akses bagi admin untuk mengelola produk dessert, termasuk stok, harga, dan deskripsi. |
+| FR09 | Laporan Penjualan | Sistem harus menyediakan laporan penjualan dan aktivitas gacha bagi admin untuk mendukung pengambilan keputusan. |
+| FR10 | Ulasan dan Rating | Sistem harus mendukung ulasan dan rating pengguna terhadap dessert untuk meningkatkan kepercayaan dan pengalaman pengguna. |
+| FR11 | Keamanan Data | Sistem harus menjamin keamanan transaksi dan data pengguna melalui enkripsi dan manajemen hak akses. |
 | FR12 | Mystery Box Page (Regular & Premium) | Sistem harus menyediakan halaman Mystery Box (Regular dan Premium) yang memungkinkan pengguna melakukan pembelian dengan mudah. |
 | FR13 | Recommendation Page | Sistem harus menampilkan rekomendasi produk yang relevan untuk meningkatkan keterlibatan dan penjualan. |
 | FR14 | Search Page | Sistem harus memungkinkan pengguna mencari produk berdasarkan kata kunci atau kategori agar memudahkan pencarian. |
@@ -477,6 +484,12 @@ DB_DATABASE=mysticakedb
 DB_USERNAME=root
 <<<<<<< Updated upstream
 DB_PASSWORD=your_password
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
 ```
 
 **5. Setup Database**

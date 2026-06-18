@@ -12,13 +12,8 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('chat', function (Blueprint $table) {
-            if (! Schema::hasColumn('chat', 'sender_role')) {
-                $table->enum('sender_role', ['user', 'store'])
-                    ->default('user')
-                    ->after('message');
-            }
-        });
+        // sender_role is now included in the chat table creation
+        // See migration 2025_12_09_000013_create_chat_table
     }
 
     /**
@@ -26,10 +21,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::table('chat', function (Blueprint $table) {
-            if (Schema::hasColumn('chat', 'sender_role')) {
-                $table->dropColumn('sender_role');
-            }
-        });
+        // No-op
     }
 };

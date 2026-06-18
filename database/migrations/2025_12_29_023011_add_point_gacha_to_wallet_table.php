@@ -12,11 +12,8 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('wallet', function (Blueprint $table) {
-            if (! Schema::hasColumn('wallet', 'point_gacha')) {
-                $table->integer('point_gacha')->default(0)->after('saldo_coin');
-            }
-        });
+        // point_gacha is now included in the wallet table creation
+        // See migration 2025_12_09_000017_create_wallet_table
     }
 
     /**
@@ -24,10 +21,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::table('wallet', function (Blueprint $table) {
-            if (Schema::hasColumn('wallet', 'point_gacha')) {
-                $table->dropColumn('point_gacha');
-            }
-        });
+        // No-op
     }
 };

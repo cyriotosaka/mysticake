@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\XAMPP\htdocs\final-project-mysticake-PPPL8-C\app\Models</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=11.0.12" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">C:\XAMPP\htdocs\final-project-mysticake-PPPL8-C\app\Models</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="PaymentMethod.php.html#7">App\Models\PaymentMethod</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="ReviewProduct.php.html#15">App\Models\ReviewProduct</a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="Wallet.php.html#9">App\Models\Wallet</a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ReviewProduct.php.html#15">App\Models\ReviewProduct</a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="Wallet.php.html#9">App\Models\Wallet</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Orders.php.html#146"><abbr title="App\Models\Orders::resolveDelivery">resolveDelivery</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Orders.php.html#151"><abbr title="App\Models\Orders::createOrderItem">createOrderItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PaymentMethod.php.html#33"><abbr title="App\Models\PaymentMethod::resolveAllMethods">resolveAllMethods</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewProduct.php.html#58"><abbr title="App\Models\ReviewProduct::product">product</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewProduct.php.html#66"><abbr title="App\Models\ReviewProduct::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewProduct.php.html#104"><abbr title="App\Models\ReviewProduct::hasUserPurchased">hasUserPurchased</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Wallet.php.html#28"><abbr title="App\Models\Wallet::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Wallet.php.html#65"><abbr title="App\Models\Wallet::topUps">topUps</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.12</a> using <a href="https://www.php.net/" target="_top">PHP 8.2.12</a> and <a href="https://phpunit.de/">PHPUnit 11.5.50</a> at Mon Jun 8 18:25:03 WIB 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=11.0.12" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,1,1,1,1,15], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([8,0,0,0,0,0,0,0,0,0,0,94], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,13,"<a href=\"Address.php.html#11\">App\\Models\\Address<\/a>"],[100,6,"<a href=\"Cart.php.html#18\">App\\Models\\Cart<\/a>"],[100,3,"<a href=\"CartItem.php.html#9\">App\\Models\\CartItem<\/a>"],[100,4,"<a href=\"Chat.php.html#9\">App\\Models\\Chat<\/a>"],[100,3,"<a href=\"Delivery.php.html#12\">App\\Models\\Delivery<\/a>"],[100,1,"<a href=\"History.php.html#9\">App\\Models\\History<\/a>"],[100,2,"<a href=\"MysteryBox.php.html#7\">App\\Models\\MysteryBox<\/a>"],[100,1,"<a href=\"MysteryBoxHistory.php.html#9\">App\\Models\\MysteryBoxHistory<\/a>"],[100,2,"<a href=\"MysteryBoxProduct.php.html#7\">App\\Models\\MysteryBoxProduct<\/a>"],[100,4,"<a href=\"OrderItem.php.html#17\">App\\Models\\OrderItem<\/a>"],[94.73684210526315,16,"<a href=\"Orders.php.html#21\">App\\Models\\Orders<\/a>"],[66.66666666666666,3,"<a href=\"PaymentMethod.php.html#7\">App\\Models\\PaymentMethod<\/a>"],[100,14,"<a href=\"Product.php.html#20\">App\\Models\\Product<\/a>"],[78.94736842105263,13,"<a href=\"ReviewProduct.php.html#15\">App\\Models\\ReviewProduct<\/a>"],[100,2,"<a href=\"ReviewStore.php.html#7\">App\\Models\\ReviewStore<\/a>"],[100,1,"<a href=\"Store.php.html#8\">App\\Models\\Store<\/a>"],[100,13,"<a href=\"TopUp.php.html#10\">App\\Models\\TopUp<\/a>"],[100,14,"<a href=\"User.php.html#12\">App\\Models\\User<\/a>"],[80,6,"<a href=\"Wallet.php.html#9\">App\\Models\\Wallet<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Address.php.html#28\">App\\Models\\Address::user<\/a>"],[100,1,"<a href=\"Address.php.html#33\">App\\Models\\Address::orders<\/a>"],[100,2,"<a href=\"Address.php.html#39\">App\\Models\\Address::getLatitudeAttribute<\/a>"],[100,2,"<a href=\"Address.php.html#44\">App\\Models\\Address::getLongitudeAttribute<\/a>"],[100,3,"<a href=\"Address.php.html#49\">App\\Models\\Address::getMapUrlAttribute<\/a>"],[100,1,"<a href=\"Address.php.html#61\">App\\Models\\Address::scopeForUser<\/a>"],[100,1,"<a href=\"Address.php.html#69\">App\\Models\\Address::getUserAddresses<\/a>"],[100,1,"<a href=\"Address.php.html#77\">App\\Models\\Address::canAddAddress<\/a>"],[100,1,"<a href=\"Address.php.html#87\">App\\Models\\Address::getAddressCount<\/a>"],[100,1,"<a href=\"Cart.php.html#31\">App\\Models\\Cart::user<\/a>"],[100,1,"<a href=\"Cart.php.html#36\">App\\Models\\Cart::items<\/a>"],[100,1,"<a href=\"Cart.php.html#44\">App\\Models\\Cart::getSelectedItems<\/a>"],[100,2,"<a href=\"Cart.php.html#52\">App\\Models\\Cart::getTotalAmount<\/a>"],[100,1,"<a href=\"Cart.php.html#66\">App\\Models\\Cart::clearSelectedItems<\/a>"],[100,1,"<a href=\"CartItem.php.html#23\">App\\Models\\CartItem::cart<\/a>"],[100,1,"<a href=\"CartItem.php.html#28\">App\\Models\\CartItem::product<\/a>"],[100,1,"<a href=\"CartItem.php.html#36\">App\\Models\\CartItem::getSubtotal<\/a>"],[100,1,"<a href=\"Chat.php.html#31\">App\\Models\\Chat::user<\/a>"],[100,1,"<a href=\"Chat.php.html#39\">App\\Models\\Chat::store<\/a>"],[100,1,"<a href=\"Chat.php.html#47\">App\\Models\\Chat::orders<\/a>"],[100,1,"<a href=\"Chat.php.html#55\">App\\Models\\Chat::product<\/a>"],[100,1,"<a href=\"Delivery.php.html#28\">App\\Models\\Delivery::orders<\/a>"],[100,1,"<a href=\"Delivery.php.html#36\">App\\Models\\Delivery::getAllOptions<\/a>"],[100,1,"<a href=\"Delivery.php.html#44\">App\\Models\\Delivery::getFormattedPriceAttribute<\/a>"],[100,1,"<a href=\"History.php.html#26\">App\\Models\\History::orders<\/a>"],[100,1,"<a href=\"MysteryBox.php.html#23\">App\\Models\\MysteryBox::items<\/a>"],[100,1,"<a href=\"MysteryBox.php.html#28\">App\\Models\\MysteryBox::products<\/a>"],[100,1,"<a href=\"MysteryBoxHistory.php.html#25\">App\\Models\\MysteryBoxHistory::product<\/a>"],[100,1,"<a href=\"MysteryBoxProduct.php.html#50\">App\\Models\\MysteryBoxProduct::mysteryBox<\/a>"],[100,1,"<a href=\"MysteryBoxProduct.php.html#58\">App\\Models\\MysteryBoxProduct::product<\/a>"],[100,1,"<a href=\"OrderItem.php.html#33\">App\\Models\\OrderItem::orders<\/a>"],[100,1,"<a href=\"OrderItem.php.html#39\">App\\Models\\OrderItem::product<\/a>"],[100,2,"<a href=\"OrderItem.php.html#45\">App\\Models\\OrderItem::calculateSubtotal<\/a>"],[100,1,"<a href=\"Orders.php.html#43\">App\\Models\\Orders::user<\/a>"],[100,1,"<a href=\"Orders.php.html#51\">App\\Models\\Orders::paymentMethod<\/a>"],[100,1,"<a href=\"Orders.php.html#59\">App\\Models\\Orders::address<\/a>"],[100,1,"<a href=\"Orders.php.html#67\">App\\Models\\Orders::delivery<\/a>"],[100,1,"<a href=\"Orders.php.html#75\">App\\Models\\Orders::items<\/a>"],[100,1,"<a href=\"Orders.php.html#83\">App\\Models\\Orders::totalItems<\/a>"],[100,1,"<a href=\"Orders.php.html#91\">App\\Models\\Orders::isCompleted<\/a>"],[100,1,"<a href=\"Orders.php.html#96\">App\\Models\\Orders::histories<\/a>"],[100,3,"<a href=\"Orders.php.html#107\">App\\Models\\Orders::createFromCart<\/a>"],[0,1,"<a href=\"Orders.php.html#146\">App\\Models\\Orders::resolveDelivery<\/a>"],[0,1,"<a href=\"Orders.php.html#151\">App\\Models\\Orders::createOrderItem<\/a>"],[100,1,"<a href=\"Orders.php.html#159\">App\\Models\\Orders::findByUser<\/a>"],[100,1,"<a href=\"Orders.php.html#170\">App\\Models\\Orders::getFormattedDate<\/a>"],[100,1,"<a href=\"Orders.php.html#178\">App\\Models\\Orders::getFormattedTotal<\/a>"],[100,1,"<a href=\"PaymentMethod.php.html#20\">App\\Models\\PaymentMethod::orders<\/a>"],[100,1,"<a href=\"PaymentMethod.php.html#28\">App\\Models\\PaymentMethod::getAllMethods<\/a>"],[0,1,"<a href=\"PaymentMethod.php.html#33\">App\\Models\\PaymentMethod::resolveAllMethods<\/a>"],[100,1,"<a href=\"Product.php.html#54\">App\\Models\\Product::store<\/a>"],[100,1,"<a href=\"Product.php.html#62\">App\\Models\\Product::cartItems<\/a>"],[100,1,"<a href=\"Product.php.html#70\">App\\Models\\Product::orderItems<\/a>"],[100,1,"<a href=\"Product.php.html#78\">App\\Models\\Product::reviews<\/a>"],[100,1,"<a href=\"Product.php.html#86\">App\\Models\\Product::mysteryBoxes<\/a>"],[100,2,"<a href=\"Product.php.html#106\">App\\Models\\Product::getProductPictureUrlAttribute<\/a>"],[100,1,"<a href=\"Product.php.html#116\">App\\Models\\Product::isOutOfStock<\/a>"],[100,2,"<a href=\"Product.php.html#124\">App\\Models\\Product::reduceStock<\/a>"],[100,1,"<a href=\"Product.php.html#135\">App\\Models\\Product::addStock<\/a>"],[100,2,"<a href=\"Product.php.html#156\">App\\Models\\Product::scopeSearch<\/a>"],[100,1,"<a href=\"Product.php.html#174\">App\\Models\\Product::scopeHighestRated<\/a>"],[0,1,"<a href=\"ReviewProduct.php.html#58\">App\\Models\\ReviewProduct::product<\/a>"],[0,1,"<a href=\"ReviewProduct.php.html#66\">App\\Models\\ReviewProduct::user<\/a>"],[100,1,"<a href=\"ReviewProduct.php.html#74\">App\\Models\\ReviewProduct::hasComment<\/a>"],[100,1,"<a href=\"ReviewProduct.php.html#82\">App\\Models\\ReviewProduct::isPositive<\/a>"],[100,1,"<a href=\"ReviewProduct.php.html#91\">App\\Models\\ReviewProduct::findByProduct<\/a>"],[0,1,"<a href=\"ReviewProduct.php.html#104\">App\\Models\\ReviewProduct::hasUserPurchased<\/a>"],[100,1,"<a href=\"ReviewProduct.php.html#120\">App\\Models\\ReviewProduct::hasUserReviewed<\/a>"],[100,3,"<a href=\"ReviewProduct.php.html#131\">App\\Models\\ReviewProduct::canUserReview<\/a>"],[100,2,"<a href=\"ReviewProduct.php.html#158\">App\\Models\\ReviewProduct::getFormattedDate<\/a>"],[100,1,"<a href=\"ReviewProduct.php.html#170\">App\\Models\\ReviewProduct::incrementLike<\/a>"],[100,1,"<a href=\"ReviewStore.php.html#38\">App\\Models\\ReviewStore::store<\/a>"],[100,1,"<a href=\"ReviewStore.php.html#46\">App\\Models\\ReviewStore::user<\/a>"],[100,1,"<a href=\"Store.php.html#24\">App\\Models\\Store::products<\/a>"],[100,1,"<a href=\"TopUp.php.html#69\">App\\Models\\TopUp::user<\/a>"],[100,1,"<a href=\"TopUp.php.html#80\">App\\Models\\TopUp::paymentMethod<\/a>"],[100,1,"<a href=\"TopUp.php.html#91\">App\\Models\\TopUp::getTotalIncludingFeeAttribute<\/a>"],[100,1,"<a href=\"TopUp.php.html#102\">App\\Models\\TopUp::getFormattedAmountAttribute<\/a>"],[100,1,"<a href=\"TopUp.php.html#113\">App\\Models\\TopUp::getFormattedAdminFeeAttribute<\/a>"],[100,1,"<a href=\"TopUp.php.html#124\">App\\Models\\TopUp::getFormattedTotalAttribute<\/a>"],[100,3,"<a href=\"TopUp.php.html#135\">App\\Models\\TopUp::getFormattedDatetimeAttribute<\/a>"],[100,1,"<a href=\"TopUp.php.html#152\">App\\Models\\TopUp::scopeForUser<\/a>"],[100,1,"<a href=\"TopUp.php.html#165\">App\\Models\\TopUp::scopeByPaymentMethod<\/a>"],[100,1,"<a href=\"TopUp.php.html#179\">App\\Models\\TopUp::scopeBetweenDates<\/a>"],[100,1,"<a href=\"TopUp.php.html#191\">App\\Models\\TopUp::scopeRecent<\/a>"],[100,1,"<a href=\"User.php.html#59\">App\\Models\\User::address<\/a>"],[100,1,"<a href=\"User.php.html#67\">App\\Models\\User::addresses<\/a>"],[100,1,"<a href=\"User.php.html#75\">App\\Models\\User::wallet<\/a>"],[100,2,"<a href=\"User.php.html#81\">App\\Models\\User::getBalanceAttribute<\/a>"],[100,1,"<a href=\"User.php.html#90\">App\\Models\\User::reviewProducts<\/a>"],[100,1,"<a href=\"User.php.html#98\">App\\Models\\User::orders<\/a>"],[100,1,"<a href=\"User.php.html#106\">App\\Models\\User::carts<\/a>"],[100,1,"<a href=\"User.php.html#114\">App\\Models\\User::store<\/a>"],[100,1,"<a href=\"User.php.html#122\">App\\Models\\User::isSeller<\/a>"],[100,1,"<a href=\"User.php.html#130\">App\\Models\\User::isBuyer<\/a>"],[100,2,"<a href=\"User.php.html#138\">App\\Models\\User::getProfilePictureUrlAttribute<\/a>"],[100,1,"<a href=\"User.php.html#147\">App\\Models\\User::topUps<\/a>"],[0,1,"<a href=\"Wallet.php.html#28\">App\\Models\\Wallet::user<\/a>"],[100,1,"<a href=\"Wallet.php.html#36\">App\\Models\\Wallet::addSaldo<\/a>"],[100,2,"<a href=\"Wallet.php.html#45\">App\\Models\\Wallet::reduceSaldo<\/a>"],[100,1,"<a href=\"Wallet.php.html#60\">App\\Models\\Wallet::hasEnoughSaldo<\/a>"],[0,1,"<a href=\"Wallet.php.html#65\">App\\Models\\Wallet::topUps<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

@@ -1,0 +1,57 @@
+name: Laravel CI
+
+on:
+  push:
+    branches: [ "main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code (fetch-depth: 0 required for SonarCloud blame data)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, intl, pdo, sqlite, pdo_sqlite, bcmath
+          coverage: pcov
+
+      # 3. Cache Composer dependencies
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer.lock') }}
+
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      # 5. Copy .env
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      # 6. Generate app key
+      - name: Generate application key
+        run: php artisan key:generate
+
+      # 7. Run Laravel Pint (Lint)
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint --test
+
+      # 8. Run Unit tests with coverage (matches local --testsuite=Unit)
+      - name: Run Pest tests
+        run: ./vendor/bin/pest --testsuite=Unit --coverage --coverage-clover=coverage.xml
+
+      # 9. SonarCloud Scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
