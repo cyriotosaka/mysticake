@@ -1,4 +1,4 @@
-<!-- Created by Arsya Nueva_099 
+<!-- Created by Arsya Nueva_099
  Updated by Lailatul Fitaliqoh (5026231229)-->
 <!DOCTYPE html>
 <html lang="id">
@@ -122,10 +122,10 @@
         </a>
         @endforeach
 
-        <div class="feature-card">
+        {{-- <div class="feature-card">
             <div class="feature-title">NEW FEATURES</div>
             <div class="feature-subtitle">coming soon</div>
-        </div>
+        </div> --}}
 
     </div>
 
