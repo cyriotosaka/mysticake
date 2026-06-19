@@ -27,6 +27,12 @@
                 <i class="fas fa-arrow-left"></i>
             </a>
             <span class="brand-text">MYstiCake</span>
+            <form action="{{ route('wishlist.toggle', $product->id_product) }}" method="POST" style="margin:0;">
+                @csrf
+                <button type="submit" style="background:none;border:none;cursor:pointer;padding:0;font-size:20px;color:{{ $isWishlisted ? '#E66A7F' : '#ccc' }};">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </form>
         </div>
 
         <div class="product-image-wrapper">
